@@ -1,0 +1,16 @@
+server:
+  port: 8085
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/web_demo?serverTimeZone=Asia/Shanghai&characterEncoding=utf-8
+    username: root
+    password: "*@Abc123"
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  type-aliases-package: com.sisp.dao.entity
+  mapper-locations: classpath:/mapper/*.xml
+
+  configuration:
+    cache-enabled: true
