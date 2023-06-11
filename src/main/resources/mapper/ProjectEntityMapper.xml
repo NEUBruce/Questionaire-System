@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sisp.dao.ProjectEntityMapper">
+    <resultMap id="ProjectResultMap" type="com.sisp.entity.ProjectEntity">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="project_name" jdbcType="VARCHAR" property="projectName"/>
+        <result column="project_content" jdbcType="TIMESTAMP" property="projectContent"/>
+        <result column="created_by" jdbcType="TIMESTAMP" property="createdBy"/>
+        <result column="creation_date" jdbcType="VARCHAR" property="creationDate"/>
+        <result column="last_updated_by" jdbcType="CHAR" property="lastUpdatedBy"/>
+        <result column="last_update_date" jdbcType="TIMESTAMP" property="lastUpdateDate"/>
+    </resultMap>
+    <insert id="insert">
+        insert into project_info(id, user_id, project_name, project_content, created_by, creation_date, last_updated_by, last_update_date) VALUES (#{id}, #{userId}, #{projectName}, #{projectContent}, #{createdBy}, #{creationDate}, #{lastUpdatedBy}, #{lastUpdateDate})
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.sisp.entity.ProjectEntity">
+        update project_info
+        <set>
+            <if test="userId != null"> user_id = #{userId}, </if>
+            <if test="projectName != null"> project_name = #{projectName}, </if>
+            <if test="projectContent != null"> project_content = #{projectContent}, </if>
+            <if test="createdBy != null"> created_by = #{createdBy}, </if>
+            <if test="creationDate != null"> creation_date = #{creationDate}, </if>
+            <if test="lastUpdatedBy != null"> last_updated_by = #{lastUpdatedBy}, </if>
+            <if test="lastUpdateDate != null"> last_update_date = #{lastUpdateDate,jdbcType=TIMESTAMP}, </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="deleteProjectById" parameterType="com.sisp.entity.ProjectEntity">
+        delete from project_info where id = #{id};
+    </delete>
+
+    <select id="queryProjectList" resultMap="ProjectResultMap">
+        select * from project_info where
+        <choose> <!--相当于switch，是多选一-->
+            <when test="id != null and id != ''">
+                id = #{id}
+            </when>
+            <when test="projectName != null and projectName != ''"> <!--相当于case-->
+                project_name = #{projectName}
+            </when>
+            <otherwise> <!--保底，类似default，防止前面的条件均不满足，也可以用where标签包裹来解决-->
+                created_by = #{createdBy}
+            </otherwise>
+        </choose>
+    </select>
+
+</mapper>

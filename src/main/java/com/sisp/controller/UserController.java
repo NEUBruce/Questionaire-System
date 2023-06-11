@@ -1,10 +1,9 @@
 package com.sisp.controller;
 
 import com.sisp.beans.HttpResponseEntity;
-import com.sisp.dao.entity.UserEntity;
+import com.sisp.entity.UserEntity;
 import com.sisp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * 用户controller
+ */
 @RestController
 @RequestMapping("/admin")
 public class UserController {
@@ -30,7 +32,7 @@ public class UserController {
                 httpResponse.setMessage("登录失败!");
             }else {
                 httpResponse.setCode("666");
-                httpResponse.setData(hasUser);
+                httpResponse.setData(hasUser.get(0));
                 httpResponse.setMessage("登录成功!");
             }
 
@@ -76,7 +78,6 @@ public class UserController {
     // 添加用户
     @RequestMapping(value = "/addUser", method = RequestMethod.POST, headers = "Accept=application/json")
     public HttpResponseEntity addUser(@RequestBody UserEntity userEntity) {
-        System.out.println(userEntity);
         HttpResponseEntity httpResponse = new HttpResponseEntity();
         try {
             int result = userService.addUserInfo(userEntity);

@@ -1,4 +1,4 @@
-package com.sisp.dao.entity;
+package com.sisp.entity;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -12,7 +12,7 @@ public class UserEntity implements Serializable {
     private String status;
     private String createdBy;
     private Date creationDate;
-    private String lastUpdateBy;
+    private String lastUpdatedBy;
     private Date lastUpdateDate;
 
     public String getId() {
@@ -79,12 +79,12 @@ public class UserEntity implements Serializable {
         this.creationDate = creationDate;
     }
 
-    public String getLastUpdateBy() {
-        return lastUpdateBy;
+    public String getLastUpdatedBy() {
+        return lastUpdatedBy;
     }
 
-    public void setLastUpdateBy(String lastUpdateBy) {
-        this.lastUpdateBy = lastUpdateBy;
+    public void setLastUpdatedBy(String lastUpdatedBy) {
+        this.lastUpdatedBy = lastUpdatedBy;
     }
 
     public Date getLastUpdateDate() {
@@ -106,7 +106,7 @@ public class UserEntity implements Serializable {
                 ", status='" + status + '\'' +
                 ", createdBy='" + createdBy + '\'' +
                 ", creationDate=" + creationDate +
-                ", lastUpdateBy='" + lastUpdateBy + '\'' +
+                ", lastUpdateBy='" + lastUpdatedBy + '\'' +
                 ", lastUpdateDate=" + lastUpdateDate +
                 '}';
     }

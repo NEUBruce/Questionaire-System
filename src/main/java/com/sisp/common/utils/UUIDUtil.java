@@ -2,6 +2,9 @@ package com.sisp.common.utils;
 
 import java.util.UUID;
 
+/**
+ * UUID的工具类
+ */
 public class UUIDUtil {
     /**
      * 获取一个UUID

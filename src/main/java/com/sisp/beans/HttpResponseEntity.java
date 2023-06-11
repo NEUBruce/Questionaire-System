@@ -1,5 +1,8 @@
 package com.sisp.beans;
 
+/**
+ * Http返回数据实例
+ */
 public class HttpResponseEntity {
     private String code; // 状态码
     private Object data; // 数据

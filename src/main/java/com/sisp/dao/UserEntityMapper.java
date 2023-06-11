@@ -1,15 +1,15 @@
 package com.sisp.dao;
 
-import com.sisp.dao.entity.UserEntity;
-import org.apache.catalina.User;
+import com.sisp.entity.UserEntity;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 
 
+/**
+ * 用户实体mapper
+ */
 @Repository
 @Mapper
 public interface UserEntityMapper {
@@ -42,8 +42,18 @@ public interface UserEntityMapper {
      */
     int updateByPrimaryKeySelective(UserEntity userEntity);
 
+    /**
+     * 根据用户账号与密码查询用户
+     * @param userEntity
+     * @return
+     */
     List<UserEntity> selectUserInfo(UserEntity userEntity);
 
+    /**
+     * 根据名字删除用户
+     * @param userEntity
+     * @return
+     */
     int deleteUserByName(UserEntity userEntity);
 
 

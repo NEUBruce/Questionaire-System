@@ -2,8 +2,7 @@ package com.sisp;
 
 import com.sisp.common.utils.UUIDUtil;
 import com.sisp.dao.UserEntityMapper;
-import com.sisp.dao.entity.UserEntity;
-import com.sisp.service.UserService;
+import com.sisp.entity.UserEntity;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -12,12 +11,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import org.junit.jupiter.api.Test;
 
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-
-import java.io.IOException;
 
 import java.io.InputStream;
 import java.util.List;

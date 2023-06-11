@@ -2,7 +2,7 @@ package com.sisp.service;
 
 import com.sisp.common.utils.UUIDUtil;
 import com.sisp.dao.UserEntityMapper;
-import com.sisp.dao.entity.UserEntity;
+import com.sisp.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
