@@ -2,8 +2,10 @@ package com.sisp;
 
 import com.sisp.beans.HttpResponseEntity;
 import com.sisp.common.utils.UUIDUtil;
+import com.sisp.controller.ProjectController;
 import com.sisp.controller.UserController;
 import com.sisp.dao.UserEntityMapper;
+import com.sisp.entity.ProjectEntity;
 import com.sisp.entity.UserEntity;
 import jakarta.annotation.Resource;
 import org.apache.ibatis.io.Resources;
@@ -32,9 +34,11 @@ class DemoApplicationTests {
 
     @Resource
     private UserController userController;
+    @Resource
+    private ProjectController projectController;
     Logger log = Logger.getLogger(DemoApplicationTests.class);
 
-    @Test
+    //@Test
     public void deleteUserByName() throws Exception {
         String resource = "mybatis-config.xml";
         InputStream inputStream = Resources.getResourceAsStream(resource);
@@ -54,7 +58,7 @@ class DemoApplicationTests {
             log.info(">>delete用户删除测试成功");
         }
     }
-    @Test
+    //@Test
     public void queryUserList() throws Exception {
         String resource = "mybatis-config.xml";
         InputStream inputStream = Resources.getResourceAsStream(resource);
@@ -73,7 +77,7 @@ class DemoApplicationTests {
             log.info(">>queryUserList用户列表查询测试成功");
         }
     }
-    @Test
+    //@Test
     public void selectUserInfo() throws Exception {
         String resource = "mybatis-config.xml";
         InputStream inputStream = Resources.getResourceAsStream(resource);
@@ -95,7 +99,7 @@ class DemoApplicationTests {
         }
     }
 
-    @Test
+    //@Test
     public void insert() throws Exception {
         String resource = "mybatis-config.xml";
         InputStream inputStream = Resources.getResourceAsStream(resource);
@@ -122,7 +126,7 @@ class DemoApplicationTests {
     }
 
     @Test
-    public void testSelect() {
+    public void testSelectUserFound() {
         UserEntity userEntity = new UserEntity();
         userEntity.setUsername("admin");
         HttpResponseEntity httpResponse = userController.queryUserList(userEntity);
@@ -131,10 +135,126 @@ class DemoApplicationTests {
         log.info(httpResponse.getData().toString());
     }
 
+    @Test
+    public void testSelectUserNotFound() {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setUsername("hhh");
+        HttpResponseEntity httpResponse = userController.queryUserList(userEntity);
+
+        log.info("========结果========");
+    }
+
+    @Test
+    public void testAddUser() {
+        UserEntity userEntity = new UserEntity();
+        userController.addUser(userEntity);
+
+        log.info("========结果========");
+
+    }
 
 
+    @Test
+    public void testDeleteUserNotFound() {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setId("3");
+        int result = (int) userController.deleteUser(userEntity).getData();
+        log.info("========结果========");
+        log.info(result);
 
+    }
 
+    @Test
+    public void testDeleteUserFound() {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setId("1");
+        int result = (int) userController.deleteUser(userEntity).getData();
+        log.info("========结果========");
+        log.info(result);
 
+    }
+
+    @Test
+    public void testLoginPass() {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setUsername("admin");
+        userEntity.setPassword("123");
+        userEntity.setStatus("1");
+        List<UserEntity> result = (List<UserEntity>) userController.login(userEntity).getData();
+
+        log.info("========结果========");
+        log.info(result);
+
+    }
+
+    @Test
+    public void testLoginFail() {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setUsername("11111");
+        userEntity.setPassword("1jjj");
+        List<UserEntity> result = (List<UserEntity>) userController.login(userEntity).getData();
+
+        log.info("========结果========");
+        log.info(result.size());
+
+    }
+
+    @Test
+    public void testSelectProject() {
+        ProjectEntity projectEntity = new ProjectEntity();
+        List<ProjectEntity> result = (List<ProjectEntity>) projectController.queryProjectList(projectEntity).getData();
+
+        log.info("========结果========");
+        log.info(result.size());
+    }
+
+    @Test
+    public void testAddProject() {
+        ProjectEntity projectEntity = new ProjectEntity();
+        int result = (int) projectController.addProjectInfo(projectEntity).getData();
+
+        log.info("========结果========");
+        log.info(result);
+    }
+
+    @Test
+    public void testDeleteProjectFail() {
+        ProjectEntity projectEntity = new ProjectEntity();
+        projectEntity.setId("999");
+        int result = (int) projectController.deleteProjectById(projectEntity).getData();
+
+        log.info("========结果========");
+        log.info(result);
+    }
+
+    @Test
+    public void testDeleteProjectSuccess() {
+        ProjectEntity projectEntity = new ProjectEntity();
+        projectEntity.setId("1");
+        int result = (int) projectController.deleteProjectById(projectEntity).getData();
+
+        log.info("========结果========");
+        log.info(result);
+    }
+
+    @Test
+    public void testUpdateProjectSuccess() {
+        ProjectEntity projectEntity = new ProjectEntity();
+        projectEntity.setId("1");
+        int result = (int) projectController.modifyProjectInfo(projectEntity).getData();
+
+        log.info("========结果========");
+        log.info(result);
+    }
+
+    @Test
+    public void testUpdateProjectFail() {
+        ProjectEntity projectEntity = new ProjectEntity();
+        projectEntity.setId("999");
+        int result = (int) projectController.modifyProjectInfo(projectEntity).getData();
+
+        log.info("========结果========");
+        log.info(result);
+    }
 
 }

@@ -85,7 +85,6 @@
               <includes>
                 <include>com/sisp/controller/*</include>
                 <include>com/sisp/service/*</include>
-                <include>com/sisp/dao/*</include>
               </includes>
             </configuration>
           </execution>

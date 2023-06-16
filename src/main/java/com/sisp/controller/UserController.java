@@ -31,6 +31,7 @@ public class UserController {
                 httpResponse.setData(hasUser);
                 httpResponse.setMessage("登录失败!");
             }else {
+
                 httpResponse.setCode("666");
                 httpResponse.setData(hasUser.get(0));
                 httpResponse.setMessage("登录成功!");
