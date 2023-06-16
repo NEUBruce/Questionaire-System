@@ -2,6 +2,9 @@ package com.sisp.entity;
 
 import java.util.Date;
 
+/**
+ * 项目实体类
+ */
 public class ProjectEntity {
     private String id;
     private String userId;

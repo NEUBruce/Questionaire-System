@@ -3,6 +3,9 @@ package com.sisp.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * 用户实体类
+ */
 public class UserEntity implements Serializable {
     private String id;
     private String username;

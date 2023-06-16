@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * 项目业务逻辑层
+ */
 @Service
 public class ProjectService {
 

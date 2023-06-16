@@ -1,8 +1,11 @@
 package com.sisp;
 
+import com.sisp.beans.HttpResponseEntity;
 import com.sisp.common.utils.UUIDUtil;
+import com.sisp.controller.UserController;
 import com.sisp.dao.UserEntityMapper;
 import com.sisp.entity.UserEntity;
+import jakarta.annotation.Resource;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -11,18 +14,24 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import org.junit.jupiter.api.Test;
 
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.CollectionUtils;
 
 import java.io.InputStream;
 import java.util.List;
 import org.apache.log4j.Logger;
-
-//@SpringBootTest
+@RunWith(SpringRunner.class)
+@SpringBootTest
 class DemoApplicationTests {
 //    @Test
 //    void contextLoads() {
 
     //    }
+
+    @Resource
+    private UserController userController;
     Logger log = Logger.getLogger(DemoApplicationTests.class);
 
     @Test
@@ -111,6 +120,19 @@ class DemoApplicationTests {
 
         sqlSession.close();
     }
+
+    @Test
+    public void testSelect() {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setUsername("admin");
+        HttpResponseEntity httpResponse = userController.queryUserList(userEntity);
+
+        log.info("========结果========");
+        log.info(httpResponse.getData().toString());
+    }
+
+
+
 
 
 

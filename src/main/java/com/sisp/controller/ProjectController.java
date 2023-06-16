@@ -30,7 +30,6 @@ public class ProjectController {
         HttpResponseEntity httpResponse = new HttpResponseEntity();
         try {
             List<ProjectEntity> projects = projectService.queryProjectList(projectEntity);
-            System.out.println(projects);
             if (projects.isEmpty()) {
                 httpResponse.setCode("0");
                 httpResponse.setData(projects);

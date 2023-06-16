@@ -22,6 +22,12 @@
     <!-- 根据用户名查找用户信息 -->
     <select id="queryUserList" parameterType="com.sisp.entity.UserEntity" resultMap="BaseResultMap">
         SELECT * FROM user_info
+        <where>
+            status = '1'
+            <if test="username != null and username != ''">
+                and username = #{username}
+            </if>
+        </where>
     </select>
     <delete id="deleteUserById" parameterType="com.sisp.entity.UserEntity">
         <!--
