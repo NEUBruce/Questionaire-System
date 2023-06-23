@@ -11,9 +11,9 @@
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
                 <property name="url"
-                          value="jdbc:mysql://localhost:3306/web_demo?serverTimezone=Asia/Shanghai&amp;characterEncoding=utf-8&amp;useAffectedRows=true"/>
-                <property name="username" value="root"/>
-                <property name="password" value="*@Abc123"/>
+                          value="jdbc:mysql://localhost:3306/数据库名?serverTimezone=Asia/Shanghai&amp;characterEncoding=utf-8&amp;useAffectedRows=true"/>
+                <property name="username" value=用户名""/>
+                <property name="password" value="密码"/>
             </dataSource>
         </environment>
     </environments>
