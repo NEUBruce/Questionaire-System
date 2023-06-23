@@ -81,12 +81,6 @@
             <goals>
               <goal>report</goal>
             </goals>
-            <configuration>
-              <includes>
-                <include>com/sisp/controller/*</include>
-                <include>com/sisp/service/*</include>
-              </includes>
-            </configuration>
           </execution>
         </executions>
       </plugin>

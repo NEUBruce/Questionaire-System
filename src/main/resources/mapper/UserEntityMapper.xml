@@ -22,12 +22,11 @@
     <!-- 根据用户名查找用户信息 -->
     <select id="queryUserList" parameterType="com.sisp.entity.UserEntity" resultMap="BaseResultMap">
         SELECT * FROM user_info
-        <where>
-            status = '1'
+        where status = '1'
             <if test="username != null and username != ''">
                 and username = #{username}
             </if>
-        </where>
+
     </select>
     <delete id="deleteUserById" parameterType="com.sisp.entity.UserEntity">
         <!--
@@ -60,7 +59,7 @@
             <if test="status != null"> status = #{status,jdbcType=VARCHAR}, </if>
             <if test="createdBy != null"> created_by = #{createdBy,jdbcType=CHAR}, </if>
             <if test="creationDate != null"> creation_date = #{creationDate,jdbcType=TIMESTAMP}, </if>
-            <if test="lastUpdateBy != null"> last_updated_by = #{lastUpdatedBy,jdbcType=CHAR}, </if>
+            <if test="lastUpdatedBy != null"> last_updated_by = #{lastUpdatedBy,jdbcType=CHAR}, </if>
             <if test="lastUpdateDate != null"> last_update_date = #{lastUpdateDate,jdbcType=TIMESTAMP}, </if>
         </set>
         where id = #{id,jdbcType=VARCHAR}

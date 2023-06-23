@@ -12,33 +12,28 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-
-
+import org.apache.log4j.Logger;
 import org.junit.jupiter.api.Test;
-
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.CollectionUtils;
 
 import java.io.InputStream;
+import java.util.Date;
 import java.util.List;
-import org.apache.log4j.Logger;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
-class DemoApplicationTests {
-//    @Test
-//    void contextLoads() {
-
-    //    }
+class UserTests {
 
     @Resource
     private UserController userController;
     @Resource
     private ProjectController projectController;
-    Logger log = Logger.getLogger(DemoApplicationTests.class);
+    Logger log = Logger.getLogger(UserTests.class);
 
-    //@Test
+    @Test
     public void deleteUserByName() throws Exception {
         String resource = "mybatis-config.xml";
         InputStream inputStream = Resources.getResourceAsStream(resource);
@@ -57,8 +52,9 @@ class DemoApplicationTests {
             // 记录info级别的信息
             log.info(">>delete用户删除测试成功");
         }
+        sqlSession.close();
     }
-    //@Test
+    @Test
     public void queryUserList() throws Exception {
         String resource = "mybatis-config.xml";
         InputStream inputStream = Resources.getResourceAsStream(resource);
@@ -76,8 +72,9 @@ class DemoApplicationTests {
             // 记录info级别的信息
             log.info(">>queryUserList用户列表查询测试成功");
         }
+        sqlSession.close();
     }
-    //@Test
+    @Test
     public void selectUserInfo() throws Exception {
         String resource = "mybatis-config.xml";
         InputStream inputStream = Resources.getResourceAsStream(resource);
@@ -97,9 +94,10 @@ class DemoApplicationTests {
             // 记录info级别的信息
             log.info(">>qselectUserInfo用户登录测试成功");
         }
+        sqlSession.close();
     }
 
-    //@Test
+    @Test
     public void insert() throws Exception {
         String resource = "mybatis-config.xml";
         InputStream inputStream = Resources.getResourceAsStream(resource);
@@ -129,10 +127,14 @@ class DemoApplicationTests {
     public void testSelectUserFound() {
         UserEntity userEntity = new UserEntity();
         userEntity.setUsername("admin");
+        userEntity.setId("8a175b35b1ca4d2ab09b344d5d4b5461");
+        userEntity.setCreatedBy("hh");
+        userEntity.setLastUpdatedBy("hh");
+        userEntity.setLastUpdateDate(new Date());
+        userEntity.setCreationDate(new Date());
         HttpResponseEntity httpResponse = userController.queryUserList(userEntity);
 
         log.info("========结果========");
-        log.info(httpResponse.getData().toString());
     }
 
     @Test
@@ -154,23 +156,19 @@ class DemoApplicationTests {
     }
 
 
-    @Test
+   @Test
     public void testDeleteUserNotFound() {
         UserEntity userEntity = new UserEntity();
         userEntity.setId("3");
-        int result = (int) userController.deleteUser(userEntity).getData();
-        log.info("========结果========");
-        log.info(result);
+        userController.deleteUser(userEntity);
 
     }
-
     @Test
     public void testDeleteUserFound() {
         UserEntity userEntity = new UserEntity();
-        userEntity.setId("1");
-        int result = (int) userController.deleteUser(userEntity).getData();
+        userEntity.setId("a8def0d7e2494e37a191cf471c2df9b5");
+        userController.deleteUser(userEntity).getData();
         log.info("========结果========");
-        log.info(result);
 
     }
 
@@ -180,7 +178,7 @@ class DemoApplicationTests {
         userEntity.setUsername("admin");
         userEntity.setPassword("123");
         userEntity.setStatus("1");
-        List<UserEntity> result = (List<UserEntity>) userController.login(userEntity).getData();
+        List<UserEntity> result =  (List<UserEntity>) userController.login(userEntity).getData();
 
         log.info("========结果========");
         log.info(result);
@@ -192,69 +190,37 @@ class DemoApplicationTests {
         UserEntity userEntity = new UserEntity();
         userEntity.setUsername("11111");
         userEntity.setPassword("1jjj");
-        List<UserEntity> result = (List<UserEntity>) userController.login(userEntity).getData();
-
-        log.info("========结果========");
-        log.info(result.size());
-
-    }
-
-    @Test
-    public void testSelectProject() {
-        ProjectEntity projectEntity = new ProjectEntity();
-        List<ProjectEntity> result = (List<ProjectEntity>) projectController.queryProjectList(projectEntity).getData();
-
-        log.info("========结果========");
-        log.info(result.size());
-    }
-
-    @Test
-    public void testAddProject() {
-        ProjectEntity projectEntity = new ProjectEntity();
-        int result = (int) projectController.addProjectInfo(projectEntity).getData();
+        Object result =  userController.login(userEntity).getData();
 
         log.info("========结果========");
         log.info(result);
+
     }
 
     @Test
-    public void testDeleteProjectFail() {
-        ProjectEntity projectEntity = new ProjectEntity();
-        projectEntity.setId("999");
-        int result = (int) projectController.deleteProjectById(projectEntity).getData();
+    public void testModifyUserSuccess() {
+
+        UserEntity userEntity = new UserEntity();
+        userEntity.setId("8a175b35b1ca4d2ab09b344d5d4b5461");
+        userEntity.setUsername("11111");
+        userEntity.setPassword("1jjj");
+        int res = (int) userController.modifyUser(userEntity).getData();
 
         log.info("========结果========");
-        log.info(result);
+        log.info(res);
+
     }
 
     @Test
-    public void testDeleteProjectSuccess() {
-        ProjectEntity projectEntity = new ProjectEntity();
-        projectEntity.setId("1");
-        int result = (int) projectController.deleteProjectById(projectEntity).getData();
+    public void testModifyUserFail() {
+
+        UserEntity userEntity = new UserEntity();
+        userEntity.setId("hhhhh");
+        userEntity.setUsername("11111");
+        userEntity.setPassword("1jjj");
+        userController.modifyUser(userEntity).getData();
 
         log.info("========结果========");
-        log.info(result);
+
     }
-
-    @Test
-    public void testUpdateProjectSuccess() {
-        ProjectEntity projectEntity = new ProjectEntity();
-        projectEntity.setId("1");
-        int result = (int) projectController.modifyProjectInfo(projectEntity).getData();
-
-        log.info("========结果========");
-        log.info(result);
-    }
-
-    @Test
-    public void testUpdateProjectFail() {
-        ProjectEntity projectEntity = new ProjectEntity();
-        projectEntity.setId("999");
-        int result = (int) projectController.modifyProjectInfo(projectEntity).getData();
-
-        log.info("========结果========");
-        log.info(result);
-    }
-
 }

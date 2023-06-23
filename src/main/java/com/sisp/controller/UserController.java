@@ -53,6 +53,7 @@ public class UserController {
         HttpResponseEntity httpResponse = new HttpResponseEntity();
         try {
             List<UserEntity> users = userService.queryUserList(userEntity);
+            System.out.println(users);
             if (users.isEmpty()) {
                 httpResponse.setCode("0");
                 httpResponse.setData(users);
@@ -134,6 +135,7 @@ public class UserController {
         HttpResponseEntity httpResponse = new HttpResponseEntity();
         try {
             int result = userService.modifyUserInfo(userEntity);
+            System.out.println(result);
             if (result == 0) {
                 httpResponse.setCode("0");
                 httpResponse.setData(0);

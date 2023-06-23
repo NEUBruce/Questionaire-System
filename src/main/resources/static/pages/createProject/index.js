@@ -20,6 +20,7 @@ const handleCreateProject = () => {
     contentType: "application/json",
     success() {
       alert('创建成功！')
+      location.href = "/pages/questionnaire/index.html"
     }
   })
 }

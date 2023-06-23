@@ -11,13 +11,16 @@
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
                 <property name="url"
-                          value="jdbc:mysql://localhost:3306/web_demo?serverTimezone=Asia/Shanghai&amp;characterEncoding=utf-8"/>
+                          value="jdbc:mysql://localhost:3306/web_demo?serverTimezone=Asia/Shanghai&amp;characterEncoding=utf-8&amp;useAffectedRows=true"/>
                 <property name="username" value="root"/>
                 <property name="password" value="*@Abc123"/>
             </dataSource>
         </environment>
     </environments>
     <mappers>
-        <package name="com.sisp.dao"/>
+<!--    因为没有把mapper的文件路径设置成和接口一样，因此要设置resource    -->
+        <mapper resource="mapper/UserEntityMapper.xml"/>
+        <mapper resource="mapper/ProjectEntityMapper.xml"/>
+
     </mappers>
 </configuration>

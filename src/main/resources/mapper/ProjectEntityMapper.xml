@@ -13,11 +13,11 @@
         <result column="last_updated_by" jdbcType="CHAR" property="lastUpdatedBy"/>
         <result column="last_update_date" jdbcType="TIMESTAMP" property="lastUpdateDate"/>
     </resultMap>
-    <insert id="insert">
+    <insert id="insert1">
         insert into project_info(id, user_id, project_name, project_content, created_by, creation_date, last_updated_by, last_update_date) VALUES (#{id}, #{userId}, #{projectName}, #{projectContent}, #{createdBy}, #{creationDate}, #{lastUpdatedBy}, #{lastUpdateDate})
     </insert>
 
-    <update id="updateByPrimaryKeySelective" parameterType="com.sisp.entity.ProjectEntity">
+    <update id="updateByPrimaryKeySelective1" parameterType="com.sisp.entity.ProjectEntity">
         update project_info
         <set>
             <if test="userId != null"> user_id = #{userId}, </if>
@@ -31,11 +31,11 @@
         where id = #{id,jdbcType=VARCHAR}
     </update>
 
-    <delete id="deleteProjectById" parameterType="com.sisp.entity.ProjectEntity">
+    <delete id="deleteProjectById1" parameterType="com.sisp.entity.ProjectEntity">
         delete from project_info where id = #{id};
     </delete>
 
-    <select id="queryProjectList" resultMap="ProjectResultMap">
+    <select id="queryProjectList1" resultMap="ProjectResultMap">
         select * from project_info where
         <choose> <!--相当于switch，是多选一-->
             <when test="id != null and id != ''">
