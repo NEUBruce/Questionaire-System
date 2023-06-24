@@ -1,6 +1,5 @@
 onload = () => {
   $('#headerUsername').text($util.getItem('userInfo').username)
-  $('#headerDivB').text('创建用户')
 
   $('#startTime').datetimepicker({
     language: 'zh-CN', // 显示中文
@@ -30,8 +29,14 @@ onload = () => {
     $('#username').val(user.username)
     $('#password').val(user.password)
     $('#startDate').val(user.startTime)
-    $('#endDate').val(user.endTime)
+    $('#endDate').val(user.stopTime)
+    $('#headerDivB').text('修改用户')
+    $('#submit-user').text("修改用户")
+  }else {
+    $('#headerDivB').text('创建用户')
+    $('#submit-user').text("创建用户")
   }
+
 }
 
 const handleCreateUser = () => {
@@ -40,6 +45,7 @@ const handleCreateUser = () => {
   if (!$('#password').val()) return alert('密码不能为空！')
   if (!($('#startDate').val() && new Date($('#startDate').val()).getTime())) return alert('开始时间不能为空！')
   if (!($('#endDate').val() && new Date($('#endDate').val()).getTime())) return alert('结束时间不能为空！')
+  if (new Date($('#startDate').val()).getTime() > new Date($('#endDate').val()).getTime()) return alert('开始时间不能大于结束时间! ')
 
   let user = $util.getPageParam('user');
   console.log('--- user ---')
@@ -52,6 +58,7 @@ const handleCreateUser = () => {
   user.password = $('#password').val();
   user.startTime = $('#startDate').val() && new Date($('#startDate').val()).getTime();
   user.stopTime = $('#endDate').val() && new Date($('#endDate').val()).getTime();
+  user.lastUpdatedBy = $util.getItem('userInfo').username;
 
   // 修改
   if(user.id) {
@@ -72,6 +79,7 @@ const handleCreateUser = () => {
     })
 
   } else {
+    user.createdBy = $util.getItem('userInfo').username;
     // 新建
     $.ajax({
       url: API_BASE_URL + '/admin/addUser',
@@ -80,7 +88,7 @@ const handleCreateUser = () => {
       dataType: 'json',
       contentType: 'application/json',
       success(res) {
-        if (res.code === "100") {
+        if (res.code === "666") {
           location.href = '/pages/user/index.html'
         } else {
           alert(res.message)
@@ -88,29 +96,4 @@ const handleCreateUser = () => {
       }
     })
   }
-
-  // let params = {
-  //   username: $('#username').val(),
-  //   password: $('#password').val(),
-  //   startTime: $('#startDate').val() && new Date($('#startDate').val()).getTime(),
-  //   stopTime: $('#endDate').val() && new Date($('#endDate').val()).getTime()
-  // }
-  // if (!params.username) return alert('账号不能为空！')
-  // if (!params.password) return alert('密码不能为空！')
-  // if (!params.startTime) return alert('开始时间不能为空！')
-  // if (!params.stopTime) return alert('结束时间不能为空！')
-  // $.ajax({
-  //   url: API_BASE_URL + '/admin/addUserInfo',
-  //   type: 'POST',
-  //   data: JSON.stringify(params),
-  //   dataType: 'json',
-  //   contentType: 'application/json',
-  //   success(res) {
-  //     if (res.code === "666") {
-  //       location.href = '/pages/user/index.html'
-  //     } else {
-  //       alert(res.message)
-  //     }
-  //   }
-  // })
 }

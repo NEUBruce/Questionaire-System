@@ -6,6 +6,7 @@ import com.sisp.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,6 +41,9 @@ public class UserService {
      */
     public int addUserInfo(UserEntity userEntity) {
         userEntity.setId(UUIDUtil.getOneUUID());
+        userEntity.setStatus("1");
+        userEntity.setCreationDate(new Date());
+        userEntity.setLastUpdateDate(new Date());
         int userResult = userEntityMapper.insert(userEntity);
         if (userResult != 0) {
             return 3;
@@ -54,6 +58,7 @@ public class UserService {
      * @return
      */
     public int modifyUserInfo(UserEntity userEntity) {
+        userEntity.setLastUpdateDate(new Date());
         int userResult = userEntityMapper.updateByPrimaryKeySelective(userEntity);
 
         return userResult;

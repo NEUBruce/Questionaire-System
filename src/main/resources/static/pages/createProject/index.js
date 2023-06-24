@@ -5,10 +5,12 @@ onload = () => {
 
 const handleCreateProject = () => {
   let params = {
+    userId: $util.getItem('userinfo').userId,
     createdBy: $util.getItem('userInfo').username,
     lastUpdatedBy: $util.getItem('userInfo').username,
     projectName: $('#projectName').val(),
-    projectContent: $('#projectDescribe').val()
+    projectContent: $('#projectDescribe').val(),
+
   }
   if (!params.projectName) return alert('项目名称不能为空！')
   if (!params.projectContent) return alert('项目描述不能为空！')

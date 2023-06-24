@@ -81,6 +81,7 @@ public class UserController {
     @RequestMapping(value = "/addUser", method = RequestMethod.POST, headers = "Accept=application/json")
     public HttpResponseEntity addUser(@RequestBody UserEntity userEntity) {
         HttpResponseEntity httpResponse = new HttpResponseEntity();
+        System.out.println(userEntity);
         try {
             int result = userService.addUserInfo(userEntity);
             if (result == 0) {
@@ -130,7 +131,7 @@ public class UserController {
     }
 
     // 修改用户
-    @RequestMapping(value = "/modifyUser", method = RequestMethod.POST, headers = "Accept=application/json")
+    @RequestMapping(value = "/modifyUserInfo", method = RequestMethod.POST, headers = "Accept=application/json")
     public HttpResponseEntity modifyUser(@RequestBody UserEntity userEntity) {
         HttpResponseEntity httpResponse = new HttpResponseEntity();
         try {
