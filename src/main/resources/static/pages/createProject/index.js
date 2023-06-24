@@ -5,7 +5,7 @@ onload = () => {
 
 const handleCreateProject = () => {
   let params = {
-    userId: $util.getItem('userinfo').userId,
+    userId: $util.getItem('userInfo').id,
     createdBy: $util.getItem('userInfo').username,
     lastUpdatedBy: $util.getItem('userInfo').username,
     projectName: $('#projectName').val(),

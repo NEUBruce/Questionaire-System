@@ -36,16 +36,15 @@
     </delete>
 
     <select id="queryProjectList" resultMap="ProjectResultMap">
-        select * from project_info
-        <where> <!--相当于switch，是多选一-->
+        select * from project_info where
             <if test="id != null and id != ''">
                 id = #{id} and
             </if>
             <if test="projectName != null and projectName != ''"> <!--相当于case-->
                 project_name = #{projectName} and
             </if>
-                created_by = #{createdBy}
-        </where>
+            created_by = #{createdBy}
+
     </select>
 
 </mapper>

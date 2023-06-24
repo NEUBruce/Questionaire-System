@@ -28,9 +28,10 @@ public class ProjectController {
     @RequestMapping(value = "/queryProjectList", method = RequestMethod.POST, headers = "Accept=application/json")
     public HttpResponseEntity queryProjectList(@RequestBody ProjectEntity projectEntity) {
         HttpResponseEntity httpResponse = new HttpResponseEntity();
+        System.out.println(projectEntity);
         try {
             List<ProjectEntity> projects = projectService.queryProjectList(projectEntity);
-            System.out.println(projectEntity);
+            System.out.println(projects);
             if (projects.isEmpty()) {
                 httpResponse.setCode("0");
                 httpResponse.setData(projects);

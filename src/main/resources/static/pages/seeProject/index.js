@@ -8,7 +8,8 @@ onload = () => {
 
 const fetchProjectInfo = (id) => {
   let params = {
-    id
+    id: id,
+    createdBy: $util.getItem('userInfo').username
   }
   $.ajax({
     url: API_BASE_URL + '/queryProjectList',
@@ -18,9 +19,10 @@ const fetchProjectInfo = (id) => {
     contentType: "application/json",
     success(res) {
       let info = res.data[0]
-      console.log(info, 'res')
       $('#projectName').text(info.projectName)
-      $('#createTime').text(info.createDate)
+      $('#createTime').text(info.creationDate)
+      $('#projectDescribe').text(info.projectContent)
+      $('#personInCharge').text(info.createdBy)
       $('#projectDescription').text(info.projectContent)
     }
   })

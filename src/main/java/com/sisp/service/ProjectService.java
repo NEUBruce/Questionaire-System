@@ -6,6 +6,7 @@ import com.sisp.entity.ProjectEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,6 +35,8 @@ public class ProjectService {
      */
     public int addProjectInfo(ProjectEntity projectEntity) {
         projectEntity.setId(UUIDUtil.getOneUUID());
+        projectEntity.setCreationDate(new Date());
+        projectEntity.setLastUpdateDate(new Date());
         int result = projectEntityMapper.insert(projectEntity);
         if (result == 0) {
             return 0;
@@ -48,6 +51,7 @@ public class ProjectService {
      * @return
      */
     public int modifyProjectInfo(ProjectEntity projectEntity) {
+        projectEntity.setLastUpdateDate(new Date());
         int result = projectEntityMapper.updateByPrimaryKeySelective(projectEntity);
         if (result == 0) {
             return 0;

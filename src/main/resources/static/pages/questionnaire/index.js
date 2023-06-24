@@ -43,7 +43,7 @@ const fetchProjectList = () => {
   })
 }
 
-const onCreatePrject = () => {
+const onCreateProject = () => {
   location.href = "/pages/createProject/index.html"
 }
 
