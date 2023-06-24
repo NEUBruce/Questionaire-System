@@ -23,13 +23,15 @@ const fetchUserList = () => {
       $('#table #tbody').html('')
       userList = res.data
       res.data.map((item, index) => {
+        const formattedStartTime = new Date(item.startTime).toLocaleString();
+        const formattedStopTime = new Date(item.stopTime).toLocaleString();
         $('#table #tbody').append(`
           <tr>
             <td>${index + 1}</td>
             <td>${item.username}</td>
             <td>${item.password}</td>
-            <td>${item.startTime}</td>
-            <td>${item.stopTime}</td>
+            <td>${formattedStartTime}</td>
+            <td>${formattedStopTime}</td>
             <td>
               <button type="button" class="btn btn-link" onclick="resetPassword('${item.id}')">重置密码</button>
               <button type="button" class="btn btn-link" onclick="handleEdit('${item.id}')">编辑</button>

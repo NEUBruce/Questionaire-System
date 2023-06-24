@@ -19,8 +19,9 @@ const fetchProjectInfo = (id) => {
     contentType: "application/json",
     success(res) {
       let info = res.data[0]
+      const formattedCreateTime = new Date(info.creationDate).toLocaleString();
       $('#projectName').text(info.projectName)
-      $('#createTime').text(info.creationDate)
+      $('#createTime').text(formattedCreateTime)
       $('#projectDescribe').text(info.projectContent)
       $('#personInCharge').text(info.createdBy)
       $('#projectDescription').text(info.projectContent)
