@@ -35,12 +35,28 @@ const fetchProjectList = () => {
                 <button type="button" class="btn btn-link" onclick="onStatisticsProject('${item.id}')">统计</button>
               </div>
             </div>
-            <div class="list-footer">
-              <div>暂无调查问卷或问卷已过期</div>
-            </div>
+            <div id="div-content${item.id}"></div>
           </div>
         `)
       }
+    }
+  })
+
+  $.ajax({
+    url: API_BASE_URL + '/queryQuestionnaireList',
+    type: "POST",
+    data: JSON.stringify(params),
+    dataType: "json",
+    contentType: "application/json",
+    success(res) {
+      $('#div-content').html('')
+      for (let i = 0; i < res.data.length; i++) {
+        let item = res.data[i];
+        $('#div-content'+item.projectId).append(`
+              <div class="questionnaire-name">问卷名称 : ${item.questionnaireName}</div>
+        `)
+      }
+
     }
   })
 }
