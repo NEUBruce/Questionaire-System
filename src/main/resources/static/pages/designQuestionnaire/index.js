@@ -35,7 +35,7 @@ const onAddQuestion = (type) => {
       break;
   }
   $('#problem').append(ele)
-  problem.push({ problemName: '', mustAnswer: true, option: [{}] })
+  problem.push({ problemName: '', mustAnswer: true, option: [{}], type: type })
 
   $(".question").hover(() => {
     let problemIndex = $('.question:hover').attr('data-problemIndex')
@@ -345,11 +345,11 @@ const handleAddMatrix = () => {
           </div>
         </div>
         <div>
-          <button type="button" class="btn btn-link btn-add-option" onClick="matrixAddOption(${problem.length})">添加选项</button>
+          <button type="button" class="btn btn-link btn-add-option" onclick="matrixAddOption(${problem.length})">添加选项</button>
         </div>
         <div class="btn-group">
           <button type="button" id="cancelEdit" class="btn btn-default" onclick="cancelEdit(${problem.length})">取消编辑</button>
-          <button type="button" id="editFinish" class="btn btn-default" onClick="matrixEditFinish(${problem.length})">完成编辑</button>
+          <button type="button" id="editFinish" class="btn btn-default" onclick="matrixEditFinish(${problem.length})">完成编辑</button>
         </div>
       </div>
       <div class="bottom2" style="display: none; padding-left: 80px;"></div>
@@ -438,11 +438,11 @@ const handleAddGauge = () => {
           </div>
         </div>
         <div>
-          <button type="button" class="btn btn-link btn-add-option" onClick="gaugeAddOption(${problem.length})">添加选项</button>
+          <button type="button" class="btn btn-link btn-add-option" onclick="gaugeAddOption(${problem.length})">添加选项</button>
         </div>
         <div class="btn-group">
           <button type="button" id="cancelEdit" class="btn btn-default" onclick="cancelEdit(${problem.length})">取消编辑</button>
-          <button type="button" id="editFinish" class="btn btn-default" onClick="gaugeEditFinish(${problem.length})">完成编辑</button>
+          <button type="button" id="editFinish" class="btn btn-default" onclick="gaugeEditFinish(${problem.length})">完成编辑</button>
         </div>
       </div>
       <div class="bottom2" style="display: none; align-items: center; justify-content: space-between;"></div>
@@ -500,15 +500,16 @@ const handleModifyTitle = () => {
 
 
 const handleEditFinish = () => {
-  let params = {}
-  $.ajax({
-    url: API_BASE_URL + '/modifyQuestionnaire',
-    type: "POST",
-    data: JSON.stringify(params),
-    dataType: "json",
-    contentType: "application/jsoresn",
-    success(res) {
-      console.log(res)
-    }
-  })
+  console.log(problem)
+  // let params = {}
+  // $.ajax({
+  //   url: API_BASE_URL + '/modifyQuestionnaire',
+  //   type: "POST",
+  //   data: JSON.stringify(params),
+  //   dataType: "json",
+  //   contentType: "application/json",
+  //   success(res) {
+  //     console.log(res)
+  //   }
+  // })
 }

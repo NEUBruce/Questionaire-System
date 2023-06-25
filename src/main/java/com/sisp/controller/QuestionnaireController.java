@@ -95,7 +95,7 @@ public class QuestionnaireController {
 
     }
 
-    // 修改问卷
+    // 删除问卷
     @RequestMapping(value = "/deleteQuestionnaire", method = RequestMethod.POST, headers = "Accept=application/json")
     public HttpResponseEntity deleteQuestionnaire(@RequestBody QuestionnaireEntity questionnaireEntity) {
         HttpResponseEntity httpResponse = new HttpResponseEntity();

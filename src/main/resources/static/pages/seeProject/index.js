@@ -51,7 +51,7 @@ const fetchProjectInfo = (id) => {
                <td>
                <button type="button" class="btn btn-link" onclick="">预览</button>
                <button type="button" class="btn btn-link" onclick="">发布</button>
-               <button type="button" class="btn btn-link" onclick="onDelQuestionnaire(${item.id})">删除</button>
+               <button type="button" class="btn btn-link" onclick="onDelQuestionnaire('${item.id}')">删除</button>
                <button type="button" class="btn btn-link" onclick="">统计</button>
                </td>
              </tr>
