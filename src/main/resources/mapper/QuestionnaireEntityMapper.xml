@@ -3,6 +3,17 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sisp.dao.QuestionnaireEntityMapper">
+    <resultMap id="questionnaireEntityMap" type="com.sisp.entity.QuestionnaireEntity">
+        <result column="questionnaire_name" property="questionnaireName"/>
+        <result column="questionnaire_description" property="questionnaireDescription"/>
+        <result column="start_time" property="startTime"/>
+        <result column="stop_time" property="stopTime"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="last_updated_by" property="lastUpdatedBy"/>
+        <result column="creation_date" property="creationDate"/>
+        <result column="project_id" property="projectId"/>
+        <result column="last_update_date" property="lastUpdateDate"/>
+    </resultMap>
     <insert id="insert" parameterType="com.sisp.entity.QuestionnaireEntity">
         insert into questionnaire_info (`id`, `questionnaire_name`, `questionnaire_description`, `start_time`, `stop_time`, `created_by`, `last_updated_by`, `creation_date`, `status`, `project_id`, `last_update_date`, `type`) values(#{id}, #{questionnaireName}, #{questionnaireDescription}, #{startTime}, #{stopTime}, #{createdBy}, #{lastUpdatedBy}, #{creationDate}, #{status}, #{projectId}, #{lastUpdateDate}, #{type})
     </insert>
@@ -23,13 +34,13 @@
     <delete id="deleteQuestionnaire">
         update questionnaire_info set status = '3' where id = #{id}
     </delete>
-    <select id="queryQuestionnaireList" resultType="com.sisp.entity.QuestionnaireEntity">
+    <select id="queryQuestionnaireList" resultMap="questionnaireEntityMap">
         select * from questionnaire_info
         <where>
             <if test="projectId != null and projectId != ''">project_id = #{projectId} and</if>
             <if test="id != null and id != ''">id = #{id} and</if>
-        </where> status != '3'
-
+            status != '3'
+        </where>
     </select>
 
 

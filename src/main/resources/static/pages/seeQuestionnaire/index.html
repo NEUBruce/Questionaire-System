@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>问卷详情</title>
     <link rel="stylesheet" href="./index.css">
     <link rel="stylesheet" href="../common/header/index.css">
     <link rel="stylesheet" href="../../static/bootstrap-3.4.1/css/bootstrap.min.css">
@@ -11,6 +13,7 @@
     <script src="../../my-config.js"></script>
 </head>
 <body>
+<div id="headerPage"></div>
 <div class="search-container">
     <label for="search">搜索:</label>
     <input type="text" id="search" name="search">
@@ -35,5 +38,12 @@
         <a href="#">下一页</a>
     </div>
 </div>
+
+<script type="module" src="../../utils/index.js"></script>
+<script src="../common/header/index.js"></script>
+<script src="./index.js"></script>
+<script>
+    $("#headerPage").load("../common/header/index.html")
+</script>
 </body>
 </html>
