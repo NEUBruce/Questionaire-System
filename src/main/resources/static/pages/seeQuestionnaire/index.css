@@ -1,0 +1,29 @@
+.search-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 30px;
+    margin-right: 40px;
+}
+
+#search {
+    margin-right: 5px;
+}
+
+.table-container {
+    position: relative;
+    margin-top: 20px;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+.table {
+    margin-top: 10px;
+}
+
+.pagination {
+    position: absolute;
+    right: 0;
+    bottom: -40px;
+    margin-top: 10px;
+}
