@@ -4,11 +4,11 @@ import java.util.List;
 
 public class QuestionEntity {
     private String id;
-    private String content;
+    private String problemName;
     private String type;
-    private String subQuestion;
-    private boolean isRequired;
-    private List<OptionEntity> options;
+    private String leftTitle;
+    private boolean mustAnswer;
+    private List<OptionEntity> option;
 
     public String getId() {
         return id;
@@ -18,12 +18,12 @@ public class QuestionEntity {
         this.id = id;
     }
 
-    public String getContent() {
-        return content;
+    public String getProblemName() {
+        return problemName;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setProblemName(String problemName) {
+        this.problemName = problemName;
     }
 
     public String getType() {
@@ -34,27 +34,27 @@ public class QuestionEntity {
         this.type = type;
     }
 
-    public String getSubQuestion() {
-        return subQuestion;
+    public String getLeftTitle() {
+        return leftTitle;
     }
 
-    public void setSubQuestion(String subQuestion) {
-        this.subQuestion = subQuestion;
+    public void setLeftTitle(String leftTitle) {
+        this.leftTitle = leftTitle;
     }
 
-    public boolean isRequired() {
-        return isRequired;
+    public boolean isMustAnswer() {
+        return mustAnswer;
     }
 
-    public void setRequired(boolean required) {
-        isRequired = required;
+    public void setMustAnswer(boolean mustAnswer) {
+        this.mustAnswer = mustAnswer;
     }
 
-    public List<OptionEntity> getOptions() {
-        return options;
+    public List<OptionEntity> getOption() {
+        return option;
     }
 
-    public void setOptions(List<OptionEntity> options) {
-        this.options = options;
+    public void setOption(List<OptionEntity> option) {
+        this.option = option;
     }
 }

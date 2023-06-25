@@ -5,4 +5,7 @@
 <mapper namespace="com.sisp.dao.QuestionEntityMapper">
 
 
+    <insert id="insert">
+        INSERT INTO question_info (`id`, `problem_name`, `type`, `must_answer`, `left_title`) VALUES (#{id}, #{problemName}, #{type}, #{mustAnswer}, #{leftTitle})
+    </insert>
 </mapper>

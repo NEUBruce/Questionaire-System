@@ -247,11 +247,11 @@ const handleAddMultipleChoice = () => {
           </div>
         </div>
         <div>
-          <button type="button" class="btn btn-link btn-add-option" onClick="multipleChoiceAddOption(${problem.length})">添加选项</button>
+          <button type="button" class="btn btn-link btn-add-option" onclick="multipleChoiceAddOption(${problem.length})">添加选项</button>
         </div>
         <div class="btn-group">
           <button type="button" id="cancelEdit" class="btn btn-default" onclick="cancelEdit(${problem.length})">取消编辑</button>
-          <button type="button" id="editFinish" class="btn btn-default" onClick="multipleChoiceEditFinish(${problem.length})">完成编辑</button>
+          <button type="button" id="editFinish" class="btn btn-default" onclick="multipleChoiceEditFinish(${problem.length})">完成编辑</button>
         </div>
       </div>
       <div class="bottom2" style="display: none;">
@@ -500,16 +500,22 @@ const handleModifyTitle = () => {
 
 
 const handleEditFinish = () => {
-  console.log(problem)
-  // let params = {}
-  // $.ajax({
-  //   url: API_BASE_URL + '/modifyQuestionnaire',
-  //   type: "POST",
-  //   data: JSON.stringify(params),
-  //   dataType: "json",
-  //   contentType: "application/json",
-  //   success(res) {
-  //     console.log(res)
-  //   }
-  // })
+
+  for (let i = 0; i < problem.length; i++) {
+    for (let j = 0; j < problem[i].option.length; j++) {
+      problem[i].option[j].order = j;
+    }
+    $.ajax({
+      url: API_BASE_URL + '/addQuestion',
+      type: "POST",
+      data: JSON.stringify(problem[i]),
+      dataType: "json",
+      contentType: "application/json",
+      success(res) {
+        console.log("ok")
+      }
+    })
+  }
+
+
 }

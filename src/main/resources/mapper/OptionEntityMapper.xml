@@ -5,4 +5,7 @@
 <mapper namespace="com.sisp.dao.OptionEntityMapper">
 
 
+    <insert id="insert">
+        INSERT INTO `web_demo`.`option_info` (`id`, `chooseTerm`, `fraction`, `question_id`, `order`) VALUES (#{id}, #{chooseTerm}, #{fraction}, #{questionId}, #{order})
+    </insert>
 </mapper>
