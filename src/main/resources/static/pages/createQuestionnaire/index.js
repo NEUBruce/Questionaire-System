@@ -1,6 +1,20 @@
 onload = () => {
   $('#headerUsername').text($util.getItem('userInfo').username)
   $('#headerDivB').text('创建问卷')
+  $('#selectKind').append("<option value=\"0\">学生</option>")
+  $('#selectKind').append("<option value=\"1\">教师</option>")
+  let projectList = $util.getPageParam('projectList');
+  let defaultIndex = $util.getPageParam('defaultIndex');
+  console.log(projectList)
+  console.log(defaultIndex)
+
+  for (let i = 0; i < projectList.length; i++) {
+    if (i != defaultIndex) {
+      $('#selectProject').append("<option value=\"" + i + "\">" + projectList[i].projectName + "</option>")
+    }else {
+      $('#selectProject').append("<option selected value=\"" + i + "\">" + projectList[i].projectName + "</option>")
+    }
+  }
 
 
 

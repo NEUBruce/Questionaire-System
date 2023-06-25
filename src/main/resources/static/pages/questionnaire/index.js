@@ -21,13 +21,14 @@ const fetchProjectList = () => {
       projectList = res.data
       $('#content').html('')
 
-      res.data.map(item => {
+      for (let i = 0; i < res.data.length; i++) {
+        let item = res.data[i];
         $('#content').append(`
           <div class="list">
             <div class="list-header">
               <div>${item.projectName}</div>
               <div>
-                <button type="button" class="btn btn-link" onclick="onCreateQuestionnaire()">创建问卷</button>
+                <button type="button" class="btn btn-link" onclick="onCreateQuestionnaire('${i}')">创建问卷</button>
                 <button type="button" class="btn btn-link" onclick="onSeeProject('${item.id}')">查看</button>
                 <button type="button" class="btn btn-link" onclick="onEditProject('${item.id}')">编辑</button>
                 <button type="button" class="btn btn-link" onclick="onDelProject('${item.id}')">删除</button>
@@ -38,7 +39,7 @@ const fetchProjectList = () => {
             </div>
           </div>
         `)
-      })
+      }
     }
   })
 }
@@ -47,7 +48,10 @@ const onCreateProject = () => {
   location.href = "/pages/createProject/index.html"
 }
 
-const onCreateQuestionnaire = () => {
+const 
+    onCreateQuestionnaire = (index) => {
+  $util.setPageParam('projectList', projectList)
+  $util.setPageParam('defaultIndex', index)
   location.href = "/pages/createQuestionnaire/index.html"
 }
 
