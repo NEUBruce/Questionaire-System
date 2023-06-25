@@ -21,6 +21,11 @@ onload = () => {
 }
 
 const onCreateTemplate = () => {
+  let projectList = $util.getPageParam('projectList')
+  // 将选中的project传入下一个页面
+  $util.setPageParam('project', projectList[$('#selectProject option:selected').val()])
+  // 把选中的类型传入下一个页面
+  $util.setPageParam('type', $('#selectKind option:selected').val())
   location.href = "/pages/createNewQuestionnaire/index.html"
 }
 
@@ -81,42 +86,4 @@ const createTemplate = () => {
 
 const handleEdit = () => {
   open('/pages/designQuestionnaire/index.html')
-}
-
-// 获取项目列表
-const fetchProjectList = () => {
-  let params = {
-    createdBy: $util.getItem('userInfo').username,
-    projectName: $('#projectName').val()
-  }
-  $.ajax({
-    url: API_BASE_URL + '/queryProjectList',
-    type: "POST",
-    data: JSON.stringify(params),
-    dataType: "json",
-    contentType: "application/json",
-    success(res) {
-      projectList = res.data
-      $('#content').html('')
-
-      res.data.map(item => {
-        $('#content').append(`
-          <div class="list">
-            <div class="list-header">
-              <div>${item.projectName}</div>
-              <div>
-                <button type="button" class="btn btn-link" onclick="onCreateQuestionnaire()">创建问卷</button>
-                <button type="button" class="btn btn-link" onclick="onSeeProject('${item.id}')">查看</button>
-                <button type="button" class="btn btn-link" onclick="onEditProject('${item.id}')">编辑</button>
-                <button type="button" class="btn btn-link" onclick="onDelProject('${item.id}')">删除</button>
-              </div>
-            </div>
-            <div class="list-footer">
-              <div>暂无调查问卷或问卷已过期</div>
-            </div>
-          </div>
-        `)
-      })
-    }
-  })
 }

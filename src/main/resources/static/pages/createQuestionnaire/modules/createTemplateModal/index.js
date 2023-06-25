@@ -13,7 +13,7 @@ const handleConfirm = () => {
     type: "POST",
     data: JSON.stringify(params),
     dataType: "json",
-    contentType: "application/jsoresn",
+    contentType: "application/json",
     success(res) {
       console.log(res)
       $('#createTemplateModal').modal('hide')

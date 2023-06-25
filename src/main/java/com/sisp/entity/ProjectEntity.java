@@ -1,11 +1,12 @@
 package com.sisp.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * 项目实体类
  */
-public class ProjectEntity {
+public class ProjectEntity implements Serializable {
     private String id;
     private String userId;
     private String projectName;
