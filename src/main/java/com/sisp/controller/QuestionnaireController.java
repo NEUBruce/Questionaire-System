@@ -69,5 +69,57 @@ public class QuestionnaireController {
 
     }
 
+    // 修改问卷
+    @RequestMapping(value = "/modifyQuestionnaireInfo", method = RequestMethod.POST, headers = "Accept=application/json")
+    public HttpResponseEntity modifyQuestionnaire(@RequestBody QuestionnaireEntity questionnaireEntity) {
+        HttpResponseEntity httpResponse = new HttpResponseEntity();
+        try {
+            int result = questionnaireService.modifyQuestionnaireInfo(questionnaireEntity);
+            if (result == 0) {
+                httpResponse.setCode("0");
+                httpResponse.setData(0);
+                httpResponse.setMessage("修改失败!");
+            }else {
+                httpResponse.setCode("666");
+                httpResponse.setData(result);
+                httpResponse.setMessage("修改成功!");
+            }
+
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+
+        }
+
+        return httpResponse;
+
+    }
+
+    // 修改问卷
+    @RequestMapping(value = "/deleteQuestionnaire", method = RequestMethod.POST, headers = "Accept=application/json")
+    public HttpResponseEntity deleteQuestionnaire(@RequestBody QuestionnaireEntity questionnaireEntity) {
+        HttpResponseEntity httpResponse = new HttpResponseEntity();
+        try {
+            int result = questionnaireService.deleteQuestionnaire(questionnaireEntity);
+            if (result == 0) {
+                httpResponse.setCode("0");
+                httpResponse.setData(0);
+                httpResponse.setMessage("删除失败!");
+            }else {
+                httpResponse.setCode("666");
+                httpResponse.setData(result);
+                httpResponse.setMessage("删除成功!");
+            }
+
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+
+        }
+
+        return httpResponse;
+
+    }
+
 
 }

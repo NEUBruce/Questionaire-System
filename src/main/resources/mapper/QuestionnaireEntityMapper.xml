@@ -6,6 +6,23 @@
     <insert id="insert" parameterType="com.sisp.entity.QuestionnaireEntity">
         insert into questionnaire_info (`id`, `questionnaire_name`, `questionnaire_description`, `start_time`, `stop_time`, `created_by`, `last_updated_by`, `creation_date`, `status`, `project_id`, `last_update_date`, `type`) values(#{id}, #{questionnaireName}, #{questionnaireDescription}, #{startTime}, #{stopTime}, #{createdBy}, #{lastUpdatedBy}, #{creationDate}, #{status}, #{projectId}, #{lastUpdateDate}, #{type})
     </insert>
+    <update id="updateByPrimaryKeySelective">
+        update questionnaire_info
+        <set>
+            <if test="questionnaireName != null">questionnaire_name = #{questionnaireName}</if>
+            <if test="questionnaireDescription != null">questionnaire_description = #{questionnaireDescription}</if>
+            <if test="startTime != null">start_time = #{startTime}</if>
+            <if test="stopTime != null">stop_time = #{stopTime}</if>
+            <if test="lastUpdatedBy != null">last_updated_by = #{lastUpdatedBy}</if>
+            <if test="type != null">type = #{type}</if>
+            <if test="status != null">status = #{status}</if>
+            <if test="lastUpdateDate != null">last_update_date = #{lastUpdateDate}</if>
+        </set>
+        where id = #{id}
+    </update>
+    <delete id="deleteQuestionnaire">
+        update questionnaire_info set status = '3' where id = #{id}
+    </delete>
     <select id="queryQuestionnaireList" resultType="com.sisp.entity.QuestionnaireEntity">
         select * from questionnaire_info
         <where>

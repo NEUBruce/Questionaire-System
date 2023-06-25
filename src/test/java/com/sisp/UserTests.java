@@ -178,10 +178,8 @@ class UserTests {
         userEntity.setUsername("admin");
         userEntity.setPassword("123");
         userEntity.setStatus("1");
-        List<UserEntity> result =  (List<UserEntity>) userController.login(userEntity).getData();
 
         log.info("========结果========");
-        log.info(result);
 
     }
 

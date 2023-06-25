@@ -43,4 +43,22 @@ public class QuestionnaireService {
 
         return questionnaireEntityMapper.queryQuestionnaireList(questionnaireEntity);
     }
+
+    /**
+     * 根据主键修改问卷的信息
+     * @param questionnaireEntity
+     * @return
+     */
+    public int modifyQuestionnaireInfo(QuestionnaireEntity questionnaireEntity) {
+        return questionnaireEntityMapper.updateByPrimaryKeySelective(questionnaireEntity);
+    }
+
+    /**
+     * 删除问卷，只是设置为删除状态，并不真从数据库删除
+     * @param questionnaire
+     * @return
+     */
+    public int deleteQuestionnaire(QuestionnaireEntity questionnaire) {
+        return questionnaireEntityMapper.deleteQuestionnaire(questionnaire);
+    }
 }
