@@ -1,6 +1,12 @@
-let questionnaireTitle = '问卷标题'
-let questionnaireDescription = '问卷说明'
+let questionnaireTitle = ''
+let questionnaireDescription = ''
 const problem = []
+onload = ()=>{
+  questionnaireTitle = $util.getPageParam('questionnaire').questionnaireName
+  questionnaireDescription = $util.getPageParam('questionnaire').questionnaireDescription
+  $('#surveyName').text(questionnaireTitle)
+  $('#surveyDescription').text(questionnaireDescription)
+}
 
 /**
  * 添加问题

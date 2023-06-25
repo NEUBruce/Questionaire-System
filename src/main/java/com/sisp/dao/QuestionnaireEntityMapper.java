@@ -10,4 +10,6 @@ import java.util.List;
 @Mapper
 public interface QuestionnaireEntityMapper {
     int insert(QuestionnaireEntity questionnaireEntity);
+
+    List<QuestionnaireEntity> queryQuestionnaireList(QuestionnaireEntity questionnaireEntity);
 }

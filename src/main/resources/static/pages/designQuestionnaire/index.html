@@ -11,6 +11,8 @@
   <link rel="stylesheet" href="../../static/iconfont/iconfont.css">
   <script src="../../static/jquery-3.5.1/jquery-3.5.1.min.js"></script>
   <script src="../../static/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+  <script type="module" src="../../utils/index.js"></script>
+  <script src="../../my-config.js"></script>
 </head>
 <body>
   <div class="header">
@@ -45,13 +47,11 @@
       </div>
     </div>
     <div class="questionnaire-title">
-      <span onclick="handleModifyTitle()" style="cursor: pointer;">
-        问卷标题
+      <span id="surveyName" onclick="handleModifyTitle()" style="cursor: pointer;">
       </span>
     </div>  
     <div class="questionnaire-description">
-      <span onclick="handleModifyTitle()" style="cursor: pointer;">
-        问卷说明
+      <span id="surveyDescription" onclick="handleModifyTitle()" style="cursor: pointer;">
       </span>
     </div>
     <div class="problem" id="problem"></div>
@@ -60,7 +60,6 @@
   <!-- 修改标题弹窗 -->
   <div id="modifyTitle"></div>
 
-  <script type="module" src="../../utils/index.js"></script>
   <script src="./modules/modifyTitleModal/index.js"></script>
   <script src="./index.js"></script>
   <script>
