@@ -1,29 +1,29 @@
 onload = () => {
-  $('#headerUsername').text($util.getItem('userInfo').username)
-  handleHeaderLoad()
-  fetchProjectList()
+    $('#headerUsername').text($util.getItem('userInfo').username)
+    handleHeaderLoad()
+    fetchProjectList()
 }
 
 let projectList = []
 
 const fetchProjectList = () => {
-  let params = {
-    createdBy: $util.getItem('userInfo').username,
-    projectName: $('#projectName').val()
-  }
-  $.ajax({
-    url: API_BASE_URL + '/queryProjectList',
-    type: "POST",
-    data: JSON.stringify(params),
-    dataType: "json",
-    contentType: "application/json",
-    success(res) {
-      projectList = res.data
-      $('#content').html('')
+    let params = {
+        createdBy: $util.getItem('userInfo').username,
+        projectName: $('#projectName').val()
+    }
+    $.ajax({
+        url: API_BASE_URL + '/queryProjectList',
+        type: "POST",
+        data: JSON.stringify(params),
+        dataType: "json",
+        contentType: "application/json",
+        success(res) {
+            projectList = res.data
+            $('#content').html('')
 
-      for (let i = 0; i < res.data.length; i++) {
-        let item = res.data[i];
-        $('#content').append(`
+            for (let i = 0; i < res.data.length; i++) {
+                let item = res.data[i];
+                $('#content').append(`
           <div class="list">
             <div class="list-header">
               <div>${item.projectName}</div>
@@ -36,76 +36,90 @@ const fetchProjectList = () => {
               </div>
             </div>
             <div id="div-content${item.id}"></div>
+ 
           </div>
         `)
-      }
-    }
-  })
 
-  $.ajax({
-    url: API_BASE_URL + '/queryQuestionnaireList',
-    type: "POST",
-    data: JSON.stringify(params),
-    dataType: "json",
-    contentType: "application/json",
-    success(res) {
-      $('#div-content').html('')
-      for (let i = 0; i < res.data.length; i++) {
-        let item = res.data[i];
-        $('#div-content'+item.projectId).append(`
+
+            }
+
+            for (let i = 0; i < res.data.length; i++) {
+                let item = res.data[i];
+                if ($('#div-content' + item.id).html() === '') {
+                    $('#div-content'+item.id).append(`
+                        <div class="list-footer">
+                            <div>无调查问卷或问卷已过期</div>
+                        </div>
+                `);
+                }
+            }
+        }
+    })
+
+    $.ajax({
+        url: API_BASE_URL + '/queryQuestionnaireList',
+        type: "POST",
+        data: JSON.stringify(params),
+        dataType: "json",
+        contentType: "application/json",
+        success(res) {
+            for (let i = 0; i < res.data.length; i++) {
+                let item = res.data[i];
+                $('#div-content'+item.projectId).html('')
+                $('#div-content' + item.projectId).append(`
               <div class="questionnaire-name">问卷名称 : ${item.questionnaireName}</div>
         `)
-      }
+            }
 
-    }
-  })
+        }
+    })
 }
 
 const onStatisticsProject = () => {
-  location.href = "/pages/seeQuestionnaire/index.html"
+    location.href = "/pages/seeQuestionnaire/index.html"
 }
 
 
 const onCreateProject = () => {
-  location.href = "/pages/createProject/index.html"
+    location.href = "/pages/createProject/index.html"
 }
 
-const 
+const
     onCreateQuestionnaire = (index) => {
-  $util.setPageParam('projectList', projectList)
-  $util.setPageParam('defaultIndex', index)
-  location.href = "/pages/createQuestionnaire/index.html"
-}
+        $util.setPageParam('projectList', projectList)
+        $util.setPageParam('defaultIndex', index)
+        location.href = "/pages/createQuestionnaire/index.html"
+    }
 
 const onSeeProject = (id) => {
-  $util.setPageParam('seeProject', id)
-  location.href = "/pages/seeProject/index.html"
+    $util.setPageParam('seeProject', id)
+    location.href = "/pages/seeProject/index.html"
 }
 
 const onEditProject = (id) => {
-  let project = projectList.filter(item => item.id === id)[0]
-  $util.setPageParam('editProject', project)
-  location.href = "/pages/editProject/index.html"
+    let project = projectList.filter(item => item.id === id)[0]
+    $util.setPageParam('editProject', project)
+    location.href = "/pages/editProject/index.html"
 }
 
 const onDelProject = (pid) => {
-  let state = confirm("确认删除该项目吗？")
+    let state = confirm("确认删除该项目吗？")
 
-  if (state) {
-    let params = {
-      id:pid
+    if (state) {
+        let params = {
+            id: pid
+        }
+        $.ajax({
+            url: API_BASE_URL + '/deleteProjectById',
+            type: "POST",
+            data: JSON.stringify(params),
+            dataType: "json",
+            contentType: "application/json",
+            success(res) {
+                alert(res.message)
+                fetchProjectList()
+            }
+        })
     }
-    $.ajax({
-      url: API_BASE_URL + '/deleteProjectById',
-      type: "POST",
-      data: JSON.stringify(params),
-      dataType: "json",
-      contentType: "application/json",
-      success(res) {
-        alert(res.message)
-        fetchProjectList()
-      }
-    })
-  }
 
 }
