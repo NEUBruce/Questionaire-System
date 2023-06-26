@@ -307,7 +307,7 @@ const handleAddFillBlanks = () => {
         <textarea class="form-control textarea" id="problemName" placeholder="请输入题目" rows="4" oninput="onInput(${problem.length}, ${undefined}, 'problemName')"></textarea>
         <div class="btn-group">
           <button type="button" id="cancelEdit" class="btn btn-default" onclick="cancelEdit(${problem.length})">取消编辑</button>
-          <button type="button" id="editFinish" class="btn btn-default" onClick="fillBlanksEditFinish(${problem.length})">完成编辑</button>
+          <button type="button" id="editFinish" class="btn btn-default" onclick="fillBlanksEditFinish(${problem.length})">完成编辑</button>
         </div>
       </div>
       <div class="bottom2" style="display: none;">
@@ -509,6 +509,8 @@ const handleModifyTitle = () => {
 
 const handlePreview = () => {
   $util.setPageParam('questionList', problem);
+  $util.setPageParam('questionnaireTitle', questionnaireTitle)
+  $util.setPageParam('questionnaireDescription', questionnaireDescription)
   location.href = "/pages/answerSheet/index.html";
 }
 

@@ -1,144 +1,180 @@
 onload = () => {
+
+  $('.questionnaire-title').text($util.getPageParam('questionnaireTitle'))
+  $('.questionnaire-description').text($util.getPageParam('questionnaireDescription'))
   let questionList = $util.getPageParam('questionList');
+  for (let i = 0; i < questionList.length; i++) {
+    if (questionList[i].type == '1') {
+      singleChoiceView(questionList[i], i + 1);
+    } else if (questionList[i].type == '2') {
+      multipleChoiceView(questionList[i], i + 1);
+    } else if (questionList[i].type == '3') {
+      blankView(questionList[i], i + 1);
+    } else if (questionList[i].type == '4') {
+      matrixView(questionList[i], i + 1);
+    } else if (questionList[i].type == '5') {
+      gaugeView(questionList[i], i + 1);
+    } else {
+
+    }
+  }
+}
+
+const singleChoiceView = (question, index)=>{
   $('#problem').append(`
-    <div class="question" id="question1" data-type="1" data-problemIndex="1">
+    <div class="question" id="question${index}" data-type="1" data-problemIndex="${index}">
       <div class="top">
-        <span class="question-title" id="questionTitle">1.单选题</span>
-        <span class="must-answer" id="mustAnswer">必答题</span>
+        <span class="question-title" id="questionTitle">${index}.${question.problemName}</span>
+        <span class="must-answer" id="mustAnswer"></span>
       </div>
-      <div class="bottom">
-        <div style="display: flex; align-items: center; margin-bottom: 3px;">
-          <label class="radio-inline">
-            <input type="radio" name="chooseTerm">选项1
-          </label>
-        </div>
-        <div style="display: flex; align-items: center; margin-bottom: 3px;">
-          <label class="radio-inline">
-            <input type="radio" name="chooseTerm">选项2
-          </label>
-        </div>
-        <div style="display: flex; align-items: center; margin-bottom: 3px;">
-          <label class="radio-inline">
-            <input type="radio" name="chooseTerm">选项3
-          </label>
-        </div>
-        <div style="display: flex; align-items: center; margin-bottom: 3px;">
-          <label class="radio-inline">
-            <input type="radio" name="chooseTerm">选项4
-          </label>
-        </div>
-      </div>
+      <div class="bottom"></div>
     </div>
   `)
+  if (question.mustAnswer) {
+    $('#question' + index + " #mustAnswer").text('必答题')
+  }else {
+    $('#question' + index + " #mustAnswer").text('非必答题')
+  }
+  for (let i = 0; i < question.option.length; i++) {
+    let option = question.option[i];
+    $('#question' + index + " .bottom ").append(`
+        <div style="display: flex; align-items: center; margin-bottom: 3px;">
+          <label class="radio-inline">
+            <input type="radio" name="chooseTerm${option.order}">${option.chooseTerm ? option.chooseTerm : ''}
+          </label>
+        </div>
+    `)
+  }
+}
+
+const multipleChoiceView = (question, index)=>{
   $('#problem').append(`
-    <div class="question" id="question1" data-type="1" data-problemIndex="1">
+    <div class="question" id="question${index}" data-type="2" data-problemIndex="${index}">
       <div class="top">
-        <span class="question-title" id="questionTitle">2.多选题</span>
-        <span class="must-answer" id="mustAnswer">必答题</span>
+        <span class="question-title" id="questionTitle">${index}.${question.problemName}</span>
+        <span class="must-answer" id="mustAnswer"></span>
       </div>
-      <div class="bottom">
-        <div style="display: flex; align-items: center; margin-bottom: 3px;">
-          <label class="checkbox-inline">
-            <input type="checkbox" name="chooseTerm">选项1
-          </label>
-        </div>
-        <div style="display: flex; align-items: center; margin-bottom: 3px;">
-          <label class="checkbox-inline">
-            <input type="checkbox" name="chooseTerm">选项2
-          </label>
-        </div>
-        <div style="display: flex; align-items: center; margin-bottom: 3px;">
-          <label class="checkbox-inline">
-            <input type="checkbox" name="chooseTerm">选项3
-          </label>
-        </div>
-        <div style="display: flex; align-items: center; margin-bottom: 3px;">
-          <label class="checkbox-inline">
-            <input type="checkbox" name="chooseTerm">选项4
-          </label>
-        </div>
-      </div>
+      <div class="bottom"></div>
     </div>
   `)
+  if (question.mustAnswer) {
+    $('#question' + index + " #mustAnswer").text('必答题')
+  }else {
+    $('#question' + index + " #mustAnswer").text('非必答题')
+  }
+  for (let i = 0; i < question.option.length; i++) {
+    let option = question.option[i];
+    $('#question' + index + " .bottom ").append(`
+        <div style="display: flex; align-items: center; margin-bottom: 3px;">
+          <label class="checkbox-inline">
+            <input type="checkbox" name="chooseTerm${option.order}">${option.chooseTerm ? option.chooseTerm : ''}
+          </label>
+        </div>
+    `)
+  }
+}
+
+const blankView = (question, index)=>{
   $('#problem').append(`
-    <div class="question" id="question1" data-type="1" data-problemIndex="1">
+    <div class="question" id="question${index}" data-type="3" data-problemIndex="${index}">
       <div class="top">
-        <span class="question-title" id="questionTitle">3.填空题</span>
-        <span class="must-answer" id="mustAnswer">必答题</span>
+        <span class="question-title" id="questionTitle">${index}.${question.problemName}</span>
+        <span class="must-answer" id="mustAnswer"></span>
       </div>
-      <div class="bottom">
-        <textarea class="form-control" placeholder="请输入" rows="4" style="width: 70%;"></textarea>
+      <div class="bottom"></div>
     </div>
   `)
+  if (question.mustAnswer) {
+    $('#question' + index + " #mustAnswer").text('必答题')
+  }else {
+    $('#question' + index + " #mustAnswer").text('非必答题')
+  }
+  for (let i = 0; i < question.option.length; i++) {
+    let option = question.option[i];
+    $('#question' + index + " .bottom ").append(`
+       <div style="border: 1px solid #CCCCCC; width: 50%; height: 70px;"></div>
+    `)
+  }
+}
+
+const matrixView = (question, problemIndex)=>{
   $('#problem').append(`
-    <div class="question" id="question1" data-type="1" data-problemIndex="1">
+    <div class="question" id="question${problemIndex}" data-type="4" data-problemIndex="${problemIndex}">
       <div class="top">
-        <span class="question-title" id="questionTitle">4.矩阵题</span>
-        <span class="must-answer" id="mustAnswer">必答题</span>
+        <span class="question-title" id="questionTitle">${problemIndex}.${question.problemName}</span>
+        <span class="must-answer" id="mustAnswer"></span>
       </div>
       <div class="bottom">
         <table class="table">
           <thead>
             <tr>
               <th></th>
-              <th>选项1</th>
-              <th>选项2</th>
-              <th>选项3</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>标题1</td>
-              <td><input type="radio" name="chooseTerm1" /></td>
-              <td><input type="radio" name="chooseTerm1" /></td>
-              <td><input type="radio" name="chooseTerm1" /></td>
-            </tr>
-            <tr>
-              <td>标题2</td>
-              <td><input type="radio" name="chooseTerm2" /></td>
-              <td><input type="radio" name="chooseTerm2" /></td>
-              <td><input type="radio" name="chooseTerm2" /></td>
-            </tr>
+            
           </tbody>
         </table>
       </div>
     </div>
   `)
+  if (question.mustAnswer) {
+    $('#question' + problemIndex + " #mustAnswer").text('必答题')
+  }else {
+    $('#question' + problemIndex + " #mustAnswer").text('非必答题')
+  }
+  let trs = question.leftTitle ? question.leftTitle.split(',') : [];
+  trs.map((item, index) => {
+    $(`#question${problemIndex} .bottom tbody`).append(`
+      <tr class="tr${index}">
+        <td>${item}</td>
+      </tr>
+    `)
+    question.option.map(() => {
+      $(`#question${problemIndex} .bottom tbody .tr${index}`).append(`
+        <td>
+          <input type="radio" name="radio${index}">
+        </td>
+      `)
+    })
+  })
+  question.option.map(item => {
+    $(`#question${problemIndex} .bottom thead tr`).append(`
+      <th>${item.chooseTerm}</th>
+    `)
+  })
+}
+
+const gaugeView = (question, problemIndex)=>{
   $('#problem').append(`
-    <div class="question" id="question1" data-type="1" data-problemIndex="1">
+    <div class="question" id="question${problemIndex}" data-type="5" data-problemIndex="${problemIndex}">
       <div class="top">
-        <span class="question-title" id="questionTitle">5.量表题</span>
-        <span class="must-answer" id="mustAnswer">必答题</span>
+        <span class="question-title" id="questionTitle">${problemIndex}.${question.problemName}</span>
+        <span class="must-answer" id="mustAnswer"></span>
       </div>
       <div class="bottom" style="display: flex; align-items: center; justify-content: space-between;">
-        <div>很满意</div>
-        <div>
-          <label class="radio-inline">
-            <input type="radio" name="fraction" />5
-          </label>
-        </div>
-        <div>
-          <label class="radio-inline">
-            <input type="radio" name="fraction" />4
-          </label>
-        </div>
-        <div>
-          <label class="radio-inline">
-            <input type="radio" name="fraction" />3
-          </label>
-        </div>
-        <div>
-          <label class="radio-inline">
-            <input type="radio" name="fraction" />2
-          </label>
-        </div>
-        <div>
-          <label class="radio-inline">
-            <input type="radio" name="fraction" />1
-          </label>
-        </div>
-        <div>很不满意</div>
       </div>
     </div>
   `)
+  if (question.mustAnswer) {
+    $('#question' + problemIndex + " #mustAnswer").text('必答题')
+  }else {
+    $('#question' + problemIndex + " #mustAnswer").text('非必答题')
+  }
+  $(`#question${problemIndex} .bottom`).append(`
+    <div>${question.option[0].chooseTerm}</div>
+  `)
+  question.option.map(item => {
+    $(`#question${problemIndex} .bottom`).append(`
+      <div>
+        <label class="radio-inline">
+          <input type="radio" name="fraction" />${item.fraction}
+        </label>
+      </div>
+    `)
+  })
+  $(`#question${problemIndex} .bottom`).append(`
+    <div>${question.option[question.option.length - 1].chooseTerm}</div>
+  `)
 }
+
