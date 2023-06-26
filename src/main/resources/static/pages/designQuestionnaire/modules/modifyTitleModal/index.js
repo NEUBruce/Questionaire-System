@@ -1,7 +1,19 @@
 const handleConfirmModify = () => {
   $('#modifyTitleModal').modal('hide')
-  $('.questionnaire-title > span').text(questionnaireTitle)
-  $('.questionnaire-description > span').text(questionnaireDescription)
+  if(questionnaireTitle!=='' && questionnaireTitle!=null)
+  {
+    $('.questionnaire-title > span').text(questionnaireTitle)
+  }else{
+    alert('问卷标题不能为空');
+    location.reload();
+  }
+  if(questionnaireDescription!=='' && questionnaireDescription!=null)
+  {
+    $('.questionnaire-description > span').text(questionnaireDescription)
+  }else{
+    alert('问卷说明不能为空');
+    location.reload();
+  }
   let params= {
     id: $util.getPageParam('questionnaire').id,
     questionnaireName: questionnaireTitle,
