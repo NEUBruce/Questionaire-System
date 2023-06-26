@@ -170,7 +170,7 @@ const handleAddSingleChoice = () => {
   let ele = `
     <div class="question" id="question${problem.length}" data-type="1" data-problemIndex="${problem.length}">
       <div class="top">
-        <span class="question-title" id="questionTitle">1.请编辑问题？</span>
+        <span class="question-title" id="questionTitle">题目${problem.length+1}</span>
         <span class="must-answer" id="mustAnswer" onclick="onMustAnswerClick(${problem.length})">必答题</span>
       </div>
       <div class="bottom">
@@ -216,6 +216,23 @@ const singleChoiceDelOption = (problemIndex, optionIndex) => {
 }
 
 const singleChoiceEditFinish = (problemIndex) => {
+  for (let i = 0; i < problem[problemIndex].option.length; i++) {
+    let item = problem[problemIndex].option[i];
+
+    let problemNameValue = $(`#question${problemIndex} #problemName`).val();
+
+    if (problemNameValue) {
+    } else {
+      alert("问题内容不能为空");
+      return;
+    }
+
+    if (item.chooseTerm) {
+    } else {
+      alert("选项文字不能为空");
+      return;
+    }
+  }
   $(`#question${problemIndex} .bottom`).css('display', 'none')
   $(`#question${problemIndex} .bottom2`).css('display', 'inline')
   $(`#question${problemIndex} #questionTitle`).text(`${problemIndex + 1}.${problem[problemIndex].problemName}`)
@@ -224,7 +241,7 @@ const singleChoiceEditFinish = (problemIndex) => {
     $(`#question${problemIndex} .bottom2`).append(`
       <div style="display: flex; align-items: center;">
         <label class="radio-inline">
-          <input type="radio" name="choice${problemIndex}">${item.chooseTerm ? item.chooseTerm : ''}
+          <input type="radio">${item.chooseTerm ? item.chooseTerm : ''}
         </label>
       </div>
     `)
@@ -235,7 +252,7 @@ const handleAddMultipleChoice = () => {
   let ele = `
     <div class="question" id="question${problem.length}" data-type="2" data-problemIndex="${problem.length}">
       <div class="top">
-        <span class="question-title" id="questionTitle">1.请编辑问题？</span>
+        <span class="question-title" id="questionTitle">题目${problem.length+1}</span>
         <span class="must-answer" id="mustAnswer" onclick="onMustAnswerClick(${problem.length})">必答题</span>
       </div>
       <div class="bottom">
@@ -281,6 +298,23 @@ const multipleChoiceDelOption = (problemIndex, optionIndex) => {
 }
 
 const multipleChoiceEditFinish = (problemIndex) => {
+  for (let i = 0; i < problem[problemIndex].option.length; i++) {
+    let item = problem[problemIndex].option[i];
+
+    let problemNameValue = $(`#question${problemIndex} #problemName`).val();
+
+    if (problemNameValue) {
+    } else {
+      alert("问题内容不能为空");
+      return;
+    }
+
+    if (item.chooseTerm) {
+    } else {
+      alert("选项文字不能为空");
+      return;
+    }
+  }
   $(`#question${problemIndex} .bottom`).css('display', 'none')
   $(`#question${problemIndex} .bottom2`).css('display', 'inline')
   $(`#question${problemIndex} #questionTitle`).text(`${problemIndex + 1}.${problem[problemIndex].problemName}`)
@@ -300,7 +334,7 @@ const handleAddFillBlanks = () => {
   let ele = `
     <div class="question" id="question${problem.length}" data-type="3" data-problemIndex="${problem.length}">
       <div class="top">
-        <span class="question-title" id="questionTitle">1.请编辑问题？</span>
+        <span class="question-title" id="questionTitle">题目${problem.length+1}</span>
         <span class="must-answer" id="mustAnswer" onclick="onMustAnswerClick(${problem.length})">必答题</span>
       </div>
       <div class="bottom">
@@ -319,6 +353,14 @@ const handleAddFillBlanks = () => {
 }
 
 const fillBlanksEditFinish = (problemIndex) => {
+  for (let i = 0; i < problem[problemIndex].option.length; i++) {
+    let problemNameValue = $(`#question${problemIndex} #problemName`).val();
+    if (problemNameValue) {
+    } else {
+      alert("问题内容不能为空");
+      return;
+    }
+  }
   $(`#question${problemIndex} .bottom`).css('display', 'none')
   $(`#question${problemIndex} .bottom2`).css('display', 'inline')
   $(`#question${problemIndex} #questionTitle`).text(`${problemIndex + 1}.${problem[problemIndex].problemName}`)
@@ -331,7 +373,7 @@ const handleAddMatrix = () => {
   let ele = `
     <div class="question" id="question${problem.length}" data-type="4" data-problemIndex="${problem.length}">
       <div class="top">
-        <span class="question-title" id="questionTitle">1.请编辑问题？</span>
+        <span class="question-title" id="questionTitle">题目${problem.length+1}</span>
         <span class="must-answer" id="mustAnswer" onclick="onMustAnswerClick(${problem.length})">必答题</span>
       </div>
       <div class="bottom">
@@ -377,6 +419,30 @@ const matrixDelOption = (problemIndex, optionIndex) => {
 }
 
 const matrixEditFinish = (problemIndex) => {
+  for (let i = 0; i < problem[problemIndex].option.length; i++) {
+    let item = problem[problemIndex].option[i];
+
+    let problemNameValue = $(`#question${problemIndex} #problemName`).val();
+    let leftTitleValue = $(`#question${problemIndex} #leftTitle`).val();
+
+    if (problemNameValue) {
+    } else {
+      alert("问题内容不能为空");
+      return;
+    }
+
+    if (leftTitleValue) {
+    } else {
+      alert("左标题不能为空");
+      return;
+    }
+
+    if (item.chooseTerm) {
+    } else {
+      alert("选项文字不能为空");
+      return;
+    }
+  }
   $(`#question${problemIndex} .bottom`).css('display', 'none')
   $(`#question${problemIndex} .bottom2`).css('display', 'inline')
   $(`#question${problemIndex} #questionTitle`).text(`${problemIndex + 1}.${problem[problemIndex].problemName}`)
@@ -420,7 +486,7 @@ const handleAddGauge = () => {
   let ele = `
     <div class="question" id="question${problem.length}" data-type="5" data-problemIndex="${problem.length}">
       <div class="top">
-        <span class="question-title" id="questionTitle">1.请编辑问题？</span>
+        <span class="question-title" id="questionTitle">题目${problem.length+1}</span>
         <span class="must-answer" id="mustAnswer" onclick="onMustAnswerClick(${problem.length})">必答题</span>
       </div>
       <div class="bottom">
@@ -471,13 +537,30 @@ const gaugeDelOption = (problemIndex, optionIndex) => {
 }
 
 const gaugeEditFinish = (problemIndex) => {
+
   for (let i = 0; i < problem[problemIndex].option.length; i++) {
     let item = problem[problemIndex].option[i];
+
+    let problemNameValue = $(`#question${problemIndex} #problemName`).val();
+
+    if (problemNameValue) {
+    } else {
+      alert("问题内容不能为空");
+      return;
+    }
+
+    if (item.chooseTerm) {
+    } else {
+      alert("选项文字不能为空");
+      return;
+    }
+
     const parsedFraction = parseInt(item.fraction);
+
     if (Number.isInteger(parsedFraction)) {
     } else {
-        alert("分数设置必须为整数");
-        return;
+      alert("分数设置必须为整数");
+      return;
     }
   }
   $(`#question${problemIndex} .bottom`).css('display', 'none')
@@ -509,8 +592,6 @@ const handleModifyTitle = () => {
 
 const handlePreview = () => {
   $util.setPageParam('questionList', problem);
-  $util.setPageParam('questionnaireTitle', questionnaireTitle)
-  $util.setPageParam('questionnaireDescription', questionnaireDescription)
   location.href = "/pages/answerSheet/index.html";
 }
 

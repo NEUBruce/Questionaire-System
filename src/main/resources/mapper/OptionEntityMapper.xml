@@ -9,7 +9,7 @@
     </resultMap>
 
     <insert id="insert">
-        INSERT INTO `web_demo`.`option_info` (`id`, `choose_term`, `fraction`, `question_id`, `order`) VALUES (#{id}, #{chooseTerm}, #{fraction}, #{questionId}, #{order})
+        INSERT INTO `option_info` (`id`, `choose_term`, `fraction`, `question_id`, `order`) VALUES (#{id}, #{chooseTerm}, #{fraction}, #{questionId}, #{order})
     </insert>
     <select id="queryOptionList" resultMap="optionEntityResultMap">
         select * from option_info
