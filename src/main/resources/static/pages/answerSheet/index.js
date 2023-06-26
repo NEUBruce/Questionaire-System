@@ -1,7 +1,7 @@
+let questionList;
 onload = () => {
-
   let id = new URL(location.href).searchParams.get('id');
-  let questionList;
+
   let params = {};
   params.id = id;
   if (id != null && id !== '') {
@@ -205,3 +205,57 @@ const gaugeView = (question, problemIndex)=>{
   `)
 }
 
+function collectFormData() {
+  const answererName = document.getElementById('answerer').value;
+  const formData = {
+    answererName: answererName,
+    answers: []
+  };
+
+  questionList.forEach((item, index) => {
+    const problemIndex = index + 1;
+    const problemType = item.type;
+
+
+    if (problemType === '1') {
+      const selectedOptionValue = $(`#question${problemIndex} input[type=radio]:checked`).val();
+      const answer = {
+        problemIndex: problemIndex,
+        answerType: 'singleChoice',
+        selectedOption: selectedOptionValue
+      };
+      formData.answers.push(answer);
+    } else if (problemType === '2') {
+      const selectedOptions = $(`#question${problemIndex} input[type=checkbox]:checked`);
+      const selectedOptionValues = selectedOptions.map(function () {
+        return this.value;
+      }).get();
+
+      const answer = {
+        problemIndex: problemIndex,
+        answerType: 'multipleChoice',
+        selectedOptions: selectedOptionValues
+      };
+      console.log(selectedOptionValues);
+      formData.answers.push(answer);
+      console.log(formData);
+    } else if (problemType === '3') {
+      const inputValue = $(`#question${problemIndex} textarea`).val();
+      const answer = {
+        problemIndex: problemIndex,
+        answerType: 'blank',
+        inputValue: inputValue,
+      };
+      formData.answers.push(answer);
+
+    } else if (problemType === '4') {
+      // Logic for matrixView
+      // Modify this part according to your requirements
+    } else if (problemType === '5') {
+      // Logic for gaugeView
+      // Modify this part according to your requirements
+    }
+  });
+
+  console.log(formData);
+}
