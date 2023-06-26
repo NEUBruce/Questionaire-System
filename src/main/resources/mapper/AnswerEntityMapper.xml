@@ -8,6 +8,9 @@
         <result column="question_index" property="questionIndex"/>
         <result column="record_id" property="recordId"/>
     </resultMap>
+    <insert id="insert">
+        insert into answer_info values (#{id}, #{chooseTerm}, #{recordId}, #{questionIndex}, #{type}, #{row}, #{fraction})
+    </insert>
     <select id="queryAnswerEntityList" resultMap="answerEntityResultMap">
         select * from answer_info
         <where>

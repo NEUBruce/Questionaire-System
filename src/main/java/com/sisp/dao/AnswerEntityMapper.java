@@ -10,4 +10,6 @@ import java.util.List;
 @Mapper
 public interface AnswerEntityMapper {
     List<AnswerEntity> queryAnswerEntityList(AnswerEntity answerEntity);
+
+    int insert(AnswerEntity answerEntity);
 }
