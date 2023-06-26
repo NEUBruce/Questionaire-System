@@ -10,11 +10,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * 问卷controller
+ */
 @RestController
 public class QuestionController {
     @Autowired
     QuestionService questionService;
 
+    /**
+     * 添加问题
+     * @param questionEntity
+     * @return
+     */
     @RequestMapping(value = "/addQuestion", method = RequestMethod.POST, headers = "Accept=application/json")
     public HttpResponseEntity addQuestion(@RequestBody QuestionEntity questionEntity) {
         HttpResponseEntity httpResponse = new HttpResponseEntity();

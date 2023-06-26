@@ -2,6 +2,9 @@ package com.sisp.entity;
 
 import java.util.Date;
 
+/**
+ * 答题记录实体类
+ */
 public class RecordEntity {
     private String id;
     private String questionnaireName;

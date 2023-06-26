@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * 问卷的业务逻辑层
+ */
 @Service
 public class QuestionnaireService {
 

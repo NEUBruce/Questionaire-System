@@ -12,11 +12,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * 问卷controller
+ */
 @RestController
 public class QuestionnaireController {
     @Autowired
     private QuestionnaireService questionnaireService;
 
+    /**
+     * 添加问卷
+     * @param questionnaireEntity
+     * @return
+     */
     @RequestMapping(value = "/addQuestionnaire", method = RequestMethod.POST, headers = "Accept=application/json")
     public HttpResponseEntity addQuestionnaire(@RequestBody QuestionnaireEntity questionnaireEntity) {
         HttpResponseEntity httpResponse = new HttpResponseEntity();
@@ -43,7 +51,11 @@ public class QuestionnaireController {
     }
 
 
-    // 查询用户列表
+    /**
+     * 查询问卷列表
+     * @param questionnaireEntity
+     * @return
+     */
     @RequestMapping(value = "/queryQuestionnaireList", method = RequestMethod.POST, headers = "Accept=application/json")
     public HttpResponseEntity queryQuestionnaireList(@RequestBody QuestionnaireEntity questionnaireEntity) {
         HttpResponseEntity httpResponse = new HttpResponseEntity();
@@ -69,7 +81,11 @@ public class QuestionnaireController {
 
     }
 
-    // 修改问卷
+    /**
+     * 修改问卷
+     * @param questionnaireEntity
+     * @return
+     */
     @RequestMapping(value = "/modifyQuestionnaireInfo", method = RequestMethod.POST, headers = "Accept=application/json")
     public HttpResponseEntity modifyQuestionnaire(@RequestBody QuestionnaireEntity questionnaireEntity) {
         HttpResponseEntity httpResponse = new HttpResponseEntity();
@@ -95,7 +111,11 @@ public class QuestionnaireController {
 
     }
 
-    // 删除问卷
+    /**
+     * 删除问卷
+     * @param questionnaireEntity
+     * @return
+     */
     @RequestMapping(value = "/deleteQuestionnaire", method = RequestMethod.POST, headers = "Accept=application/json")
     public HttpResponseEntity deleteQuestionnaire(@RequestBody QuestionnaireEntity questionnaireEntity) {
         HttpResponseEntity httpResponse = new HttpResponseEntity();

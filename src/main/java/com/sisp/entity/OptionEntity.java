@@ -1,5 +1,8 @@
 package com.sisp.entity;
 
+/**
+ * 选项实体，存储题目的选项
+ */
 public class OptionEntity {
     private String id;
     private String chooseTerm;
