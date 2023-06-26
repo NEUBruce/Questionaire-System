@@ -70,6 +70,7 @@ public class QuestionnaireService {
      * @return
      */
     public int deleteQuestionnaire(QuestionnaireEntity questionnaire) {
+
         return questionnaireEntityMapper.deleteQuestionnaire(questionnaire);
     }
 }
