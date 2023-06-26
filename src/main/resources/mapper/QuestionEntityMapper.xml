@@ -6,6 +6,6 @@
 
 
     <insert id="insert">
-        INSERT INTO question_info (`id`, `problem_name`, `type`, `must_answer`, `left_title`) VALUES (#{id}, #{problemName}, #{type}, #{mustAnswer}, #{leftTitle})
+        INSERT INTO question_info (`id`, `problem_name`, `type`, `must_answer`, `left_title`, `questionnaire_id`, `order`) VALUES (#{id}, #{problemName}, #{type}, #{mustAnswer}, #{leftTitle}, #{questionnaireId}, #{order})
     </insert>
 </mapper>

@@ -35,7 +35,7 @@ const onAddQuestion = (type) => {
       break;
   }
   $('#problem').append(ele)
-  problem.push({ problemName: '', mustAnswer: true, option: [{}], type: type })
+  problem.push({ problemName: '', mustAnswer: true, option: [{}], type: type, questionnaireId: $util.getPageParam('questionnaire').id } )
 
   $(".question").hover(() => {
     let problemIndex = $('.question:hover').attr('data-problemIndex')
@@ -502,9 +502,7 @@ const handleModifyTitle = () => {
 const handleEditFinish = () => {
 
   for (let i = 0; i < problem.length; i++) {
-    for (let j = 0; j < problem[i].option.length; j++) {
-      problem[i].option[j].order = j;
-    }
+    problem[i].order=i;
     $.ajax({
       url: API_BASE_URL + '/addQuestion',
       type: "POST",
@@ -512,7 +510,7 @@ const handleEditFinish = () => {
       dataType: "json",
       contentType: "application/json",
       success(res) {
-        console.log("ok")
+        location.href="/pages/questionnaire/index.html"
       }
     })
   }
