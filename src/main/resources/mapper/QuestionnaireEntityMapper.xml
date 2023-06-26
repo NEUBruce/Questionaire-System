@@ -20,16 +20,16 @@
     <update id="updateByPrimaryKeySelective">
         update questionnaire_info
         <set>
-            <if test="questionnaireName != null">questionnaire_name = #{questionnaireName}</if>
-            <if test="questionnaireDescription != null">questionnaire_description = #{questionnaireDescription}</if>
-            <if test="startTime != null">start_time = #{startTime}</if>
-            <if test="stopTime != null">stop_time = #{stopTime}</if>
-            <if test="lastUpdatedBy != null">last_updated_by = #{lastUpdatedBy}</if>
-            <if test="type != null">type = #{type}</if>
-            <if test="status != null">status = #{status}</if>
+            <if test="questionnaireName != null">questionnaire_name = #{questionnaireName},</if>
+            <if test="questionnaireDescription != null">questionnaire_description = #{questionnaireDescription},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="stopTime != null">stop_time = #{stopTime},</if>
+            <if test="lastUpdatedBy != null">last_updated_by = #{lastUpdatedBy},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="status != null">status = #{status},</if>
             <if test="lastUpdateDate != null">last_update_date = #{lastUpdateDate}</if>
-        </set>
-        where id = #{id}
+        </set>where id = #{id}
+
     </update>
     <delete id="deleteQuestionnaire">
         update questionnaire_info set status = '3' where id = #{id}
@@ -39,6 +39,7 @@
         <where>
             <if test="projectId != null and projectId != ''">project_id = #{projectId} and</if>
             <if test="id != null and id != ''">id = #{id} and</if>
+            <if test="createdBy != null and createdBy != ''">created_by = #{createdBy} and</if>
             status != '3'
         </where>
     </select>
