@@ -1,6 +1,7 @@
 package com.sisp.entity;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 问卷实体类
@@ -18,6 +19,7 @@ public class QuestionnaireEntity {
     private Date startTime;
     private Date stopTime;
     private String type;
+    private List<QuestionEntity> questionEntityList;
 
     public String getId() {
         return id;
@@ -113,5 +115,13 @@ public class QuestionnaireEntity {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public List<QuestionEntity> getQuestionEntityList() {
+        return questionEntityList;
+    }
+
+    public void setQuestionEntityList(List<QuestionEntity> questionEntityList) {
+        this.questionEntityList = questionEntityList;
     }
 }

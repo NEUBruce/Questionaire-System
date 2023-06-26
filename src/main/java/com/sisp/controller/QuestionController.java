@@ -19,8 +19,8 @@ public class QuestionController {
     public HttpResponseEntity addQuestion(@RequestBody QuestionEntity questionEntity) {
         HttpResponseEntity httpResponse = new HttpResponseEntity();
         try {
-            int result = questionService.insert(questionEntity);
-            if (result == 0) {
+            QuestionEntity result = questionService.insert(questionEntity);
+            if (result == null) {
                 httpResponse.setCode("0");
                 httpResponse.setData(0);
                 httpResponse.setMessage("创建失败!");

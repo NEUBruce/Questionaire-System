@@ -18,22 +18,25 @@ public class QuestionService {
     @Autowired
     private OptionEntityMapper optionEntityMapper;
 
-    public int insert(QuestionEntity questionEntity) {
+    public QuestionEntity insert(QuestionEntity questionEntity) {
         questionEntity.setId(UUIDUtil.getOneUUID());
         int res = questionEntityMapper.insert(questionEntity);
         List<OptionEntity> optionEntities = questionEntity.getOption();
         if (optionEntities == null || questionEntity.getType().equals("3")) {
-            return res;
+            return questionEntity;
         }
-        for (OptionEntity option : optionEntities) {
+        for (int i = 0; i < optionEntities.size(); i++) {
+            OptionEntity option = optionEntities.get(i);
+            option.setOrder(i);
             option.setId(UUIDUtil.getOneUUID());
             option.setQuestionId(questionEntity.getId());
-            int tmp = optionEntityMapper.insert(option);
-            if (tmp == 0) {
-                res = 0;
-            }
+            optionEntityMapper.insert(option);
         }
 
-        return res;
+        if (res == 0) {
+            return null;
+        }else {
+            return questionEntity;
+        }
     }
 }

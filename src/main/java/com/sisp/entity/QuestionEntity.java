@@ -9,6 +9,9 @@ public class QuestionEntity {
     private String leftTitle;
     private boolean mustAnswer;
     private List<OptionEntity> option;
+    private String questionnaireId;
+
+    private int Order;
 
     public String getId() {
         return id;
@@ -56,5 +59,21 @@ public class QuestionEntity {
 
     public void setOption(List<OptionEntity> option) {
         this.option = option;
+    }
+
+    public String getQuestionnaireId() {
+        return questionnaireId;
+    }
+
+    public void setQuestionnaireId(String questionnaireId) {
+        this.questionnaireId = questionnaireId;
+    }
+
+    public int getOrder() {
+        return Order;
+    }
+
+    public void setOrder(int order) {
+        Order = order;
     }
 }
