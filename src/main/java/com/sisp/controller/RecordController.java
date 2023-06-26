@@ -13,11 +13,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * 答题记录Record controller
+ */
 @RestController
 public class RecordController {
     @Autowired
     RecordService recordService;
 
+    /**
+     * 添加记录
+     * @param recordEntity
+     * @return
+     */
     @RequestMapping(value = "/addRecord", method = RequestMethod.POST, headers = "Accept=application/json")
     public HttpResponseEntity addQuestion(@RequestBody RecordEntity recordEntity) {
         HttpResponseEntity httpResponse = new HttpResponseEntity();
@@ -43,6 +51,11 @@ public class RecordController {
 
     }
 
+    /**
+     * 查询记录列表
+     * @param recordEntity
+     * @return
+     */
     @RequestMapping(value = "/queryRecordList", method = RequestMethod.POST, headers = "Accept=application/json")
     public HttpResponseEntity queryQuestionList(@RequestBody RecordEntity recordEntity) {
         HttpResponseEntity httpResponse = new HttpResponseEntity();

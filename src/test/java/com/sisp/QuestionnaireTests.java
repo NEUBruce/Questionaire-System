@@ -1,6 +1,5 @@
 package com.sisp;
 
-import com.sisp.controller.ProjectController;
 import com.sisp.controller.QuestionnaireController;
 import com.sisp.entity.QuestionnaireEntity;
 import jakarta.annotation.Resource;
@@ -12,7 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class QuestionnaireTest {
+public class QuestionnaireTests {
     @Resource
     private QuestionnaireController questionnaireController;
     Logger log = Logger.getLogger(ProjectsTests.class);

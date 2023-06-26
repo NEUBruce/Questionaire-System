@@ -2,6 +2,9 @@ package com.sisp.entity;
 
 import java.util.List;
 
+/**
+ * 题目实体，用于存储问卷的题目
+ */
 public class QuestionEntity {
     private String id;
     private String problemName;

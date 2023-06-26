@@ -20,7 +20,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    // 用户登录
+    /**
+     * 用户登录
+     * @param userEntity
+     * @return
+     */
     @RequestMapping(value = "/userLogin", method = RequestMethod.POST, headers = "Accept=application/json")
     public HttpResponseEntity login(@RequestBody UserEntity userEntity) {
         HttpResponseEntity httpResponse = new HttpResponseEntity();
@@ -47,7 +51,11 @@ public class UserController {
 
     }
 
-    // 查询用户列表
+    /**
+     * 查询用户列表
+     * @param userEntity
+     * @return
+     */
     @RequestMapping(value = "/queryUserList", method = RequestMethod.POST, headers = "Accept=application/json")
     public HttpResponseEntity queryUserList(@RequestBody UserEntity userEntity) {
         HttpResponseEntity httpResponse = new HttpResponseEntity();
@@ -75,9 +83,11 @@ public class UserController {
     }
 
 
-
-
-    // 添加用户
+    /**
+     * 添加用户
+     * @param userEntity
+     * @return
+     */
     @RequestMapping(value = "/addUser", method = RequestMethod.POST, headers = "Accept=application/json")
     public HttpResponseEntity addUser(@RequestBody UserEntity userEntity) {
         HttpResponseEntity httpResponse = new HttpResponseEntity();
@@ -103,7 +113,11 @@ public class UserController {
 
     }
 
-    // 删除用户
+    /**
+     * 删除用户
+     * @param userEntity
+     * @return
+     */
     @RequestMapping(value = "/deleteUserinfo", method = RequestMethod.POST, headers = "Accept=application/json")
     public HttpResponseEntity deleteUser(@RequestBody UserEntity userEntity) {
         HttpResponseEntity httpResponse = new HttpResponseEntity();
@@ -129,7 +143,11 @@ public class UserController {
 
     }
 
-    // 修改用户
+    /**
+     * 修改用户
+     * @param userEntity
+     * @return
+     */
     @RequestMapping(value = "/modifyUserInfo", method = RequestMethod.POST, headers = "Accept=application/json")
     public HttpResponseEntity modifyUser(@RequestBody UserEntity userEntity) {
         HttpResponseEntity httpResponse = new HttpResponseEntity();

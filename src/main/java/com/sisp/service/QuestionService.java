@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * 问题业务逻辑层
+ */
 @Service
 public class QuestionService {
     @Autowired
@@ -18,6 +21,11 @@ public class QuestionService {
     @Autowired
     private OptionEntityMapper optionEntityMapper;
 
+    /**
+     * 添加新的问题
+     * @param questionEntity
+     * @return
+     */
     public QuestionEntity insert(QuestionEntity questionEntity) {
         questionEntity.setId(UUIDUtil.getOneUUID());
         int res = questionEntityMapper.insert(questionEntity);
@@ -40,6 +48,11 @@ public class QuestionService {
         }
     }
 
+    /**
+     * 获取问题列表
+     * @param questionEntity
+     * @return
+     */
     public List<QuestionEntity> queryQuestionEntityList(QuestionEntity questionEntity) {
         List<QuestionEntity> questionEntityList = questionEntityMapper.queryQuestionList(questionEntity);
         for (QuestionEntity question : questionEntityList) {
