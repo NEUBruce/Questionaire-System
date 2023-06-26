@@ -42,9 +42,10 @@ const fetchProjectInfo = (id) => {
             for (let i = 0; i < res.data.length; i++) {
                 let item = res.data[i];
                 const formattedCreationDate = new Date(item.creationDate).toLocaleString();
+                const index=i+1;
                 $('#content').append(`
             <tr>
-               <td>${item.id}</td>
+               <td>${index}</td>
                <td>${item.questionnaireName}</td>
                <td>${formattedCreationDate}</td>
                <td>
