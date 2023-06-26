@@ -117,14 +117,11 @@ const blankView = (question, index)=>{
   }else {
     $('#question' + index + " #mustAnswer").text('非必答题')
   }
-  for (let i = 0; i < question.option.length; i++) {
-    let option = question.option[i];
-    $('#question' + index + " .bottom ").append(`
-       <div style="border: 1px solid #CCCCCC; width: 50%; height: 70px;">
-            <textarea class="form-control" id="blankContent" placeholder="请输入答案" rows="4"></textarea>
-        </div>
-    `)
-  }
+  $('#question' + index + " .bottom ").append(`
+     <div style="border: 1px solid #CCCCCC; width: 50%; height: 70px;">
+          <textarea class="form-control" id="blankContent" placeholder="请输入答案" rows="4"></textarea>
+      </div>
+  `)
 }
 
 const matrixView = (question, problemIndex)=>{
