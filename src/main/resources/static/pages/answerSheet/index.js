@@ -1,4 +1,5 @@
 onload = () => {
+  let questionList = $util.getPageParam('questionList');
   $('#problem').append(`
     <div class="question" id="question1" data-type="1" data-problemIndex="1">
       <div class="top">

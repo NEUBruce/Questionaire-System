@@ -498,7 +498,10 @@ const handleModifyTitle = () => {
   $('#questionnaireDescription').val(questionnaireDescription)
 }
 
-
+const handlePreview = () => {
+  $util.setPageParam('questionList', problem);
+  location.href = "/pages/answerSheet/index.html";
+}
 
 
 const handleEditFinish = () => {

@@ -39,4 +39,15 @@ public class QuestionService {
             return questionEntity;
         }
     }
+
+    public List<QuestionEntity> queryQuestionEntityList(QuestionEntity questionEntity) {
+        List<QuestionEntity> questionEntityList = questionEntityMapper.queryQuestionList(questionEntity);
+        for (QuestionEntity question : questionEntityList) {
+            OptionEntity option = new OptionEntity();
+            option.setQuestionId(question.getId());
+            question.setOption(optionEntityMapper.queryOptionList(option));
+        }
+
+        return questionEntityList;
+    }
 }

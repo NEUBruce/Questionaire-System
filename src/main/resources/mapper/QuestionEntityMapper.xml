@@ -3,9 +3,32 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sisp.dao.QuestionEntityMapper">
+    <resultMap id="questionEntityMap" type="com.sisp.entity.QuestionEntity">
+        <result column="problem_name" property="problemName"/>
+        <result column="must_answer" property="mustAnswer"/>
+        <result column="left_title" property="leftTitle"/>
+        <result column="questionnaire_id" property="questionnaireId"/>
+    </resultMap>
 
 
     <insert id="insert">
         INSERT INTO question_info (`id`, `problem_name`, `type`, `must_answer`, `left_title`, `questionnaire_id`, `order`) VALUES (#{id}, #{problemName}, #{type}, #{mustAnswer}, #{leftTitle}, #{questionnaireId}, #{order})
     </insert>
+    <select id="queryQuestionList" resultMap="questionEntityMap">
+        select * from question_info
+        <where>
+            <if test="id != null and id != ''">
+                id = #{id} and
+            </if>
+            <if test="type != null and type != ''">
+                type = #{type}
+            </if>
+            <if test="questionnaireId != null and questionnaireId != ''">
+                questionnaire_id = #{questionnaireId}
+            </if>
+        </where>
+        order by `order`
+
+    </select>
+
 </mapper>

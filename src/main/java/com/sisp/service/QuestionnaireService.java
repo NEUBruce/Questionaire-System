@@ -1,7 +1,9 @@
 package com.sisp.service;
 
 import com.sisp.common.utils.UUIDUtil;
+import com.sisp.dao.QuestionEntityMapper;
 import com.sisp.dao.QuestionnaireEntityMapper;
+import com.sisp.entity.QuestionEntity;
 import com.sisp.entity.QuestionnaireEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,8 @@ public class QuestionnaireService {
 
     @Autowired
     private QuestionnaireEntityMapper questionnaireEntityMapper;
+    @Autowired
+    private QuestionService questionService;
 
     /**
      * 添加问卷
@@ -41,7 +45,14 @@ public class QuestionnaireService {
      */
     public List<QuestionnaireEntity> queryQuestionnaireList(QuestionnaireEntity questionnaireEntity) {
 
-        return questionnaireEntityMapper.queryQuestionnaireList(questionnaireEntity);
+        List<QuestionnaireEntity> questionnaireEntityList = questionnaireEntityMapper.queryQuestionnaireList(questionnaireEntity);
+        for (QuestionnaireEntity questionnaire : questionnaireEntityList) {
+            QuestionEntity questionEntity = new QuestionEntity();
+            questionEntity.setQuestionnaireId(questionnaire.getId());
+            questionnaire.setQuestionEntityList(questionService.queryQuestionEntityList(questionEntity));
+        }
+
+        return questionnaireEntityList;
     }
 
     /**
