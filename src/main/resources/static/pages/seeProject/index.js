@@ -1,8 +1,7 @@
 onload = () => {
     $('#headerDivB').text('项目详情')
-
+    $('#headerUsername').text($util.getItem('userInfo').username)
     let projectId = $util.getPageParam('seeProject')
-    console.log(projectId, 'projectId')
     fetchProjectInfo(projectId)
 }
 

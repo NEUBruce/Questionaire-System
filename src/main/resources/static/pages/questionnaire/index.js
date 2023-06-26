@@ -46,9 +46,9 @@ const fetchProjectList = () => {
             for (let i = 0; i < res.data.length; i++) {
                 let item = res.data[i];
                 if ($('#div-content' + item.id).html() === '') {
-                    $('#div-content'+item.id).append(`
+                    $('#div-content' + item.id).append(`
                         <div class="list-footer">
-                            <div>无调查问卷或问卷已过期</div>
+                            <div>暂无调查问卷或问卷已过期</div>
                         </div>
                 `);
                 }
@@ -65,7 +65,9 @@ const fetchProjectList = () => {
         success(res) {
             for (let i = 0; i < res.data.length; i++) {
                 let item = res.data[i];
-                $('#div-content'+item.projectId).html('')
+                if ($('#div-content' + item.projectId).find('.list-footer').length) {
+                    $('#div-content' + item.projectId).html('')
+                }
                 $('#div-content' + item.projectId).append(`
               <div class="questionnaire-name">问卷名称 : ${item.questionnaireName}</div>
         `)
