@@ -247,12 +247,22 @@ function collectFormData() {
             formData.answers.push(answer);
         } else if (problemType === '4') {
             const selectedOptionValues = [];
-            questionList.forEach((_, optionIndex) => {
-                const selectedOptionValue = $(`#question${problemIndex} input[name="radio${optionIndex}"]:checked`).val();
+
+            console.log('leftTitle:', questionList[problemIndex - 1].leftTitle);
+            console.log('typeof leftTitle:', typeof questionList[problemIndex - 1].leftTitle);
+
+            questionList[problemIndex - 1].option.forEach((_, optionIndex) => {
+                let selectedOptionValue = '';
+                questionList[problemIndex - 1].leftTitle.split(',').forEach(() => {
+                    selectedOptionValue = $(`#question${problemIndex} input[name="matrx${problemIndex}radio${optionIndex}"]:checked`).val();
+                    console.log(selectedOptionValue);
+
+                });
                 if (selectedOptionValue) {
                     selectedOptionValues.push(selectedOptionValue);
                 }
-            });
+            })
+
 
             const answer = {
                 problemIndex: problemIndex,
@@ -260,10 +270,14 @@ function collectFormData() {
                 selectedOptions: selectedOptionValues,
             };
             formData.answers.push(answer);
-            console.log(formData);
         } else if (problemType === '5') {
-            // Logic for gaugeView
-            // Modify this part according to your requirements
+            const selectedOptionValue = $(`#question${problemIndex} input[type=radio]:checked`).val();
+            const answer = {
+                problemIndex: problemIndex,
+                answerType: 'gauge',
+                selectedOption: selectedOptionValue
+            };
+            formData.answers.push(answer);
         }
     });
 
