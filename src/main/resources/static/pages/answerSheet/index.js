@@ -16,14 +16,14 @@ onload = () => {
         console.log(questionnaire);
 
         $('.questionnaire-title').text(questionnaire.questionnaireName)
-        $('.questionnaire-description').text(questionnaire.questionnaireDescription)
+        $('.questionnaire-description').text("用途: "+questionnaire.questionnaireDescription)
         questionList = questionnaire.questionEntityList;
         showQuestionnaire(questionList)
       }
     })
   }else {
     $('.questionnaire-title').text($util.getPageParam('questionnaireTitle'))
-    $('.questionnaire-description').text($util.getPageParam('questionnaireDescription'))
+    $('.questionnaire-description').text("用途:" + $util.getPageParam('questionnaireDescription'))
     questionList = $util.getPageParam('questionList');
     showQuestionnaire(questionList)
   }

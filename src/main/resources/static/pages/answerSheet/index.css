@@ -46,3 +46,24 @@ body {
 .btn {
   padding: 6px 40px !important;
 }
+
+h4{
+  text-align: right;
+}
+
+.answerer-input {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.answerer-input label {
+  margin-right: 10px;
+}
+
+.answerer-input input[type="text"] {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
