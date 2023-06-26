@@ -68,7 +68,7 @@ const singleChoiceView = (question, index)=>{
     $('#question' + index + " .bottom ").append(`
         <div style="display: flex; align-items: center; margin-bottom: 3px;">
           <label class="radio-inline">
-            <input type="radio" name="choice${index}">${option.chooseTerm ? option.chooseTerm : ''}
+            <input type="radio" name="choice${index}" value="${i}">${option.chooseTerm ? option.chooseTerm : ''}
           </label>
         </div>
     `)
