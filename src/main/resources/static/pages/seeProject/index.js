@@ -48,7 +48,7 @@ const fetchProjectInfo = (id) => {
                <td>${item.questionnaireName}</td>
                <td>${formattedCreationDate}</td>
                <td>
-               <button type="button" class="btn btn-link" onclick="">预览</button>
+               <button type="button" class="btn btn-link" onclick="onPreview('${item.id}')">预览</button>
                <button type="button" class="btn btn-link" onclick="">发布</button>
                <button type="button" class="btn btn-link" onclick="onDelQuestionnaire('${item.id}')">删除</button>
                <button type="button" class="btn btn-link" onclick="">统计</button>
@@ -61,6 +61,33 @@ const fetchProjectInfo = (id) => {
     })
 }
 
+const onPreview = (id)=>{
+
+    let params = {
+        id: id
+    }
+    console.log(params);
+    $.ajax({
+        url: API_BASE_URL + '/queryQuestionnaireList',
+        type: "POST",
+        data: JSON.stringify(params),
+        dataType: "json",
+        contentType: "application/json",
+        success(res) {
+            let questionnaire = res.data[0];
+            if (res.code === '666') {
+                $util.setPageParam('questionList', questionnaire.questionEntityList)
+                $util.setPageParam('questionnaireTitle', questionnaire.questionnaireName)
+                $util.setPageParam('questionnaireDescription', questionnaire.questionnaireDescription)
+                location.href = '/pages/answerSheet/index.html'
+            }
+
+        }
+    })
+
+
+
+}
 
 const onDelQuestionnaire = (id) => {
     let state = confirm("确认删除该问卷吗？")

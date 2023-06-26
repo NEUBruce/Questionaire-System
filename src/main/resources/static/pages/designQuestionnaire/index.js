@@ -224,7 +224,7 @@ const singleChoiceEditFinish = (problemIndex) => {
     $(`#question${problemIndex} .bottom2`).append(`
       <div style="display: flex; align-items: center;">
         <label class="radio-inline">
-          <input type="radio">${item.chooseTerm ? item.chooseTerm : ''}
+          <input type="radio" name="choice${problemIndex}">${item.chooseTerm ? item.chooseTerm : ''}
         </label>
       </div>
     `)
