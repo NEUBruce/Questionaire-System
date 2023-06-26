@@ -1,6 +1,6 @@
 onload = () => {
-    $('#headerDivB').text('项目详情')
     $('#headerUsername').text($util.getItem('userInfo').username)
+    $('#headerDivB').text('项目详情')
     let projectId = $util.getPageParam('seeProject')
     fetchProjectInfo(projectId)
 }
@@ -84,4 +84,8 @@ const onDelQuestionnaire = (id) => {
         })
     }
 
+}
+
+function redirectToPage(url) {
+    window.location.href = url;
 }
