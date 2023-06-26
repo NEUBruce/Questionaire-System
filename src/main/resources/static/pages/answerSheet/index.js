@@ -95,7 +95,7 @@ const multipleChoiceView = (question, index)=>{
     $('#question' + index + " .bottom ").append(`
         <div style="display: flex; align-items: center; margin-bottom: 3px;">
           <label class="checkbox-inline">
-            <input type="checkbox" name="chooseTerm${option.order}">${option.chooseTerm ? option.chooseTerm : ''}
+            <input type="checkbox" name="chooseTerm${option.order}" value="${i}">${option.chooseTerm ? option.chooseTerm : ''}
           </label>
         </div>
     `)
