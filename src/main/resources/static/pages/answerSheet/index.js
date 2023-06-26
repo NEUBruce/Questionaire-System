@@ -157,10 +157,10 @@ const matrixView = (question, problemIndex) => {
         <td>${item}</td>
       </tr>
     `)
-        question.option.map(() => {
+        question.option.map((item, radioIndex) => {
             $(`#question${problemIndex} .bottom tbody .tr${index}`).append(`
         <td>
-          <input type="radio" name="radio${index}">
+          <input type="radio" name="radio${index}" value="${radioIndex}">
         </td>
       `)
         })
@@ -191,11 +191,11 @@ const gaugeView = (question, problemIndex) => {
     $(`#question${problemIndex} .bottom`).append(`
     <div>${question.option[0].chooseTerm}</div>
   `)
-    question.option.map(item => {
+    question.option.map((item, index) => {
         $(`#question${problemIndex} .bottom`).append(`
       <div>
         <label class="radio-inline">
-          <input type="radio" name="fraction" />${item.fraction}
+          <input type="radio" name="fraction" value="${index}"/>${item.fraction}
         </label>
       </div>
     `)
