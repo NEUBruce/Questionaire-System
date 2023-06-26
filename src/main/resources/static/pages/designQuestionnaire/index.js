@@ -592,6 +592,8 @@ const handleModifyTitle = () => {
 
 const handlePreview = () => {
   $util.setPageParam('questionList', problem);
+  $util.setPageParam('questionnaireTitle', questionnaireTitle)
+  $util.setPageParam('questionnaireDescription', questionnaireDescription)
   location.href = "/pages/answerSheet/index.html";
 }
 

@@ -120,7 +120,9 @@ const blankView = (question, index)=>{
   for (let i = 0; i < question.option.length; i++) {
     let option = question.option[i];
     $('#question' + index + " .bottom ").append(`
-       <div style="border: 1px solid #CCCCCC; width: 50%; height: 70px;"></div>
+       <div style="border: 1px solid #CCCCCC; width: 50%; height: 70px;">
+            <textarea class="form-control" id="blankContent" placeholder="请输入答案" rows="4"></textarea>
+        </div>
     `)
   }
 }
