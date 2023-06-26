@@ -1,7 +1,6 @@
 let questionList;
 onload = () => {
   let id = new URL(location.href).searchParams.get('id');
-
   let params = {};
   params.id = id;
   if (id != null && id !== '') {
