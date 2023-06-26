@@ -471,6 +471,15 @@ const gaugeDelOption = (problemIndex, optionIndex) => {
 }
 
 const gaugeEditFinish = (problemIndex) => {
+  for (let i = 0; i < problem[problemIndex].option.length; i++) {
+    let item = problem[problemIndex].option[i];
+    const parsedFraction = parseInt(item.fraction);
+    if (Number.isInteger(parsedFraction)) {
+    } else {
+        alert("分数设置必须为整数");
+        return;
+    }
+  }
   $(`#question${problemIndex} .bottom`).css('display', 'none')
   $(`#question${problemIndex} .bottom2`).css('display', 'flex')
   $(`#question${problemIndex} #questionTitle`).text(`${problemIndex + 1}.${problem[problemIndex].problemName}`)

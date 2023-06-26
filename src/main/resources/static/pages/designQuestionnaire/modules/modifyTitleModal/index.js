@@ -11,7 +11,7 @@ const handleConfirmModify = () => {
   {
     $('.questionnaire-description > span').text(questionnaireDescription)
   }else{
-    alert('问卷说明不能为空');
+    alert('问卷描述不能为空');
     location.reload();
   }
   let params= {
