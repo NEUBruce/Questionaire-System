@@ -50,7 +50,7 @@ const fetchProjectInfo = (id) => {
                <td>${formattedCreationDate}</td>
                <td>
                <button type="button" class="btn btn-link" onclick="onPreview('${item.id}')">预览</button>
-               <button type="button" class="btn btn-link" onclick="">发布</button>
+               <button type="button" class="btn btn-link" onclick="onRelease('${item.id}')">发布</button>
                <button type="button" class="btn btn-link" onclick="onDelQuestionnaire('${item.id}')">删除</button>
                <button type="button" class="btn btn-link" onclick="">统计</button>
                </td>
@@ -116,4 +116,9 @@ const onDelQuestionnaire = (id) => {
 
 function redirectToPage(url) {
     window.location.href = url;
+}
+
+const onRelease = (id) => {
+    alert("成功发布该项目!\n项目链接为:" + "http://127.0.0.1:8085/pages/answerSheet/index.html?id=" + id);
+
 }

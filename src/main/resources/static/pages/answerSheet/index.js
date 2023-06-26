@@ -1,8 +1,36 @@
 onload = () => {
 
-  $('.questionnaire-title').text($util.getPageParam('questionnaireTitle'))
-  $('.questionnaire-description').text($util.getPageParam('questionnaireDescription'))
-  let questionList = $util.getPageParam('questionList');
+  let id = new URL(location.href).searchParams.get('id');
+  let questionList;
+  let params = {};
+  params.id = id;
+  if (id != null && id !== '') {
+    $.ajax({
+      url: API_BASE_URL + '/queryQuestionnaireList',
+      type: "POST",
+      data: JSON.stringify(params),
+      dataType: "json",
+      contentType: "application/json",
+      success(res) {
+        let questionnaire = res.data[0];
+        console.log(questionnaire);
+
+        $('.questionnaire-title').text(questionnaire.questionnaireName)
+        $('.questionnaire-description').text(questionnaire.questionnaireDescription)
+        questionList = questionnaire.questionEntityList;
+        showQuestionnaire(questionList)
+      }
+    })
+  }else {
+    $('.questionnaire-title').text($util.getPageParam('questionnaireTitle'))
+    $('.questionnaire-description').text($util.getPageParam('questionnaireDescription'))
+    questionList = $util.getPageParam('questionList');
+    showQuestionnaire(questionList)
+  }
+
+}
+
+const showQuestionnaire = (questionList)=>{
   for (let i = 0; i < questionList.length; i++) {
     if (questionList[i].type == '1') {
       singleChoiceView(questionList[i], i + 1);
