@@ -24,23 +24,21 @@ const fetchProjectList = () => {
             for (let i = 0; i < res.data.length; i++) {
                 let item = res.data[i];
                 $('#content').append(`
-          <div class="list">
-            <div class="list-header">
-              <div>${item.projectName}</div>
-              <div>
-                <button type="button" class="btn btn-link" onclick="onCreateQuestionnaire('${i}')">创建问卷</button>
-                <button type="button" class="btn btn-link" onclick="onSeeProject('${item.id}')">查看</button>
-                <button type="button" class="btn btn-link" onclick="onEditProject('${item.id}')">编辑</button>
-                <button type="button" class="btn btn-link" onclick="onDelProject('${item.id}')">删除</button>
-                <button type="button" class="btn btn-link" onclick="onStatisticsProject('${item.id}')">统计</button>
-              </div>
-            </div>
-            <div id="div-content${item.id}"></div>
- 
-          </div>
-        `)
-
-
+                  <div class="list">
+                    <div class="list-header">
+                      <div>${item.projectName}</div>
+                      <div>
+                        <button type="button" class="btn btn-link" onclick="onCreateQuestionnaire('${i}')">创建问卷</button>
+                        <button type="button" class="btn btn-link" onclick="onSeeProject('${item.id}')">查看</button>
+                        <button type="button" class="btn btn-link" onclick="onEditProject('${item.id}')">编辑</button>
+                        <button type="button" class="btn btn-link" onclick="onDelProject('${item.id}')">删除</button>
+                        <button type="button" class="btn btn-link" onclick="onStatisticsProject('${item.id}')">统计</button>
+                      </div>
+                    </div>
+                    <div id="div-content${item.id}"></div>
+         
+                  </div>
+        `       )
             }
 
             for (let i = 0; i < res.data.length; i++) {
@@ -63,6 +61,7 @@ const fetchProjectList = () => {
         dataType: "json",
         contentType: "application/json",
         success(res) {
+            console.log(res.data)
             for (let i = 0; i < res.data.length; i++) {
                 let item = res.data[i];
                 if ($('#div-content' + item.projectId).find('.list-footer').length) {

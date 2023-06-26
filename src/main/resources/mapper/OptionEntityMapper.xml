@@ -3,9 +3,21 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sisp.dao.OptionEntityMapper">
-
+    <resultMap id="optionEntityResultMap" type="com.sisp.entity.OptionEntity">
+        <result column="choose_term" property="chooseTerm"/>
+        <result column="question_id" property="questionId"/>
+    </resultMap>
 
     <insert id="insert">
-        INSERT INTO `web_demo`.`option_info` (`id`, `chooseTerm`, `fraction`, `question_id`, `order`) VALUES (#{id}, #{chooseTerm}, #{fraction}, #{questionId}, #{order})
+        INSERT INTO `web_demo`.`option_info` (`id`, `choose_term`, `fraction`, `question_id`, `order`) VALUES (#{id}, #{chooseTerm}, #{fraction}, #{questionId}, #{order})
     </insert>
+    <select id="queryOptionList" resultMap="optionEntityResultMap">
+        select * from option_info
+        <where>
+            <if test="questionId != null and questionId != ''">
+                question_id = #{questionId}
+            </if>
+        </where>
+        order by `order`
+    </select>
 </mapper>
