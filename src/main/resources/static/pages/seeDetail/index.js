@@ -24,15 +24,16 @@ onload = () => {
                 contentType: "application/json",
                 success(res) {
                     formatRecordAnswer(record.answerEntityList);
+                    $('#answerer').val(formAnswer.answererName);
                     let questionnaire = res.data[0];
                     $('.questionnaire-title').text(questionnaire.questionnaireName)
                     questionnaireName = questionnaire.questionnaireName;
                     $('.questionnaire-description').text("用途: " + questionnaire.questionnaireDescription)
                     questionList = questionnaire.questionEntityList;
                     showQuestionnaire(questionList)
+
                 }
             })
-
         }
     })
 
@@ -42,14 +43,19 @@ const showQuestionnaire = (questionList) => {
     for (let i = 0; i < questionList.length; i++) {
         if (questionList[i].type == '1') {
             singleChoiceView(questionList[i], i + 1);
+            setSingleSelectedRadioButton(i+1,formAnswer.answers[i+1].selectedOption)
         } else if (questionList[i].type == '2') {
             multipleChoiceView(questionList[i], i + 1);
+            setMultiSelectedRadioButton(i+1, formAnswer.answers[i+1].selectedOptions)
         } else if (questionList[i].type == '3') {
             blankView(questionList[i], i + 1);
+            setBlankValue(i+1, formAnswer.answers[i+1].inputValue)
         } else if (questionList[i].type == '4') {
             matrixView(questionList[i], i + 1);
+            setMatrixSelectedRadioButton(i+1, formAnswer.answers[i+1].selectedOptions, questionList[i].leftTitle.length)
         } else if (questionList[i].type == '5') {
             gaugeView(questionList[i], i + 1);
+            setSingleSelectedRadioButton(i+1,formAnswer.answers[i+1].selectedOption)
         } else {
 
         }
@@ -203,7 +209,7 @@ const gaugeView = (question, problemIndex) => {
         $(`#question${problemIndex} .bottom`).append(`
       <div>
         <label class="radio-inline">
-          <input type="radio" name="fraction${index}" value="${index}" disabled/>${item.fraction}
+          <input type="radio" name="fraction${problemIndex}" value="${index}" disabled/>${item.fraction}
         </label>
       </div>
     `)
@@ -213,192 +219,10 @@ const gaugeView = (question, problemIndex) => {
   `)
 }
 
-function collectFormData() {
-    const answererName = document.getElementById('answerer').value;
-    if (!answererName) {
-        alert("请输入您的姓名")
-        return;
-    }
-    const formData = {
-        answererName: answererName,
-        answers: []
-    };
 
-    //用于使提示只提示一次
-    let isPrompted = false;
-
-    questionList.forEach((item, index) => {
-        const problemIndex = index + 1;
-        const problemType = item.type;
-
-        //用于判断是否作答
-        let isAnswer = false;
-
-        if (problemType === '1') {
-            let selectedOptionValue = $(`#question${problemIndex} input[type=radio]:checked`).val();
-            if (questionList[problemIndex - 1].mustAnswer) {
-                if (!selectedOptionValue) {
-                    if (!isPrompted) {
-                        alert("第" + problemIndex + "题为必答题，请输入答案!");
-                        isPrompted = true;
-                    }
-                    return;
-                } else {
-                    isAnswer = true;
-                }
-            } else {
-                if (selectedOptionValue) {
-                    isAnswer = true;
-                }
-            }
-
-
-            if (isAnswer) {
-                const answer = {
-                    problemIndex: problemIndex,
-                    answerType: '1',
-                    selectedOption: selectedOptionValue
-                };
-                formData.answers.push(answer);
-            }
-        } else if (problemType === '2') {
-            const selectedOptions = $(`#question${problemIndex} input[type=checkbox]:checked`);
-            const selectedOptionValues = selectedOptions.map(function () {
-                return this.value;
-            }).get();
-
-            if (questionList[problemIndex - 1].mustAnswer) {
-                if (selectedOptionValues.length === 0) {
-                    if (!isPrompted) {
-                        alert("第" + problemIndex + "题为必答题，请输入答案!");
-                        isPrompted = true;
-                    }
-                    return;
-                } else {
-                    isAnswer = true;
-                }
-            } else {
-                if (selectedOptionValues.length !== 0) {
-                    isAnswer = true;
-                }
-            }
-
-            if (isAnswer) {
-                const answer = {
-                    problemIndex: problemIndex,
-                    answerType: '2',
-                    selectedOptions: selectedOptionValues
-                };
-                formData.answers.push(answer);
-            }
-        } else if (problemType === '3') {
-            const inputValue = $(`#question${problemIndex} textarea`).val();
-
-            if (questionList[problemIndex - 1].mustAnswer) {
-                if (inputValue.trim() === '') {
-                    if (!isPrompted) {
-                        alert("第" + problemIndex + "题为必答题，请输入答案!");
-                        isPrompted = true;
-                    }
-                    return;
-                } else {
-                    isAnswer = true;
-                }
-            } else {
-                if (inputValue.trim() !== '') {
-                    isAnswer = true;
-                }
-            }
-
-            if (isAnswer) {
-                const answer = {
-                    problemIndex: problemIndex,
-                    answerType: '3',
-                    inputValue: inputValue,
-                };
-                formData.answers.push(answer);
-            }
-
-        } else if (problemType === '4') {
-            const selectedOptionValues = [];
-
-            questionList[problemIndex - 1].option.forEach((_, optionIndex) => {
-                let selectedOptionValue = '';
-                questionList[problemIndex - 1].leftTitle.split(',').forEach(() => {
-                    selectedOptionValue = $(`#question${problemIndex} input[name="matrx${problemIndex}radio${optionIndex}"]:checked`).val();
-
-                });
-                if (selectedOptionValue) {
-                    selectedOptionValues.push(selectedOptionValue);
-                }
-            })
-
-            if (questionList[problemIndex - 1].mustAnswer) {
-                if (selectedOptionValues.length !== 3) {
-                    if (!isPrompted) {
-                        alert("第" + problemIndex + "题为必答题，请输入答案!");
-                        isPrompted = true;
-                    }
-                    return;
-                } else {
-                    isAnswer = true;
-                }
-            } else {
-                if (selectedOptionValues.length === 3) {
-                    isAnswer = true;
-                }
-            }
-
-            if (isAnswer) {
-                const answer = {
-                    problemIndex: problemIndex,
-                    answerType: '4',
-                    selectedOptions: selectedOptionValues,
-                };
-                formData.answers.push(answer);
-            }
-
-        } else if (problemType === '5') {
-            const selectedOptionValue = $(`#question${problemIndex} input[type=radio]:checked`).val();
-
-            if (questionList[problemIndex - 1].mustAnswer) {
-                if (!selectedOptionValue) {
-                    if (!isPrompted) {
-                        alert("第" + problemIndex + "题为必答题，请输入答案!");
-                        isPrompted = true;
-                    }
-                    return;
-                } else {
-                    isAnswer = true;
-                }
-            } else {
-                if (selectedOptionValue) {
-                    isAnswer = true;
-                }
-            }
-
-            if (isAnswer) {
-                const answer = {
-                    problemIndex: problemIndex,
-                    answerType: '5',
-                    selectedOption: selectedOptionValue
-                };
-                formData.answers.push(answer);
-            }
-        }
-    });
-
-    if (isPrompted) {
-        return;
-    }
-
-    console.log(formData)
-    return formData;
-}
-
-const formatRecordAnswer = (answerList)=>{
-    for (let i = 0; i < answerList.length; i++) {
-        let item = answerList[i];
+const formatRecordAnswer = (answers)=>{
+    for (let i = 0; i < answers.length; i++) {
+        let item = answers[i];
         if (item.type == '1') {
             let answer = {};
             answer.problemIndex = item.questionIndex;
@@ -445,3 +269,28 @@ const formatRecordAnswer = (answerList)=>{
 
 
 }
+
+const setSingleSelectedRadioButton = (problemIndex, value) => {
+    $(`#question${problemIndex} input[type=radio][value="${value}"]`).prop('checked', true);
+};
+
+const setBlankValue = (problemIndex, value) => {
+    $(`#question${problemIndex} textarea`).val(value);
+};
+
+const setMatrixSelectedRadioButton = (problemIndex, values) => {
+    console.log(values)
+    for (let matrixIndex = 0; matrixIndex < values.length; matrixIndex++) {
+        let value = values[matrixIndex];
+        console.log(value)
+        let radioButton = $(`#question${problemIndex} input[name="matrx${problemIndex}radio${matrixIndex}"][value="${value}"]`);
+        radioButton.prop('checked', true);
+    }
+};
+
+
+const setMultiSelectedRadioButton = (problemIndex, values) => {
+    values.forEach((value) => {
+        $(`#question${problemIndex} input[type="checkbox"][value="${value}"]`).prop('checked', true);
+    });
+};

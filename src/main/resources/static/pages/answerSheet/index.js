@@ -201,7 +201,7 @@ const gaugeView = (question, problemIndex) => {
         $(`#question${problemIndex} .bottom`).append(`
       <div>
         <label class="radio-inline">
-          <input type="radio" name="fraction${index}" value="${index}"/>${item.fraction}
+          <input type="radio" name="fraction${problemIndex}" value="${index}"/>${item.fraction}
         </label>
       </div>
     `)
