@@ -398,11 +398,12 @@ function collectFormData() {
 
 
 const onSubmitQuestionnaire = () => {
+
     if (!answerLimitCheck()){
         return;
     }
 
-    console.log(1)
+
 
     let formData = collectFormData();
     if(formData == null)
@@ -489,12 +490,15 @@ const answerLimitCheck = ()=>{
                         return false;
                     }
                 }
-                return true;
+
             }
         })
 
     } else {
+
         alert('请输入答卷人姓名!');
         return false;
     }
+
+    return true;
 }
