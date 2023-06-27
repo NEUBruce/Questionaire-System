@@ -398,10 +398,17 @@ function collectFormData() {
 }
 
 const formatRecordAnswer = (answers)=>{
-    let formattedAnswer = [];
     for (let item in answers) {
         if (item.type == '1') {
             let answer = {};
+            answer.problemIndex = item.questionIndex;
+            answer.selectedOption = item.chooseTerm;
+            formAnswer.answers.push(answer);
+        } else if (item.type == '2') {
+            let answer = {};
+            answer.problemIndex = item.questionIndex;
+            answer.selectedOption = item.chooseTerm;
+            formAnswer.answers.push(answer);
         }
     }
 

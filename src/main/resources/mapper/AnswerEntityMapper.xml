@@ -14,7 +14,7 @@
     <select id="queryAnswerEntityList" resultMap="answerEntityResultMap">
         select * from answer_info
         <where>
-            <if test="recordId != null and record != ''">record_id = #{recordId}</if>
+            <if test="recordId != null and recordId != ''">record_id = #{recordId}</if>
         </where>
         order by question_index
     </select>
