@@ -59,3 +59,57 @@ const handleCreateQuestionnaire = () => {
   })
 
 }
+
+
+const selectField = document.getElementById('selectField');
+const selectGroup = document.getElementById('selectGroup');
+
+selectField.addEventListener('change', function() {
+  const selectedValue = $('#selectField option:selected').val();
+  console.log(selectedValue);
+
+
+  // 根据第一个下拉列表的选择值更新第二个下拉列表的选项
+  updateSelectGroupOptions(selectedValue);
+
+});
+
+function updateSelectGroupOptions(selectedValue) {
+
+  // 清空第二个下拉列表的选项
+  selectGroup.innerHTML = '';
+
+  // 创建新的选项并添加到第二个下拉列表中
+  const options = getOptionsBySelectedValue(selectedValue);
+  options.forEach(function(option) {
+    const optionElement = document.createElement('option');
+    optionElement.value = option.value;
+    optionElement.textContent = option.label;
+    selectGroup.appendChild(optionElement);
+  });
+}
+
+function getOptionsBySelectedValue(selectedValue) {
+  // 根据第一个下拉列表的选择值获取相应的选项列表数据
+  // 根据 selectedValue 返回适当的选项列表数据
+  console.log(selectedValue);
+  if (selectedValue === "0") {
+    return[];
+  } else if (selectedValue === "1") {
+    //学生
+    if($util.getPageParam("type")==="0")
+    {
+      return [
+        { value: '计院学生', label: '计院学生' },
+        { value: '软院学生', label: '软院学生' }
+      ];
+    }
+    else{
+      return [
+        { value: '计院老师', label: '计院老师' },
+        { value: '软院老师', label: '软院老师' }
+      ];
+    }
+  }
+
+}
