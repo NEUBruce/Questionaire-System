@@ -27,7 +27,7 @@ public class RecordController {
      * @return
      */
     @RequestMapping(value = "/addRecord", method = RequestMethod.POST, headers = "Accept=application/json")
-    public HttpResponseEntity addQuestion(@RequestBody RecordEntity recordEntity) {
+    public HttpResponseEntity addRecord(@RequestBody RecordEntity recordEntity) {
         HttpResponseEntity httpResponse = new HttpResponseEntity();
         try {
             int result = recordService.insert(recordEntity);
