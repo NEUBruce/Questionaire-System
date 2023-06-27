@@ -19,6 +19,11 @@ public class QuestionnaireEntity {
     private Date startTime;
     private Date stopTime;
     private String type;
+    private int answerTimeLimit;
+    private String style;
+    private String target;
+    private String group;
+
     private List<QuestionEntity> questionEntityList;
 
     public String getId() {
@@ -123,5 +128,37 @@ public class QuestionnaireEntity {
 
     public void setQuestionEntityList(List<QuestionEntity> questionEntityList) {
         this.questionEntityList = questionEntityList;
+    }
+
+    public int getAnswerTimeLimit() {
+        return answerTimeLimit;
+    }
+
+    public void setAnswerTimeLimit(int answerTimeLimit) {
+        this.answerTimeLimit = answerTimeLimit;
+    }
+
+    public String getStyle() {
+        return style;
+    }
+
+    public void setStyle(String style) {
+        this.style = style;
+    }
+
+    public String getTarget() {
+        return target;
+    }
+
+    public void setTarget(String target) {
+        this.target = target;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
     }
 }

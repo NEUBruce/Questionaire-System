@@ -13,7 +13,7 @@ public class QuestionEntity {
     private boolean mustAnswer;
     private List<OptionEntity> option;
     private String questionnaireId;
-
+    private boolean isTemplate;
     private int Order;
 
     public String getId() {
@@ -78,5 +78,13 @@ public class QuestionEntity {
 
     public void setOrder(int order) {
         Order = order;
+    }
+
+    public boolean isTemplate() {
+        return isTemplate;
+    }
+
+    public void setTemplate(boolean template) {
+        isTemplate = template;
     }
 }
