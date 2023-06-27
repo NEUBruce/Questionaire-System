@@ -10,10 +10,12 @@ onload = () => {
 
 const fetchRecordList = ()=>{
     let questionnaireList = $util.getPageParam('questionnaireList');
+    $('#recordList #content').html('')
     for (let i = 0; i < questionnaireList.length; i++) {
         let questionnaire = questionnaireList[i];
         let params = {};
         params.questionnaireId = questionnaire.id;
+        params.answeredBy = $('#search').val();
         $.ajax({
             url: API_BASE_URL + '/queryRecordList',
             type: "POST",
@@ -42,7 +44,5 @@ const fetchRecordList = ()=>{
                 }
             }
         })
-
     }
-
 }
