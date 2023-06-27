@@ -155,7 +155,7 @@ body {
   padding: 8px 0;
 }
 
-.question .btn-group .btn:last-child {
+.question .btn-group .btn:last-child{
   color: #ffffff;
   background-color: #0095DA;
 }
@@ -173,7 +173,14 @@ body {
 }
 
 .operation > .button {
-  color: #0095DA;
+  background-color: #0095DA;
   margin-right: 10px;
   cursor: pointer;
 }
+
+.import-question {
+  text-align: right;
+  margin-right: 60px;
+  margin-top: 10px;
+}
+
