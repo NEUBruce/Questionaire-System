@@ -1,6 +1,7 @@
 package com.sisp.entity;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 答题记录实体类
@@ -12,6 +13,7 @@ public class RecordEntity {
     private Date answerDate;
     private String questionnaireId;
     private String createdBy;
+    private List<AnswerEntity> answerEntityList;
 
     public String getId() {
         return id;
@@ -59,5 +61,13 @@ public class RecordEntity {
 
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
+    }
+
+    public List<AnswerEntity> getAnswerEntityList() {
+        return answerEntityList;
+    }
+
+    public void setAnswerEntityList(List<AnswerEntity> answerEntityList) {
+        this.answerEntityList = answerEntityList;
     }
 }

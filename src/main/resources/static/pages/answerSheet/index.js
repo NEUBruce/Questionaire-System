@@ -221,7 +221,7 @@ function collectFormData() {
             const selectedOptionValue = $(`#question${problemIndex} input[type=radio]:checked`).val();
             const answer = {
                 problemIndex: problemIndex,
-                answerType: 'singleChoice',
+                answerType: '1',
                 selectedOption: selectedOptionValue
             };
             formData.answers.push(answer);
@@ -233,7 +233,7 @@ function collectFormData() {
 
             const answer = {
                 problemIndex: problemIndex,
-                answerType: 'multipleChoice',
+                answerType: '2',
                 selectedOptions: selectedOptionValues
             };
             formData.answers.push(answer);
@@ -241,21 +241,19 @@ function collectFormData() {
             const inputValue = $(`#question${problemIndex} textarea`).val();
             const answer = {
                 problemIndex: problemIndex,
-                answerType: 'blank',
+                answerType: '3',
                 inputValue: inputValue,
             };
             formData.answers.push(answer);
         } else if (problemType === '4') {
             const selectedOptionValues = [];
 
-            console.log('leftTitle:', questionList[problemIndex - 1].leftTitle);
-            console.log('typeof leftTitle:', typeof questionList[problemIndex - 1].leftTitle);
+
 
             questionList[problemIndex - 1].option.forEach((_, optionIndex) => {
                 let selectedOptionValue = '';
                 questionList[problemIndex - 1].leftTitle.split(',').forEach(() => {
                     selectedOptionValue = $(`#question${problemIndex} input[name="matrx${problemIndex}radio${optionIndex}"]:checked`).val();
-                    console.log(selectedOptionValue);
 
                 });
                 if (selectedOptionValue) {
@@ -266,7 +264,7 @@ function collectFormData() {
 
             const answer = {
                 problemIndex: problemIndex,
-                answerType: 'matrix',
+                answerType: '4',
                 selectedOptions: selectedOptionValues,
             };
             formData.answers.push(answer);
@@ -274,12 +272,17 @@ function collectFormData() {
             const selectedOptionValue = $(`#question${problemIndex} input[type=radio]:checked`).val();
             const answer = {
                 problemIndex: problemIndex,
-                answerType: 'gauge',
+                answerType: '5',
                 selectedOption: selectedOptionValue
             };
             formData.answers.push(answer);
         }
     });
 
-    console.log(formData);
+    return formData;
+}
+
+const onSubmitQuestionnaire = ()=>{
+    let formData = collectFormData();
+
 }
