@@ -28,12 +28,12 @@ const fetchRecordList = ()=>{
                 let list = res.data;
                 for (let j = 0; j < list.length; j++) {
                     let item = list[j];
-                    console.log(item)
+                    const formattedAnswerDate = new Date(item.answerDate).toLocaleString();
                     $('#recordList #content').append(`
                     <tr>
                         <td>${questionnaire.questionnaireName}</td>
                         <td>${item.answeredBy}</td>
-                        <td>${item.answerDate}</td>
+                        <td>${formattedAnswerDate}</td>
                         <td><button>明细</button></td>
                     </tr>
                 `)
