@@ -1,10 +1,11 @@
 onload = () => {
   $('#headerUsername').text($util.getItem('userInfo').username)
   $('#headerDivB').text('创建调查问卷')
-  $('#selectField').append("<option value=\"0\">面向公众</option>")
-  $('#selectField').append("<option value=\"1\">面向指定群组</option>")
-  $('#selectStyle').append("<option value=\"0\">123</option>")
-  $('#selectStyle').append("<option value=\"1\">456</option>")
+  $('#selectField').append("<option value=\"面向公众\">面向公众</option>")
+  $('#selectField').append("<option value=\"面向指定群组\">面向指定群组</option>")
+  $('#selectStyle').append("<option value=\"简约\">简约</option>")
+  $('#selectStyle').append("<option value=\"科技\">科技</option>")
+  $('#selectStyle').append("<option value=\"几何\">几何</option>")
   $('#startTime').datetimepicker({
     language: 'zh-CN', // 显示中文
     format: 'yyyy-mm-dd', // 显示格式
@@ -33,6 +34,7 @@ const handleCreateQuestionnaire = () => {
 
   let project = $util.getPageParam('project');
   let questionnaire = {};
+
   questionnaire.questionnaireName = $('#surveyName').val()
   questionnaire.questionnaireDescription = $('#surveyDescription').val();
   questionnaire.startTime = $('#startDate').val() && new Date($('#startDate').val()).getTime()
@@ -41,6 +43,11 @@ const handleCreateQuestionnaire = () => {
   questionnaire.lastUpdatedBy = $util.getItem('userInfo').username
   questionnaire.type = $util.getPageParam('type')
   questionnaire.projectId = project.id
+  questionnaire.target=$('#selectField option:selected').val()
+  questionnaire.group=$('#selectGroup option:selected').val()
+  questionnaire.style=$('#selectStyle option:selected').val()
+  questionnaire.answerTimeLimit=$('#answerTimes').val()
+
 
   $.ajax({
     url: API_BASE_URL + '/addQuestionnaire',
@@ -93,9 +100,9 @@ function getOptionsBySelectedValue(selectedValue) {
   // 根据第一个下拉列表的选择值获取相应的选项列表数据
   // 根据 selectedValue 返回适当的选项列表数据
   console.log(selectedValue);
-  if (selectedValue === "0") {
+  if (selectedValue === "面向公众") {
     return[];
-  } else if (selectedValue === "1") {
+  } else if (selectedValue === "面向指定群组") {
     //学生
     if($util.getPageParam("type")==="0")
     {
@@ -112,4 +119,5 @@ function getOptionsBySelectedValue(selectedValue) {
     }
   }
 
+  return [];
 }
