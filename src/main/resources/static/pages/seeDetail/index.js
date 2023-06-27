@@ -397,24 +397,52 @@ function collectFormData() {
     return formData;
 }
 
-const formatRecordAnswer = (answers)=>{
-    for (let i = 0; i < answers.length; i++) {
-        let item = answers[i];
+const formatRecordAnswer = (answerList)=>{
+    for (let i = 0; i < answerList.length; i++) {
+        let item = answerList[i];
         if (item.type == '1') {
             let answer = {};
             answer.problemIndex = item.questionIndex;
             answer.selectedOption = item.chooseTerm;
-            formAnswer.answers.push(answer);
+            answer.answerType = item.type;
+            formAnswer.answers[item.questionIndex] = answer;
         } else if (item.type == '2') {
+
+            let exist = formAnswer.answers[item.questionIndex];
+            if (exist) {
+                exist.selectedOptions.push(item.chooseTerm);
+            } else {
+                let answer = {};
+                answer.problemIndex = item.questionIndex;
+                answer.selectedOptions = [];
+                answer.answerType = item.type;
+                answer.selectedOptions.push(item.chooseTerm);
+                formAnswer.answers[item.questionIndex] = answer;
+            }
+        } else if (item.type == '3') {
             let answer = {};
             answer.problemIndex = item.questionIndex;
-            answer.selectedOptions = {};
-            answer.selectedOptions.push(item.chooseTerm);
-            // 把同题答案遍历
-            for (let j = i+1;item[j].questionIndex != item.questionIndex;j++) {
-                answer.selectedOptions.push(answers[j].chooseTerm);
-            }
+            answer.inputValue = item.chooseTerm;
+            answer.answerType = item.type;
+            formAnswer.answers[item.questionIndex] = answer;
+        } else if (item.type == '4') {
+            let answer = {};
+            answer.problemIndex = item.questionIndex;
+            answer.selectedOptions = [];
+            answer.answerType = item.type;
+            answer.selectedOptions[parseInt(item.row)] = item.chooseTerm;
+            formAnswer.answers[item.questionIndex] = answer;
+
+        } else if (item.type == '5') {
+            let answer = {};
+            answer.problemIndex = item.questionIndex;
+            answer.selectedOption = item.chooseTerm;
+            answer.answerType = item.type;
+            formAnswer.answers[item.questionIndex] = answer;
+        } else {
+
         }
     }
+
 
 }
