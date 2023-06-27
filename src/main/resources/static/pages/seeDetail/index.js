@@ -23,16 +23,15 @@ onload = () => {
                 dataType: "json",
                 contentType: "application/json",
                 success(res) {
+                    formatRecordAnswer(record.answerEntityList);
                     let questionnaire = res.data[0];
                     $('.questionnaire-title').text(questionnaire.questionnaireName)
                     questionnaireName = questionnaire.questionnaireName;
                     $('.questionnaire-description').text("用途: " + questionnaire.questionnaireDescription)
                     questionList = questionnaire.questionEntityList;
                     showQuestionnaire(questionList)
-
                 }
             })
-            formAnswer = formatRecordAnswer(record.answerEntityList);
 
         }
     })
