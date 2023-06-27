@@ -5,7 +5,7 @@ onload = () => {
 }
 
 let projectList = []
-let questionnaireList;
+let questionnaireList = [];
 
 const fetchProjectList = () => {
     let params = {

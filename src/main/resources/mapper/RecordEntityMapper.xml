@@ -11,13 +11,13 @@
     <insert id="insert">
         insert into record_info values (#{id}, #{answeredBy}, #{answerDate}, #{questionnaireId})
     </insert>
-    <select id="queryRecordList" resultType="com.sisp.entity.RecordEntity">
+    <select id="queryRecordList" resultMap="recordEntityResultMap">
         select * from record_info
         <where>
             <if test="answeredBy != null and answeredBy != ''">answered_by = #{answeredBy} and</if>
             <if test="id != null and id != ''">id = #{id} and</if>
             <if test="questionnaireId != null and questionnaireId != ''">questionnaire_id = #{questionnaireId} and</if>
-            <if test="createdBy != null and createdBy != '">created_by = #{createdBy} and</if>
+            1 = 1
         </where>
     </select>
 
