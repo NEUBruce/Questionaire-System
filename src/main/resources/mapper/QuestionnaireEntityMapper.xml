@@ -13,9 +13,10 @@
         <result column="creation_date" property="creationDate"/>
         <result column="project_id" property="projectId"/>
         <result column="last_update_date" property="lastUpdateDate"/>
+        <result column="answer_time_limit" property="answerTimeLimit"/>
     </resultMap>
     <insert id="insert" parameterType="com.sisp.entity.QuestionnaireEntity">
-        insert into questionnaire_info (`id`, `questionnaire_name`, `questionnaire_description`, `start_time`, `stop_time`, `created_by`, `last_updated_by`, `creation_date`, `status`, `project_id`, `last_update_date`, `type`) values(#{id}, #{questionnaireName}, #{questionnaireDescription}, #{startTime}, #{stopTime}, #{createdBy}, #{lastUpdatedBy}, #{creationDate}, #{status}, #{projectId}, #{lastUpdateDate}, #{type})
+        insert into questionnaire_info (`id`, `questionnaire_name`, `questionnaire_description`, `start_time`, `stop_time`, `created_by`, `last_updated_by`, `creation_date`, `status`, `project_id`, `last_update_date`, `type`, `answer_time_limit`, `style`, `target`, `group`) values(#{id}, #{questionnaireName}, #{questionnaireDescription}, #{startTime}, #{stopTime}, #{createdBy}, #{lastUpdatedBy}, #{creationDate}, #{status}, #{projectId}, #{lastUpdateDate}, #{type}, #{answerTimeLimit}, #{style}, #{target}, #{group})
     </insert>
     <update id="updateByPrimaryKeySelective">
         update questionnaire_info
