@@ -6,7 +6,6 @@ onload = () => {
     let id = questionnaire.id;
 
     let params = {};
-    params.id = id;
     if (id != null && id !== '') {
         questionnaireId = id;
         console.log(id)
@@ -225,17 +224,16 @@ const onImportQuestion = () => {
             dataType: "json",
             contentType: "application/json",
             success(res) {
-                let question = res.data[params.id]
+                let question = res.data[0]
                 question.questionnaireid=questionnaireId;
                 question.mustAnswer=true;
-                console.log(question)
+                problem.push(question);
             }
         })
     }
 
-
     $util.setPageParam('problem', problem);
     $util.setPageParam('questionnaire', $util.getPageParam('questionnaire'));
 
-    // location.href = '/pages/designQuestionnaire/index.html';
+    location.href = '/pages/designQuestionnaire/index.html';
 }
