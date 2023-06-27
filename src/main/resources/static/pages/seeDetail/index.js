@@ -398,7 +398,8 @@ function collectFormData() {
 }
 
 const formatRecordAnswer = (answers)=>{
-    for (let item in answers) {
+    for (let i = 0; i < answers.length; i++) {
+        let item = answers[i];
         if (item.type == '1') {
             let answer = {};
             answer.problemIndex = item.questionIndex;
@@ -407,8 +408,12 @@ const formatRecordAnswer = (answers)=>{
         } else if (item.type == '2') {
             let answer = {};
             answer.problemIndex = item.questionIndex;
-            answer.selectedOption = item.chooseTerm;
-            formAnswer.answers.push(answer);
+            answer.selectedOptions = {};
+            answer.selectedOptions.push(item.chooseTerm);
+            // 把同题答案遍历
+            for (let j = i+1;item[j].questionIndex != item.questionIndex;j++) {
+                answer.selectedOptions.push(answers[j].chooseTerm);
+            }
         }
     }
 

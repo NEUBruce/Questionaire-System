@@ -7,7 +7,7 @@ public class AnswerEntity {
     private String id;
     private String chooseTerm;
     private String recordId;
-    private String questionIndex;
+    private int questionIndex;
     private String type;
     private int row;
 
@@ -35,11 +35,11 @@ public class AnswerEntity {
         this.recordId = recordId;
     }
 
-    public String getQuestionIndex() {
+    public int getQuestionIndex() {
         return questionIndex;
     }
 
-    public void setQuestionIndex(String questionIndex) {
+    public void setQuestionIndex(int questionIndex) {
         this.questionIndex = questionIndex;
     }
 

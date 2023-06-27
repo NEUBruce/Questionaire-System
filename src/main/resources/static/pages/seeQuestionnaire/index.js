@@ -35,7 +35,7 @@ const fetchRecordList = ()=>{
                         <td>${questionnaire.questionnaireName}</td>
                         <td>${item.answeredBy}</td>
                         <td>${formattedAnswerDate}</td>
-                        <td><button onclick="onQuestionnaireDetail(${item.id})">明细</button></td>
+                        <td><button onclick="onQuestionnaireDetail('${item.id}')">明细</button></td>
                     </tr>
                 `)
                 }
