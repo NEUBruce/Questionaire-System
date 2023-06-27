@@ -629,3 +629,10 @@ const handleEditFinish = () => {
 
 
 }
+
+const handleImportQuestions = ()=>{
+  $util.setPageParam('problem', problem);
+  $util.setPageParam('questionnaire', $util.getPageParam('questionnaire'));
+
+  location.href = '/pages/templateQuestion/index.html';
+}
