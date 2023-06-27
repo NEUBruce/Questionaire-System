@@ -13,7 +13,6 @@ onload = () => {
             contentType: "application/json",
             success(res) {
                 let questionnaire = res.data[0];
-                console.log(questionnaire);
 
                 $('.questionnaire-title').text(questionnaire.questionnaireName)
                 $('.questionnaire-description').text("用途: " + questionnaire.questionnaireDescription)
@@ -207,18 +206,34 @@ const gaugeView = (question, problemIndex) => {
 
 function collectFormData() {
     const answererName = document.getElementById('answerer').value;
+    if(!answererName)
+    {
+        alert("请输入您的姓名")
+        return;
+    }
     const formData = {
         answererName: answererName,
         answers: []
     };
 
+    let isPrompted = false;
+
     questionList.forEach((item, index) => {
         const problemIndex = index + 1;
         const problemType = item.type;
 
-
         if (problemType === '1') {
-            const selectedOptionValue = $(`#question${problemIndex} input[type=radio]:checked`).val();
+            let selectedOptionValue = $(`#question${problemIndex} input[type=radio]:checked`).val();
+            if (questionList[problemIndex - 1].mustAnswer) {
+                if (!selectedOptionValue) {
+                    if (!isPrompted) {
+                        alert("第" + problemIndex + "题为必答题，请输入答案!");
+                        isPrompted = true;
+                    }
+                    return;
+                }
+            }
+
             const answer = {
                 problemIndex: problemIndex,
                 answerType: '1',
@@ -230,6 +245,16 @@ function collectFormData() {
             const selectedOptionValues = selectedOptions.map(function () {
                 return this.value;
             }).get();
+
+            if (questionList[problemIndex - 1].mustAnswer) {
+                if (selectedOptionValues.length === 0) {
+                    if (!isPrompted) {
+                        alert("第" + problemIndex + "题为必答题，请输入答案!");
+                        isPrompted = true;
+                    }
+                    return;
+                }
+            }
 
             const answer = {
                 problemIndex: problemIndex,
@@ -244,11 +269,20 @@ function collectFormData() {
                 answerType: '3',
                 inputValue: inputValue,
             };
+
+            if (questionList[problemIndex - 1].mustAnswer) {
+                if (inputValue.trim() === '') {
+                    if (!isPrompted) {
+                        alert("第" + problemIndex + "题为必答题，请输入答案!");
+                        isPrompted = true;
+                    }
+                    return;
+                }
+            }
+
             formData.answers.push(answer);
         } else if (problemType === '4') {
             const selectedOptionValues = [];
-
-
 
             questionList[problemIndex - 1].option.forEach((_, optionIndex) => {
                 let selectedOptionValue = '';
@@ -261,6 +295,15 @@ function collectFormData() {
                 }
             })
 
+            if (questionList[problemIndex - 1].mustAnswer) {
+                if (selectedOptionValues.length !== 3) {
+                    if (!isPrompted) {
+                        alert("第" + problemIndex + "题为必答题，请输入答案!");
+                        isPrompted = true;
+                    }
+                    return;
+                }
+            }
 
             const answer = {
                 problemIndex: problemIndex,
@@ -270,6 +313,17 @@ function collectFormData() {
             formData.answers.push(answer);
         } else if (problemType === '5') {
             const selectedOptionValue = $(`#question${problemIndex} input[type=radio]:checked`).val();
+
+            if (questionList[problemIndex - 1].mustAnswer) {
+                if (!selectedOptionValue) {
+                    if (!isPrompted) {
+                        alert("第" + problemIndex + "题为必答题，请输入答案!");
+                        isPrompted = true;
+                    }
+                    return;
+                }
+            }
+
             const answer = {
                 problemIndex: problemIndex,
                 answerType: '5',
@@ -279,10 +333,15 @@ function collectFormData() {
         }
     });
 
+    if (isPrompted) {
+        return;
+    }
+
+    console.log(formData)
     return formData;
 }
 
-const onSubmitQuestionnaire = ()=>{
+const onSubmitQuestionnaire = () => {
     let formData = collectFormData();
 
 }

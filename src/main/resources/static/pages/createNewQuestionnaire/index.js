@@ -2,8 +2,6 @@ onload = () => {
   $('#headerUsername').text($util.getItem('userInfo').username)
   $('#headerDivB').text('创建调查问卷')
 
-  console.log($util.getPageParam('project'))
-
   $('#startTime').datetimepicker({
     language: 'zh-CN', // 显示中文
     format: 'yyyy-mm-dd', // 显示格式
