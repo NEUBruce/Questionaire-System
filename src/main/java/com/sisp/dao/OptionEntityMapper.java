@@ -12,4 +12,6 @@ public interface OptionEntityMapper {
     int insert(OptionEntity optionEntity);
 
     List<OptionEntity> queryOptionList(OptionEntity optionEntity);
+
+    List<OptionEntity> queryTemplateOptionList(OptionEntity optionEntity);
 }

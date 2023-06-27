@@ -20,4 +20,12 @@
         </where>
         order by `order`
     </select>
+    <select id="queryTemplateOptionList" resultMap="optionEntityResultMap">
+        select * from option_template_info
+        <where>
+            <if test="questionId != null and questionId != ''">
+                question_id = #{questionId}
+            </if>
+        </where>
+    </select>
 </mapper>

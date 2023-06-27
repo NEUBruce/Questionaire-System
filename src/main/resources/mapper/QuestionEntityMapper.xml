@@ -31,5 +31,8 @@
         order by `order`
 
     </select>
+    <select id="queryTemplateQUestionList" resultMap="questionEntityMap">
+        select * from question_template_info;
+    </select>
 
 </mapper>
