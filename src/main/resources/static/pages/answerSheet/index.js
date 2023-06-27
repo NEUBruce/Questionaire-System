@@ -1,6 +1,8 @@
 let questionList;
 let questionnaireId;
 let questionnaireName;
+let timeLimit;
+
 onload = () => {
     let id = new URL(location.href).searchParams.get('id');
 
@@ -16,6 +18,7 @@ onload = () => {
             contentType: "application/json",
             success(res) {
                 let questionnaire = res.data[0];
+                timeLimit = questionnaire.answerTimeLimit;
 
                 $('.questionnaire-title').text(questionnaire.questionnaireName)
                 questionnaireName = questionnaire.questionnaireName;
@@ -213,10 +216,6 @@ const gaugeView = (question, problemIndex) => {
 
 function collectFormData() {
     const answererName = document.getElementById('answerer').value;
-    if (!answererName) {
-        alert("请输入您的姓名")
-        return;
-    }
     const formData = {
         answererName: answererName,
         answers: []
@@ -399,6 +398,12 @@ function collectFormData() {
 
 
 const onSubmitQuestionnaire = () => {
+    if (!answerLimitCheck()){
+        return;
+    }
+
+    console.log(1)
+
     let formData = collectFormData();
     if(formData == null)
     {
@@ -462,7 +467,34 @@ const onSubmitQuestionnaire = () => {
             alert('提交成功!')
         }
     })
+}
 
+const answerLimitCheck = ()=>{
+    let answererName = document.getElementById('answerer').value;
+    if (answererName != null && answererName.trim() != '') {
 
+        let record = {};
+        record.questionnaireId = questionnaireId;
+        record.answeredBy = answererName;
+        $.ajax({
+            url: API_BASE_URL + '/queryRecordList',
+            type: "POST",
+            data: JSON.stringify(record),
+            dataType: "json",
+            contentType: "application/json",
+            success(res) {
+                if (res.data) {
+                    if (res.data.length >= timeLimit) {
+                        alert('您的回答次数已经超过上限!')
+                        return false;
+                    }
+                }
+                return true;
+            }
+        })
 
+    } else {
+        alert('请输入答卷人姓名!');
+        return false;
+    }
 }

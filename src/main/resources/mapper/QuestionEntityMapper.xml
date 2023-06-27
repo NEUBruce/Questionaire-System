@@ -12,7 +12,7 @@
 
 
     <insert id="insert">
-        INSERT INTO question_info (`id`, `problem_name`, `type`, `must_answer`, `left_title`, `questionnaire_id`, `order`, `is_template`) VALUES (#{id}, #{problemName}, #{type}, #{mustAnswer}, #{leftTitle}, #{questionnaireId}, #{order}, #{isTemplate})
+        INSERT INTO question_info (`id`, `problem_name`, `type`, `must_answer`, `left_title`, `questionnaire_id`, `order`) VALUES (#{id}, #{problemName}, #{type}, #{mustAnswer}, #{leftTitle}, #{questionnaireId}, #{order})
     </insert>
     <select id="queryQuestionList" resultMap="questionEntityMap">
         select * from question_info
@@ -21,12 +21,12 @@
                 id = #{id} and
             </if>
             <if test="type != null and type != ''">
-                type = #{type}
+                type = #{type} and
             </if>
             <if test="questionnaireId != null and questionnaireId != ''">
-                questionnaire_id = #{questionnaireId}
+                questionnaire_id = #{questionnaireId} and
             </if>
-            <if test="isTemplate != null">is_template = #{isTemplate}</if>
+            1 = 1
         </where>
         order by `order`
 
