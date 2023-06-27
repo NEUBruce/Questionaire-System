@@ -74,7 +74,7 @@ const singleChoiceView = (question, index) => {
         $('#question' + index + " .bottom ").append(`
         <div style="display: flex; align-items: center; margin-bottom: 3px;">
           <label class="radio-inline">
-            <input type="radio" name="choice${index}" value="${i}">${option.chooseTerm ? option.chooseTerm : ''}
+            <input type="radio" name="choice${index}" value="${i}" disabled>${option.chooseTerm ? option.chooseTerm : ''}
           </label>
         </div>
     `)
@@ -101,7 +101,7 @@ const multipleChoiceView = (question, index) => {
         $('#question' + index + " .bottom ").append(`
         <div style="display: flex; align-items: center; margin-bottom: 3px;">
           <label class="checkbox-inline">
-            <input type="checkbox" name="chooseTerm${option.order}" value="${i}">${option.chooseTerm ? option.chooseTerm : ''}
+            <input type="checkbox" name="chooseTerm${option.order}" value="${i}" disabled>${option.chooseTerm ? option.chooseTerm : ''}
           </label>
         </div>
     `)
@@ -125,7 +125,7 @@ const blankView = (question, index) => {
     }
     $('#question' + index + " .bottom ").append(`
      <div style="border: 1px solid #CCCCCC; width: 50%; height: 70px;">
-          <textarea class="form-control" id="blankContent" placeholder="请输入答案" rows="4"></textarea>
+          <textarea class="form-control" id="blankContent" placeholder="请输入答案" rows="4" disabled></textarea>
       </div>
   `)
 }
@@ -166,7 +166,7 @@ const matrixView = (question, problemIndex) => {
         question.option.map((item, radioIndex) => {
             $(`#question${problemIndex} .bottom tbody .tr${index}`).append(`
         <td>
-          <input type="radio" name="matrx${problemIndex}radio${index}" value="${radioIndex}">
+          <input type="radio" name="matrx${problemIndex}radio${index}" value="${radioIndex}" disabled>
         </td>
       `)
         })
@@ -201,7 +201,7 @@ const gaugeView = (question, problemIndex) => {
         $(`#question${problemIndex} .bottom`).append(`
       <div>
         <label class="radio-inline">
-          <input type="radio" name="fraction${index}" value="${index}"/>${item.fraction}
+          <input type="radio" name="fraction${index}" value="${index}" disabled/>${item.fraction}
         </label>
       </div>
     `)
