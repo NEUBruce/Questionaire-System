@@ -27,5 +27,6 @@
                 question_id = #{questionId}
             </if>
         </where>
+        order by `order`
     </select>
 </mapper>
