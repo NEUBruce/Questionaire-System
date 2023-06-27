@@ -213,8 +213,7 @@ const gaugeView = (question, problemIndex) => {
 
 function collectFormData() {
     const answererName = document.getElementById('answerer').value;
-    if(!answererName)
-    {
+    if (!answererName) {
         alert("请输入您的姓名")
         return;
     }
@@ -223,11 +222,15 @@ function collectFormData() {
         answers: []
     };
 
+    //用于使提示只提示一次
     let isPrompted = false;
 
     questionList.forEach((item, index) => {
         const problemIndex = index + 1;
         const problemType = item.type;
+
+        //用于判断是否作答
+        let isAnswer = false;
 
         if (problemType === '1') {
             let selectedOptionValue = $(`#question${problemIndex} input[type=radio]:checked`).val();
@@ -238,15 +241,24 @@ function collectFormData() {
                         isPrompted = true;
                     }
                     return;
+                } else {
+                    isAnswer = true;
+                }
+            } else {
+                if (selectedOptionValue) {
+                    isAnswer = true;
                 }
             }
 
-            const answer = {
-                problemIndex: problemIndex,
-                answerType: '1',
-                selectedOption: selectedOptionValue
-            };
-            formData.answers.push(answer);
+
+            if (isAnswer) {
+                const answer = {
+                    problemIndex: problemIndex,
+                    answerType: '1',
+                    selectedOption: selectedOptionValue
+                };
+                formData.answers.push(answer);
+            }
         } else if (problemType === '2') {
             const selectedOptions = $(`#question${problemIndex} input[type=checkbox]:checked`);
             const selectedOptionValues = selectedOptions.map(function () {
@@ -260,22 +272,25 @@ function collectFormData() {
                         isPrompted = true;
                     }
                     return;
+                } else {
+                    isAnswer = true;
+                }
+            } else {
+                if (selectedOptionValues.length !== 0) {
+                    isAnswer = true;
                 }
             }
 
-            const answer = {
-                problemIndex: problemIndex,
-                answerType: '2',
-                selectedOptions: selectedOptionValues
-            };
-            formData.answers.push(answer);
+            if(isAnswer){
+                const answer = {
+                    problemIndex: problemIndex,
+                    answerType: '2',
+                    selectedOptions: selectedOptionValues
+                };
+                formData.answers.push(answer);
+            }
         } else if (problemType === '3') {
             const inputValue = $(`#question${problemIndex} textarea`).val();
-            const answer = {
-                problemIndex: problemIndex,
-                answerType: '3',
-                inputValue: inputValue,
-            };
 
             if (questionList[problemIndex - 1].mustAnswer) {
                 if (inputValue.trim() === '') {
@@ -284,10 +299,24 @@ function collectFormData() {
                         isPrompted = true;
                     }
                     return;
+                }else{
+                    isAnswer = true;
+                }
+            }else{
+                if (inputValue.trim() !== '') {
+                    isAnswer = true;
                 }
             }
 
-            formData.answers.push(answer);
+            if(isAnswer){
+                const answer = {
+                    problemIndex: problemIndex,
+                    answerType: '3',
+                    inputValue: inputValue,
+                };
+                formData.answers.push(answer);
+            }
+
         } else if (problemType === '4') {
             const selectedOptionValues = [];
 
@@ -309,15 +338,25 @@ function collectFormData() {
                         isPrompted = true;
                     }
                     return;
+                }else{
+                    isAnswer=true;
+                }
+            }else{
+                if (selectedOptionValues.length === 3) {
+                    isAnswer=true;
                 }
             }
 
-            const answer = {
-                problemIndex: problemIndex,
-                answerType: '4',
-                selectedOptions: selectedOptionValues,
-            };
-            formData.answers.push(answer);
+            if(isAnswer)
+            {
+                const answer = {
+                    problemIndex: problemIndex,
+                    answerType: '4',
+                    selectedOptions: selectedOptionValues,
+                };
+                formData.answers.push(answer);
+            }
+
         } else if (problemType === '5') {
             const selectedOptionValue = $(`#question${problemIndex} input[type=radio]:checked`).val();
 
@@ -328,15 +367,24 @@ function collectFormData() {
                         isPrompted = true;
                     }
                     return;
+                }else{
+                    isAnswer=true;
+                }
+            }else{
+                if (selectedOptionValue) {
+                    isAnswer=true;
                 }
             }
 
-            const answer = {
-                problemIndex: problemIndex,
-                answerType: '5',
-                selectedOption: selectedOptionValue
-            };
-            formData.answers.push(answer);
+            if(isAnswer)
+            {
+                const answer = {
+                    problemIndex: problemIndex,
+                    answerType: '5',
+                    selectedOption: selectedOptionValue
+                };
+                formData.answers.push(answer);
+            }
         }
     });
 
@@ -347,6 +395,8 @@ function collectFormData() {
     console.log(formData)
     return formData;
 }
+
+
 
 const onSubmitQuestionnaire = () => {
     let formData = collectFormData();
