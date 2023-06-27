@@ -80,6 +80,7 @@ const onPreview = (id)=>{
                 $util.setPageParam('questionList', questionnaire.questionEntityList)
                 $util.setPageParam('questionnaireTitle', questionnaire.questionnaireName)
                 $util.setPageParam('questionnaireDescription', questionnaire.questionnaireDescription)
+                $util.setPageParam('questionnaireId', questionnaire.id)
                 location.href = '/pages/answerSheet/index.html'
             }
 

@@ -5,6 +5,7 @@ onload = () => {
 }
 
 let projectList = []
+let questionnaireList;
 
 const fetchProjectList = () => {
     let params = {
@@ -61,6 +62,7 @@ const fetchProjectList = () => {
         dataType: "json",
         contentType: "application/json",
         success(res) {
+            questionnaireList = res.data;
             console.log(res.data)
             for (let i = 0; i < res.data.length; i++) {
                 let item = res.data[i];
@@ -77,6 +79,7 @@ const fetchProjectList = () => {
 }
 
 const onStatisticsProject = () => {
+    $util.setPageParam('questionnaireList', questionnaireList);
     location.href = "/pages/seeQuestionnaire/index.html"
 }
 
