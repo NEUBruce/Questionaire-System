@@ -281,7 +281,7 @@ function collectFormData() {
                 }
             }
 
-            if(isAnswer){
+            if (isAnswer) {
                 const answer = {
                     problemIndex: problemIndex,
                     answerType: '2',
@@ -299,16 +299,16 @@ function collectFormData() {
                         isPrompted = true;
                     }
                     return;
-                }else{
+                } else {
                     isAnswer = true;
                 }
-            }else{
+            } else {
                 if (inputValue.trim() !== '') {
                     isAnswer = true;
                 }
             }
 
-            if(isAnswer){
+            if (isAnswer) {
                 const answer = {
                     problemIndex: problemIndex,
                     answerType: '3',
@@ -338,17 +338,16 @@ function collectFormData() {
                         isPrompted = true;
                     }
                     return;
-                }else{
-                    isAnswer=true;
+                } else {
+                    isAnswer = true;
                 }
-            }else{
+            } else {
                 if (selectedOptionValues.length === 3) {
-                    isAnswer=true;
+                    isAnswer = true;
                 }
             }
 
-            if(isAnswer)
-            {
+            if (isAnswer) {
                 const answer = {
                     problemIndex: problemIndex,
                     answerType: '4',
@@ -367,17 +366,16 @@ function collectFormData() {
                         isPrompted = true;
                     }
                     return;
-                }else{
-                    isAnswer=true;
+                } else {
+                    isAnswer = true;
                 }
-            }else{
+            } else {
                 if (selectedOptionValue) {
-                    isAnswer=true;
+                    isAnswer = true;
                 }
             }
 
-            if(isAnswer)
-            {
+            if (isAnswer) {
                 const answer = {
                     problemIndex: problemIndex,
                     answerType: '5',
@@ -389,80 +387,9 @@ function collectFormData() {
     });
 
     if (isPrompted) {
-        return null;
+        return;
     }
 
     console.log(formData)
     return formData;
-}
-
-
-
-const onSubmitQuestionnaire = () => {
-    let formData = collectFormData();
-    if(formData == null)
-    {
-        return;
-    }
-    let record = {};
-    record.answeredBy = formData.answererName;
-    record.questionnaireId = questionnaireId;
-    let answerList = [];
-    for (let i = 0; i < formData.answers.length; i++) {
-        let input = formData.answers[i];
-        if (input.answerType == '1') {
-            let answer = {};
-            answer.type = input.answerType;
-            answer.questionIndex = input.problemIndex;
-            answer.chooseTerm = input.selectedOption;
-            answerList.push(answer);
-        } else if (input.answerType == '2') {
-            for (let i = 0; i < input.selectedOptions.length; i++) {
-                let answer = {};
-                answer.type = input.answerType;
-                answer.questionIndex = input.problemIndex;
-                answer.chooseTerm = input.selectedOptions[i];
-                answerList.push(answer);
-            }
-        } else if (input.answerType == '3') {
-            let answer = {};
-            answer.type = input.answerType;
-            answer.questionIndex = input.problemIndex;
-            answer.chooseTerm = input.inputValue;
-            answerList.push(answer);
-        } else if (input.answerType == '4') {
-            for (let i = 0; i < input.selectedOptions.length; i++) {
-                let answer = {};
-                answer.type = input.answerType;
-                answer.questionIndex = input.problemIndex;
-                answer.chooseTerm = input.selectedOptions[i];
-                answer.row = i;
-                answerList.push(answer);
-            }
-        } else if (input.answerType == '5') {
-            let answer = {};
-            answer.type = input.answerType;
-            answer.questionIndex = input.problemIndex;
-            answer.chooseTerm = input.selectedOption;
-            answerList.push(answer);
-        } else {
-
-        }
-    }
-
-    record.answerEntityList = answerList;
-
-    $.ajax({
-        url: API_BASE_URL + '/addRecord',
-        type: "POST",
-        data: JSON.stringify(record),
-        dataType: "json",
-        contentType: "application/json",
-        success(res) {
-            alert('提交成功!')
-        }
-    })
-
-
-
 }
