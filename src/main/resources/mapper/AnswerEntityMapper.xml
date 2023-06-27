@@ -16,6 +16,7 @@
         <where>
             <if test="recordId != null and record != ''">record_id = #{recordId}</if>
         </where>
+        order by question_index
     </select>
 
 

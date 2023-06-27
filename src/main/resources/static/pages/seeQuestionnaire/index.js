@@ -27,6 +27,7 @@ const fetchRecordList = ()=>{
                 // list指的是当前questionnaire的所有记录
                 let list = res.data;
                 for (let j = 0; j < list.length; j++) {
+                    // item指的是list的一个record
                     let item = list[j];
                     const formattedAnswerDate = new Date(item.answerDate).toLocaleString();
                     $('#recordList #content').append(`
@@ -34,7 +35,7 @@ const fetchRecordList = ()=>{
                         <td>${questionnaire.questionnaireName}</td>
                         <td>${item.answeredBy}</td>
                         <td>${formattedAnswerDate}</td>
-                        <td><button>明细</button></td>
+                        <td><button onclick="onQuestionnaireDetail(${item.id})">明细</button></td>
                     </tr>
                 `)
                 }
@@ -45,4 +46,10 @@ const fetchRecordList = ()=>{
             }
         })
     }
+}
+
+const onQuestionnaireDetail = (id)=>{
+    $util.setPageParam('recordId', id);
+
+    location.href = '/pages/seeDetail/index.html'
 }

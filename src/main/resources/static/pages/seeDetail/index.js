@@ -1,38 +1,41 @@
 let questionList;
-let questionnaireId;
 let questionnaireName;
+let formAnswer = {};
 onload = () => {
-    let id = new URL(location.href).searchParams.get('id');
 
     let params = {};
-    params.id = id;
-    if (id != null && id !== '') {
-        questionnaireId = id;
-        $.ajax({
-            url: API_BASE_URL + '/queryQuestionnaireList',
-            type: "POST",
-            data: JSON.stringify(params),
-            dataType: "json",
-            contentType: "application/json",
-            success(res) {
-                let questionnaire = res.data[0];
+    params.id = $util.getPageParam('recordId');
+    $.ajax({
+        url: API_BASE_URL + '/queryRecordList',
+        type: "POST",
+        data: JSON.stringify(params),
+        dataType: "json",
+        contentType: "application/json",
+        success(res) {
+            let record = res.data[0];
+            formAnswer.answererName = record.answeredBy;
+            formAnswer.answers = [];
+            params.id = record.questionnaireId;
+            $.ajax({
+                url: API_BASE_URL + '/queryQuestionnaireList',
+                type: "POST",
+                data: JSON.stringify(params),
+                dataType: "json",
+                contentType: "application/json",
+                success(res) {
+                    let questionnaire = res.data[0];
+                    $('.questionnaire-title').text(questionnaire.questionnaireName)
+                    questionnaireName = questionnaire.questionnaireName;
+                    $('.questionnaire-description').text("用途: " + questionnaire.questionnaireDescription)
+                    questionList = questionnaire.questionEntityList;
+                    showQuestionnaire(questionList)
 
-                $('.questionnaire-title').text(questionnaire.questionnaireName)
-                questionnaireName = questionnaire.questionnaireName;
-                $('.questionnaire-description').text("用途: " + questionnaire.questionnaireDescription)
-                questionList = questionnaire.questionEntityList;
-                showQuestionnaire(questionList)
+                }
+            })
+            formAnswer = formatRecordAnswer(record.answerEntityList);
 
-            }
-        })
-    } else {
-        questionnaireId = $util.getPageParam('questionnaireId')
-        $('.questionnaire-title').text($util.getPageParam('questionnaireTitle'))
-        questionnaireName = $util.getPageParam('questionnaireTitle');
-        $('.questionnaire-description').text("用途:" + $util.getPageParam('questionnaireDescription'))
-        questionList = $util.getPageParam('questionList');
-        showQuestionnaire(questionList)
-    }
+        }
+    })
 
 }
 
@@ -392,4 +395,14 @@ function collectFormData() {
 
     console.log(formData)
     return formData;
+}
+
+const formatRecordAnswer = (answers)=>{
+    let formattedAnswer = [];
+    for (let item in answers) {
+        if (item.type == '1') {
+            let answer = {};
+        }
+    }
+
 }

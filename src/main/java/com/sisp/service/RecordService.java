@@ -28,7 +28,18 @@ public class RecordService {
      * @return
      */
     public List<RecordEntity> queryRecordEntityList(RecordEntity recordEntity) {
-        return recordEntityMapper.queryRecordList(recordEntity);
+
+        List<RecordEntity> recordEntityList = recordEntityMapper.queryRecordList(recordEntity);
+        if (recordEntityList != null) {
+            for (RecordEntity item :recordEntityList) {
+                AnswerEntity answerEntity = new AnswerEntity();
+                answerEntity.setRecordId(item.getId());
+                item.setAnswerEntityList(answerService.queryAnswerList(answerEntity));
+            }
+        }
+
+
+        return recordEntityList;
     }
 
     /**
