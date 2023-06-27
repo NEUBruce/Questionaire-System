@@ -41,3 +41,13 @@ body {
     padding: 6px 40px !important;
 }
 
+.question {
+    position: relative;
+}
+
+.checkbox-container {
+    position: absolute;
+    top: 0;
+    right: 20px;
+}
+

@@ -1,35 +1,26 @@
 let questionList;
 let questionnaireId;
-let questionName;
-let timeLimit;
 
 onload = () => {
-    let id = new URL(location.href).searchParams.get('id');
+    let questionnaire=$util.getPageParam("questionnaire");
+    let id = questionnaire.id;
 
     let params = {};
     params.id = id;
     if (id != null && id !== '') {
         questionnaireId = id;
+        console.log(id)
         $.ajax({
-            url: API_BASE_URL + '/queryQuestionnaireList',
+            url: API_BASE_URL + '/queryTemplateQuestionList',
             type: "POST",
             data: JSON.stringify(params),
             dataType: "json",
             contentType: "application/json",
             success(res) {
-                let questionnaire = res.data[0];
-                timeLimit = questionnaire.answerTimeLimit;
-                questionnaireName = questionnaire.questionnaireName;
-                questionList = questionnaire.questionEntityList;
+                questionList = res.data
                 showQuestionnaire(questionList)
-
             }
         })
-    } else {
-        questionnaireId = $util.getPageParam('questionnaireId')
-
-        questionList = $util.getPageParam('questionList');
-        showQuestionnaire(questionList)
     }
 
 }
@@ -54,25 +45,26 @@ const showQuestionnaire = (questionList) => {
 
 const singleChoiceView = (question, index) => {
     $('#problem').append(`
+    
     <div class="question" id="question${index}" data-type="1" data-problemIndex="${index}">
       <div class="top">
         <span class="question-title" id="questionTitle">${index}.${question.problemName}</span>
-        <span class="must-answer" id="mustAnswer"></span>
       </div>
+      <div class="checkbox-container">
+      <label class="checkbox-inline">
+        <input type="checkbox" name="selectImportQuestion${index}" value="${questionList[index-1].id}">
+      </label>
+    </div>
       <div class="bottom"></div>
     </div>
   `)
-    if (question.mustAnswer) {
-        $('#question' + index + " #mustAnswer").text('必答题')
-    } else {
-        $('#question' + index + " #mustAnswer").text('非必答题')
-    }
+
     for (let i = 0; i < question.option.length; i++) {
         let option = question.option[i];
         $('#question' + index + " .bottom ").append(`
         <div style="display: flex; align-items: center; margin-bottom: 3px;">
           <label class="radio-inline">
-            <input type="radio" name="choice${index}" value="${i}">${option.chooseTerm ? option.chooseTerm : ''}
+            <input type="radio" name="choice${index}" value="${i}" disabled>${option.chooseTerm ? option.chooseTerm : ''}
           </label>
         </div>
     `)
@@ -84,22 +76,22 @@ const multipleChoiceView = (question, index) => {
     <div class="question" id="question${index}" data-type="2" data-problemIndex="${index}">
       <div class="top">
         <span class="question-title" id="questionTitle">${index}.${question.problemName}</span>
-        <span class="must-answer" id="mustAnswer"></span>
       </div>
+      <div class="checkbox-container">
+      <label class="checkbox-inline">
+        <input type="checkbox" name="selectImportQuestion${index}" value="${questionList[index-1].id}">
+      </label>
+    </div>
       <div class="bottom"></div>
     </div>
   `)
-    if (question.mustAnswer) {
-        $('#question' + index + " #mustAnswer").text('必答题')
-    } else {
-        $('#question' + index + " #mustAnswer").text('非必答题')
-    }
+
     for (let i = 0; i < question.option.length; i++) {
         let option = question.option[i];
         $('#question' + index + " .bottom ").append(`
         <div style="display: flex; align-items: center; margin-bottom: 3px;">
           <label class="checkbox-inline">
-            <input type="checkbox" name="chooseTerm${option.order}" value="${i}">${option.chooseTerm ? option.chooseTerm : ''}
+            <input type="checkbox" name="chooseTerm${option.order}" value="${i}" disabled>${option.chooseTerm ? option.chooseTerm : ''}
           </label>
         </div>
     `)
@@ -111,19 +103,19 @@ const blankView = (question, index) => {
     <div class="question" id="question${index}" data-type="3" data-problemIndex="${index}">
       <div class="top">
         <span class="question-title" id="questionTitle">${index}.${question.problemName}</span>
-        <span class="must-answer" id="mustAnswer"></span>
       </div>
+      <div class="checkbox-container">
+      <label class="checkbox-inline">
+        <input type="checkbox" name="selectImportQuestion${index}" value="${questionList[index-1].id}">
+      </label>
+    </div>
       <div class="bottom"></div>
     </div>
   `)
-    if (question.mustAnswer) {
-        $('#question' + index + " #mustAnswer").text('必答题')
-    } else {
-        $('#question' + index + " #mustAnswer").text('非必答题')
-    }
+
     $('#question' + index + " .bottom ").append(`
      <div style="border: 1px solid #CCCCCC; width: 50%; height: 70px;">
-          <textarea class="form-control" id="blankContent" placeholder="请输入答案" rows="4"></textarea>
+          <textarea class="form-control" id="blankContent" placeholder="请输入答案" rows="4" disabled></textarea>
       </div>
   `)
 }
@@ -133,8 +125,12 @@ const matrixView = (question, problemIndex) => {
     <div class="question" id="question${problemIndex}" data-type="4" data-problemIndex="${problemIndex}">
       <div class="top">
         <span class="question-title" id="questionTitle">${problemIndex}.${question.problemName}</span>
-        <span class="must-answer" id="mustAnswer"></span>
       </div>
+      <div class="checkbox-container">
+      <label class="checkbox-inline">
+        <input type="checkbox" name="selectImportQuestion${problemIndex}" value="${questionList[problemIndex-1].id}">
+      </label>
+    </div>
       <div class="bottom">
         <table class="table">
           <thead>
@@ -149,11 +145,7 @@ const matrixView = (question, problemIndex) => {
       </div>
     </div>
   `)
-    if (question.mustAnswer) {
-        $('#question' + problemIndex + " #mustAnswer").text('必答题')
-    } else {
-        $('#question' + problemIndex + " #mustAnswer").text('非必答题')
-    }
+
     let trs = question.leftTitle ? question.leftTitle.split(',') : [];
     trs.map((item, index) => {
         $(`#question${problemIndex} .bottom tbody`).append(`
@@ -164,7 +156,7 @@ const matrixView = (question, problemIndex) => {
         question.option.map((item, radioIndex) => {
             $(`#question${problemIndex} .bottom tbody .tr${index}`).append(`
         <td>
-          <input type="radio" name="matrx${problemIndex}radio${index}" value="${radioIndex}">
+          <input type="radio" name="matrx${problemIndex}radio${index}" value="${radioIndex}" disabled>
         </td>
       `)
         })
@@ -181,17 +173,17 @@ const gaugeView = (question, problemIndex) => {
     <div class="question" id="question${problemIndex}" data-type="5" data-problemIndex="${problemIndex}">
       <div class="top">
         <span class="question-title" id="questionTitle">${problemIndex}.${question.problemName}</span>
-        <span class="must-answer" id="mustAnswer"></span>
       </div>
+      <div class="checkbox-container">
+      <label class="checkbox-inline">
+        <input type="checkbox" name="selectImportQuestion${problemIndex}" value="${questionList[problemIndex-1].id}">
+      </label>
+    </div>
       <div class="bottom" style="display: flex; align-items: center; justify-content: space-between;">
       </div>
     </div>
   `)
-    if (question.mustAnswer) {
-        $('#question' + problemIndex + " #mustAnswer").text('必答题')
-    } else {
-        $('#question' + problemIndex + " #mustAnswer").text('非必答题')
-    }
+
     $(`#question${problemIndex} .bottom`).append(`
     <div>${question.option[0].chooseTerm}</div>
   `)
@@ -199,7 +191,7 @@ const gaugeView = (question, problemIndex) => {
         $(`#question${problemIndex} .bottom`).append(`
       <div>
         <label class="radio-inline">
-          <input type="radio" name="fraction${problemIndex}" value="${index}"/>${item.fraction}
+          <input type="radio" name="fraction${problemIndex}" value="${index} " disabled/>${item.fraction}
         </label>
       </div>
     `)
@@ -209,75 +201,41 @@ const gaugeView = (question, problemIndex) => {
   `)
 }
 
-const onSubmitQuestionnaire = () => {
+const onImportQuestion = () => {
+    let problem=$util.getPageParam("problem");
 
-    if (!answerLimitCheck()){
-        return;
+    var checkboxes = document.querySelectorAll("input[type='checkbox']:checked");
+    var selectedValues = [];
+
+    // 遍历选中的多选按钮元素，获取每个按钮的值并存储在数组中
+    for (var i = 0; i < checkboxes.length; i++) {
+        selectedValues.push(checkboxes[i].value);
     }
 
+    console.log(selectedValues);
+    console.log(questionnaireId);
 
-
-    let formData = collectFormData();
-    if(formData == null)
-    {
-        return;
-    }
-    let record = {};
-    record.answeredBy = formData.answererName;
-    record.questionnaireId = questionnaireId;
-    let answerList = [];
-    for (let i = 0; i < formData.answers.length; i++) {
-        let input = formData.answers[i];
-        if (input.answerType == '1') {
-            let answer = {};
-            answer.type = input.answerType;
-            answer.questionIndex = input.problemIndex;
-            answer.chooseTerm = input.selectedOption;
-            answerList.push(answer);
-        } else if (input.answerType == '2') {
-            for (let i = 0; i < input.selectedOptions.length; i++) {
-                let answer = {};
-                answer.type = input.answerType;
-                answer.questionIndex = input.problemIndex;
-                answer.chooseTerm = input.selectedOptions[i];
-                answerList.push(answer);
+    for(let i=0;i<selectedValues.length;i++) {
+        let params={};
+        params.id = selectedValues[i];
+        $.ajax({
+            url: API_BASE_URL + '/queryTemplateQuestionList',
+            type: "POST",
+            data: JSON.stringify(params),
+            dataType: "json",
+            contentType: "application/json",
+            success(res) {
+                let question = res.data[params.id]
+                question.questionnaireid=questionnaireId;
+                question.mustAnswer=true;
+                console.log(question)
             }
-        } else if (input.answerType == '3') {
-            let answer = {};
-            answer.type = input.answerType;
-            answer.questionIndex = input.problemIndex;
-            answer.chooseTerm = input.inputValue;
-            answerList.push(answer);
-        } else if (input.answerType == '4') {
-            for (let i = 0; i < input.selectedOptions.length; i++) {
-                let answer = {};
-                answer.type = input.answerType;
-                answer.questionIndex = input.problemIndex;
-                answer.chooseTerm = input.selectedOptions[i];
-                answer.row = i;
-                answerList.push(answer);
-            }
-        } else if (input.answerType == '5') {
-            let answer = {};
-            answer.type = input.answerType;
-            answer.questionIndex = input.problemIndex;
-            answer.chooseTerm = input.selectedOption;
-            answerList.push(answer);
-        } else {
-
-        }
+        })
     }
 
-    record.answerEntityList = answerList;
 
-    $.ajax({
-        url: API_BASE_URL + '/addRecord',
-        type: "POST",
-        data: JSON.stringify(record),
-        dataType: "json",
-        contentType: "application/json",
-        success(res) {
-            alert('提交成功!')
-        }
-    })
+    $util.setPageParam('problem', problem);
+    $util.setPageParam('questionnaire', $util.getPageParam('questionnaire'));
+
+    // location.href = '/pages/designQuestionnaire/index.html';
 }
