@@ -6,15 +6,15 @@
     <resultMap id="recordEntityResultMap" type="com.sisp.entity.RecordEntity">
         <result column="answered_by" property="answeredBy"/>
         <result column="answer_date" property="answerDate"/>
-        <result column="questionnaire_name" property="questionnaireName"/>
         <result column="questionnaire_id" property="questionnaireId"/>
     </resultMap>
     <insert id="insert">
-        insert into record_info values (#{id}, #{answeredBy}, #{answerDate}, #{questionnaireId}, #{questionnaireName}, #{createdBy})
+        insert into record_info values (#{id}, #{answeredBy}, #{answerDate}, #{questionnaireId})
     </insert>
     <select id="queryRecordList" resultType="com.sisp.entity.RecordEntity">
         select * from record_info
         <where>
+            <if test="answeredBy != null and answeredBy != ''">answered_by = #{answeredBy} and</if>
             <if test="id != null and id != ''">id = #{id} and</if>
             <if test="questionnaireId != null and questionnaireId != ''">questionnaire_id = #{questionnaireId} and</if>
             <if test="createdBy != null and createdBy != '">created_by = #{createdBy} and</if>

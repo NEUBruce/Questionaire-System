@@ -10,7 +10,6 @@ public class AnswerEntity {
     private String questionIndex;
     private String type;
     private int row;
-    private int fraction;
 
     public String getId() {
         return id;
@@ -60,11 +59,4 @@ public class AnswerEntity {
         this.row = row;
     }
 
-    public int getFraction() {
-        return fraction;
-    }
-
-    public void setFraction(int fraction) {
-        this.fraction = fraction;
-    }
 }

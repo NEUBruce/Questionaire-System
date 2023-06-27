@@ -8,11 +8,9 @@ import java.util.List;
  */
 public class RecordEntity {
     private String id;
-    private String questionnaireName;
     private String answeredBy;
     private Date answerDate;
     private String questionnaireId;
-    private String createdBy;
     private List<AnswerEntity> answerEntityList;
 
     public String getId() {
@@ -21,14 +19,6 @@ public class RecordEntity {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getQuestionnaireName() {
-        return questionnaireName;
-    }
-
-    public void setQuestionnaireName(String questionnaireName) {
-        this.questionnaireName = questionnaireName;
     }
 
     public String getAnsweredBy() {
@@ -53,14 +43,6 @@ public class RecordEntity {
 
     public void setQuestionnaireId(String questionnaireId) {
         this.questionnaireId = questionnaireId;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
     }
 
     public List<AnswerEntity> getAnswerEntityList() {

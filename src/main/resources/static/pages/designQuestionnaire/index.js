@@ -594,7 +594,20 @@ const handlePreview = () => {
   $util.setPageParam('questionList', problem);
   $util.setPageParam('questionnaireTitle', questionnaireTitle)
   $util.setPageParam('questionnaireDescription', questionnaireDescription)
-  location.href = "/pages/answerSheet/index.html";
+  $util.setPageParam('questionnaireId', $util.getPageParam('questionnaire').id)
+  for (let i = 0; i < problem.length; i++) {
+    problem[i].order=i;
+    $.ajax({
+      url: API_BASE_URL + '/addQuestion',
+      type: "POST",
+      data: JSON.stringify(problem[i]),
+      dataType: "json",
+      contentType: "application/json",
+      success(res) {
+        location.href="/pages/answerSheet/index.html"
+      }
+    })
+  }
 }
 
 

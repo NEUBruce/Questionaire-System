@@ -1,5 +1,6 @@
 package com.sisp.service;
 
+import com.sisp.common.utils.UUIDUtil;
 import com.sisp.dao.AnswerEntityMapper;
 import com.sisp.entity.AnswerEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ public class AnswerService {
      * @return
      */
     public int insert(AnswerEntity answerEntity) {
+        answerEntity.setId(UUIDUtil.getOneUUID());
         return answerEntityMapper.insert(answerEntity);
     }
 }

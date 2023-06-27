@@ -1,10 +1,13 @@
 let questionList;
+let questionnaireId;
+let questionnaireName;
 onload = () => {
     let id = new URL(location.href).searchParams.get('id');
 
     let params = {};
     params.id = id;
     if (id != null && id !== '') {
+        questionnaireId = id;
         $.ajax({
             url: API_BASE_URL + '/queryQuestionnaireList',
             type: "POST",
@@ -15,13 +18,17 @@ onload = () => {
                 let questionnaire = res.data[0];
 
                 $('.questionnaire-title').text(questionnaire.questionnaireName)
+                questionnaireName = questionnaire.questionnaireName;
                 $('.questionnaire-description').text("用途: " + questionnaire.questionnaireDescription)
                 questionList = questionnaire.questionEntityList;
                 showQuestionnaire(questionList)
+
             }
         })
     } else {
+        questionnaireId = $util.getPageParam('questionnaireId')
         $('.questionnaire-title').text($util.getPageParam('questionnaireTitle'))
+        questionnaireName = $util.getPageParam('questionnaireTitle');
         $('.questionnaire-description').text("用途:" + $util.getPageParam('questionnaireDescription'))
         questionList = $util.getPageParam('questionList');
         showQuestionnaire(questionList)
@@ -343,5 +350,65 @@ function collectFormData() {
 
 const onSubmitQuestionnaire = () => {
     let formData = collectFormData();
+    let record = {};
+    record.answeredBy = formData.answererName;
+    record.questionnaireId = questionnaireId;
+    let answerList = [];
+    for (let i = 0; i < formData.answers.length; i++) {
+        let input = formData.answers[i];
+        if (input.answerType == '1') {
+            let answer = {};
+            answer.type = input.answerType;
+            answer.questionIndex = input.problemIndex;
+            answer.chooseTerm = input.selectedOption;
+            answerList.push(answer);
+        } else if (input.answerType == '2') {
+            for (let i = 0; i < input.selectedOptions.length; i++) {
+                let answer = {};
+                answer.type = input.answerType;
+                answer.questionIndex = input.problemIndex;
+                answer.chooseTerm = input.selectedOptions[i];
+                answerList.push(answer);
+            }
+        } else if (input.answerType == '3') {
+            let answer = {};
+            answer.type = input.answerType;
+            answer.questionIndex = input.problemIndex;
+            answer.chooseTerm = input.inputValue;
+            answerList.push(answer);
+        } else if (input.answerType == '4') {
+            for (let i = 0; i < input.selectedOptions.length; i++) {
+                let answer = {};
+                answer.type = input.answerType;
+                answer.questionIndex = input.problemIndex;
+                answer.chooseTerm = input.selectedOptions[i];
+                answer.row = i;
+                answerList.push(answer);
+            }
+        } else if (input.answerType == '5') {
+            let answer = {};
+            answer.type = input.answerType;
+            answer.questionIndex = input.problemIndex;
+            answer.chooseTerm = input.selectedOption;
+            answerList.push(answer);
+        } else {
+
+        }
+    }
+
+    record.answerEntityList = answerList;
+
+    $.ajax({
+        url: API_BASE_URL + '/addRecord',
+        type: "POST",
+        data: JSON.stringify(record),
+        dataType: "json",
+        contentType: "application/json",
+        success(res) {
+            alert('提交成功!')
+        }
+    })
+
+
 
 }
