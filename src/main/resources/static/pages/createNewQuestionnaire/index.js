@@ -1,7 +1,10 @@
 onload = () => {
   $('#headerUsername').text($util.getItem('userInfo').username)
   $('#headerDivB').text('创建调查问卷')
-
+  $('#selectField').append("<option value=\"0\">面向公众</option>")
+  $('#selectField').append("<option value=\"1\">面向指定群组</option>")
+  $('#selectStyle').append("<option value=\"0\">123</option>")
+  $('#selectStyle').append("<option value=\"1\">456</option>")
   $('#startTime').datetimepicker({
     language: 'zh-CN', // 显示中文
     format: 'yyyy-mm-dd', // 显示格式
