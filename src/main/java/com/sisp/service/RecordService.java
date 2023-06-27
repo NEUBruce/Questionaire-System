@@ -2,6 +2,7 @@ package com.sisp.service;
 
 import com.sisp.common.utils.UUIDUtil;
 import com.sisp.controller.RecordController;
+import com.sisp.dao.AnswerEntityMapper;
 import com.sisp.dao.RecordEntityMapper;
 import com.sisp.entity.AnswerEntity;
 import com.sisp.entity.RecordEntity;
@@ -20,7 +21,7 @@ public class RecordService {
     @Autowired
     private RecordEntityMapper recordEntityMapper;
     @Autowired
-    private AnswerService answerService;
+    private AnswerEntityMapper answerEntityMapper;
 
     /**
      * 查询答题记录列表
@@ -34,7 +35,7 @@ public class RecordService {
             for (RecordEntity item :recordEntityList) {
                 AnswerEntity answerEntity = new AnswerEntity();
                 answerEntity.setRecordId(item.getId());
-                item.setAnswerEntityList(answerService.queryAnswerList(answerEntity));
+                item.setAnswerEntityList(answerEntityMapper.queryAnswerList(answerEntity));
             }
         }
 
@@ -54,7 +55,7 @@ public class RecordService {
         int res = recordEntityMapper.insert(recordEntity);
         for (AnswerEntity answerEntity : recordEntity.getAnswerEntityList()) {
             answerEntity.setRecordId(recordEntity.getId());
-            int tmp = answerService.insert(answerEntity);
+            int tmp = answerEntityMapper.insert(answerEntity);
             res = tmp > 0 ? res : tmp;
         }
 

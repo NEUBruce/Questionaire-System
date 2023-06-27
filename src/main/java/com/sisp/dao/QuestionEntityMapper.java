@@ -1,7 +1,6 @@
 package com.sisp.dao;
 
 import com.sisp.entity.QuestionEntity;
-import com.sisp.entity.QuestionnaireEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -14,7 +13,7 @@ public interface QuestionEntityMapper {
 
     List<QuestionEntity> queryQuestionList(QuestionEntity questionEntity);
 
-    List<QuestionEntity> queryTemplateQUestionList(QuestionEntity questionEntity);
+    List<QuestionEntity> queryTemplateQuestionList(QuestionEntity questionEntity);
 
 
 }

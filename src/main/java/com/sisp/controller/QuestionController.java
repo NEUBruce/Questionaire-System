@@ -2,7 +2,6 @@ package com.sisp.controller;
 
 import com.sisp.beans.HttpResponseEntity;
 import com.sisp.entity.QuestionEntity;
-import com.sisp.entity.QuestionnaireEntity;
 import com.sisp.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,7 +28,7 @@ public class QuestionController {
     public HttpResponseEntity addQuestion(@RequestBody QuestionEntity questionEntity) {
         HttpResponseEntity httpResponse = new HttpResponseEntity();
         try {
-            QuestionEntity result = questionService.insert(questionEntity);
+            QuestionEntity result = questionService.addQuestion(questionEntity);
             if (result == null) {
                 httpResponse.setCode("0");
                 httpResponse.setData(0);
@@ -89,7 +88,7 @@ public class QuestionController {
     public HttpResponseEntity queryQuestionList(@RequestBody QuestionEntity questionEntity) {
         HttpResponseEntity httpResponse = new HttpResponseEntity();
         try {
-            List<QuestionEntity> result = questionService.queryQuestionEntityList(questionEntity);
+            List<QuestionEntity> result = questionService.queryQuestionList(questionEntity);
             if (result == null) {
                 httpResponse.setCode("0");
                 httpResponse.setData(0);

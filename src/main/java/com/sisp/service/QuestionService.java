@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * 问题业务逻辑层
@@ -26,7 +25,7 @@ public class QuestionService {
      * @param questionEntity
      * @return
      */
-    public QuestionEntity insert(QuestionEntity questionEntity) {
+    public QuestionEntity addQuestion(QuestionEntity questionEntity) {
         questionEntity.setId(UUIDUtil.getOneUUID());
         int res = questionEntityMapper.insert(questionEntity);
         List<OptionEntity> optionEntities = questionEntity.getOption();
@@ -53,7 +52,7 @@ public class QuestionService {
      * @param questionEntity
      * @return
      */
-    public List<QuestionEntity> queryQuestionEntityList(QuestionEntity questionEntity) {
+    public List<QuestionEntity> queryQuestionList(QuestionEntity questionEntity) {
         List<QuestionEntity> questionEntityList = questionEntityMapper.queryQuestionList(questionEntity);
         for (QuestionEntity question : questionEntityList) {
             OptionEntity option = new OptionEntity();
@@ -65,7 +64,7 @@ public class QuestionService {
     }
 
     public List<QuestionEntity> queryTemplateQuestionList(QuestionEntity questionEntity) {
-        List<QuestionEntity> questionEntityList = questionEntityMapper.queryTemplateQUestionList(questionEntity);
+        List<QuestionEntity> questionEntityList = questionEntityMapper.queryTemplateQuestionList(questionEntity);
         for (QuestionEntity question : questionEntityList) {
             OptionEntity option = new OptionEntity();
             option.setQuestionId(question.getId());

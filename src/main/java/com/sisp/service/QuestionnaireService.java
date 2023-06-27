@@ -1,7 +1,6 @@
 package com.sisp.service;
 
 import com.sisp.common.utils.UUIDUtil;
-import com.sisp.dao.QuestionEntityMapper;
 import com.sisp.dao.QuestionnaireEntityMapper;
 import com.sisp.entity.QuestionEntity;
 import com.sisp.entity.QuestionnaireEntity;
@@ -52,7 +51,7 @@ public class QuestionnaireService {
         for (QuestionnaireEntity questionnaire : questionnaireEntityList) {
             QuestionEntity questionEntity = new QuestionEntity();
             questionEntity.setQuestionnaireId(questionnaire.getId());
-            questionnaire.setQuestionEntityList(questionService.queryQuestionEntityList(questionEntity));
+            questionnaire.setQuestionEntityList(questionService.queryQuestionList(questionEntity));
         }
 
         return questionnaireEntityList;

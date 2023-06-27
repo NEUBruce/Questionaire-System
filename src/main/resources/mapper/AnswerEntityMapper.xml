@@ -11,7 +11,7 @@
     <insert id="insert">
         insert into answer_info values (#{id}, #{chooseTerm}, #{recordId}, #{questionIndex}, #{type}, #{row})
     </insert>
-    <select id="queryAnswerEntityList" resultMap="answerEntityResultMap">
+    <select id="queryAnswerList" resultMap="answerEntityResultMap">
         select * from answer_info
         <where>
             <if test="recordId != null and recordId != ''">record_id = #{recordId}</if>

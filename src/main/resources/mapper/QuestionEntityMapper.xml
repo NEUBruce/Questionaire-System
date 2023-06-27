@@ -31,8 +31,17 @@
         order by `order`
 
     </select>
-    <select id="queryTemplateQUestionList" resultMap="questionEntityMap">
-        select * from question_template_info;
+    <select id="queryTemplateQuestionList" resultMap="questionEntityMap">
+        select * from question_template_info
+        <where>
+            <if test="id != null and id != ''">
+                id = #{id} and
+            </if>
+            <if test="type != null and type != ''">
+                type = #{type} and
+            </if>
+            1 = 1
+        </where>
     </select>
 
 </mapper>

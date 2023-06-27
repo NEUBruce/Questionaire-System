@@ -17,7 +17,7 @@ public interface AnswerEntityMapper {
      * @param answerEntity
      * @return
      */
-    List<AnswerEntity> queryAnswerEntityList(AnswerEntity answerEntity);
+    List<AnswerEntity> queryAnswerList(AnswerEntity answerEntity);
 
     /**
      * 插入选择记录
