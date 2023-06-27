@@ -249,12 +249,17 @@ const formatRecordAnswer = (answers)=>{
             answer.answerType = item.type;
             formAnswer.answers[item.questionIndex] = answer;
         } else if (item.type == '4') {
-            let answer = {};
-            answer.problemIndex = item.questionIndex;
-            answer.selectedOptions = [];
-            answer.answerType = item.type;
-            answer.selectedOptions[parseInt(item.row)] = item.chooseTerm;
-            formAnswer.answers[item.questionIndex] = answer;
+            let exist = formAnswer.answers[item.questionIndex];
+            if (exist) {
+                exist.selectedOptions[parseInt(item.row)] = item.chooseTerm;
+            } else {
+                let answer = {};
+                answer.problemIndex = item.questionIndex;
+                answer.selectedOptions = [];
+                answer.answerType = item.type;
+                answer.selectedOptions[parseInt(item.row)] = item.chooseTerm;
+                formAnswer.answers[item.questionIndex] = answer;
+            }
 
         } else if (item.type == '5') {
             let answer = {};
@@ -266,6 +271,7 @@ const formatRecordAnswer = (answers)=>{
 
         }
     }
+
 
 
 }
