@@ -26,6 +26,7 @@ const onCreateTemplate = () => {
   $util.setPageParam('project', projectList[$('#selectProject option:selected').val()])
   // 把选中的类型传入下一个页面
   $util.setPageParam('type', $('#selectKind option:selected').val())
+  $util.setPageParam('problem', null);
   location.href = "/pages/createNewQuestionnaire/index.html"
 }
 

@@ -55,6 +55,7 @@ public class RecordService {
         int res = recordEntityMapper.insert(recordEntity);
         for (AnswerEntity answerEntity : recordEntity.getAnswerEntityList()) {
             answerEntity.setRecordId(recordEntity.getId());
+            answerEntity.setId(UUIDUtil.getOneUUID());
             int tmp = answerEntityMapper.insert(answerEntity);
             res = tmp > 0 ? res : tmp;
         }

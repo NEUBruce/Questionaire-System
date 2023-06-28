@@ -489,6 +489,7 @@ const onSubmitQuestionnaire = () => {
         contentType: "application/json",
         success(res) {
             alert('提交成功!')
+            history.back()
         }
     })
 }

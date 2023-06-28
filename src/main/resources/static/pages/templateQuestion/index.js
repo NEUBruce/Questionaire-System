@@ -3,6 +3,7 @@ let questionnaireId;
 
 onload = () => {
     let questionnaire=$util.getPageParam("questionnaire");
+    questionnaireId = questionnaire.id;
     $util.setPageParam('questionnaire', $util.getPageParam('questionnaire'));
     fetchAllTemplateQuestions();
 

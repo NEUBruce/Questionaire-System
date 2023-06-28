@@ -77,6 +77,7 @@ const onPreview = (id)=>{
         success(res) {
             let questionnaire = res.data[0];
             if (res.code === '666') {
+                $util.setPageParam('questionnaireStyle', questionnaire.questionnaireStyle)
                 $util.setPageParam('questionList', questionnaire.questionEntityList)
                 $util.setPageParam('questionnaireTitle', questionnaire.questionnaireName)
                 $util.setPageParam('questionnaireDescription', questionnaire.questionnaireDescription)

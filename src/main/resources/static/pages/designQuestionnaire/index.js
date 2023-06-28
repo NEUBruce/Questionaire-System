@@ -608,39 +608,33 @@ const handlePreview = () => {
   $util.setPageParam('questionnaireDescription', questionnaireDescription)
   $util.setPageParam('questionnaireId', $util.getPageParam('questionnaire').id)
   $util.setPageParam('questionnaireStyle', $util.getPageParam('questionnaire').style)
-  for (let i = 0; i < problem.length; i++) {
-    problem[i].order=i;
-    $.ajax({
-      url: API_BASE_URL + '/addQuestion',
-      type: "POST",
-      data: JSON.stringify(problem[i]),
-      dataType: "json",
-      contentType: "application/json",
-      success(res) {
-        location.href="/pages/answerSheet/index.html"
-      }
-    })
-  }
+  location.href="/pages/answerSheet/index.html"
+
 }
 
 
 const handleEditFinish = () => {
 
+  $util.setPageParam('problem', null);
+
   for (let i = 0; i < problem.length; i++) {
     problem[i].order=i;
+    problem[i].questionnaireId = $util.getPageParam('questionnaire').id
     $.ajax({
       url: API_BASE_URL + '/addQuestion',
+      async: false,
       type: "POST",
       data: JSON.stringify(problem[i]),
       dataType: "json",
       contentType: "application/json",
       success(res) {
-        location.href="/pages/questionnaire/index.html"
+        console.log(res.data)
+
       }
     })
   }
 
-
+  location.href="/pages/questionnaire/index.html"
 }
 
 const handleImportQuestions = ()=>{
@@ -660,7 +654,6 @@ const fillBack = (problemIndex, optionIndex, key) => {
 const loadProblem = ()=>{
   for (let i = 0; i < templateProblem.length; i++) {
     let question = templateProblem[i];
-    console.log(question)
     if (question.type == '1') {
       let ele = handleAddSingleChoice();
       showProblem(ele);
