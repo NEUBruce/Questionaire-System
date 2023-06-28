@@ -129,6 +129,21 @@ function redirectToPage(url) {
 }
 
 const onRelease = (id) => {
-    alert("成功发布该项目!\n项目链接为:" + "http://127.0.0.1:8085/pages/answerSheet/index.html?id=" + id);
+    let params = {
+        id: id,
+        status: '1'
+    }
+    $.ajax({
+        url: API_BASE_URL + '/modifyQuestionnaireInfo',
+        type: "POST",
+        data: JSON.stringify(params),
+        dataType: "json",
+        contentType: "application/json",
+        success(res) {
+            if (res.code === '666') {
+                alert("成功发布该项目!\n项目链接为:" + "http://127.0.0.1:8085/pages/answerSheet/index.html?id=" + id);
+            }
 
+        }
+    })
 }
