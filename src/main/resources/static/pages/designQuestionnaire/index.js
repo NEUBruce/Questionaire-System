@@ -607,6 +607,7 @@ const handlePreview = () => {
   $util.setPageParam('questionnaireTitle', questionnaireTitle)
   $util.setPageParam('questionnaireDescription', questionnaireDescription)
   $util.setPageParam('questionnaireId', $util.getPageParam('questionnaire').id)
+  $util.setPageParam('questionnaireStyle', $util.getPageParam('questionnaire').style)
   for (let i = 0; i < problem.length; i++) {
     problem[i].order=i;
     $.ajax({

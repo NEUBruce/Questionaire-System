@@ -1,6 +1,7 @@
 let questionList;
 let questionnaireId;
 let questionnaireName;
+let questionnaireStyle;
 let timeLimit;
 
 onload = () => {
@@ -28,6 +29,7 @@ onload = () => {
                     if (currentTime < startDateTime || currentTime > stopDateTime) {
                         alert("该问卷不处于调查时间内!");
                     }else {
+                        questionnaireStyle = $util.getPageParam('questionnaireStyle');
                         timeLimit = questionnaire.answerTimeLimit;
                         $('.questionnaire-title').text(questionnaire.questionnaireName)
                         questionnaireName = questionnaire.questionnaireName;
@@ -40,6 +42,7 @@ onload = () => {
             }
         })
     } else {
+        questionnaireStyle = $util.getPageParam('questionnaireStyle');
         questionnaireId = $util.getPageParam('questionnaireId')
         $('.questionnaire-title').text($util.getPageParam('questionnaireTitle'))
         questionnaireName = $util.getPageParam('questionnaireTitle');
@@ -51,6 +54,15 @@ onload = () => {
 }
 
 const showQuestionnaire = (questionList) => {
+    if (questionnaireStyle == '简约') {
+
+    }else if (questionnaireStyle == '科技') {
+        $("body").css("background", "url(cyber.png)")
+    } else {
+        $("body").css("background", "url(geometry.png)")
+
+    }
+
     for (let i = 0; i < questionList.length; i++) {
         if (questionList[i].type == '1') {
             singleChoiceView(questionList[i], i + 1);
