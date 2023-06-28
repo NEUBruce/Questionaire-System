@@ -18,13 +18,24 @@ onload = () => {
             contentType: "application/json",
             success(res) {
                 let questionnaire = res.data[0];
-                timeLimit = questionnaire.answerTimeLimit;
+                if (questionnaire.status == '0') {
+                    alert('该问卷尚未发布!')
+                } else {
+                    const currentTime = new Date();
+                    const startDateTime = new Date(questionnaire.startTime);
+                    const stopDateTime = new Date(questionnaire.stopTime);
 
-                $('.questionnaire-title').text(questionnaire.questionnaireName)
-                questionnaireName = questionnaire.questionnaireName;
-                $('.questionnaire-description').text("用途: " + questionnaire.questionnaireDescription)
-                questionList = questionnaire.questionEntityList;
-                showQuestionnaire(questionList)
+                    if (currentTime < startDateTime || currentTime > stopDateTime) {
+                        alert("该问卷不处于调查时间内!");
+                    }else {
+                        timeLimit = questionnaire.answerTimeLimit;
+                        $('.questionnaire-title').text(questionnaire.questionnaireName)
+                        questionnaireName = questionnaire.questionnaireName;
+                        $('.questionnaire-description').text("用途: " + questionnaire.questionnaireDescription)
+                        questionList = questionnaire.questionEntityList;
+                        showQuestionnaire(questionList)
+                    }
+                }
 
             }
         })
