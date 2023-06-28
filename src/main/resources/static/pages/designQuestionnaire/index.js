@@ -1,11 +1,17 @@
 let questionnaireTitle = ''
 let questionnaireDescription = ''
 const problem = []
+let templateProblem = [];
 onload = ()=>{
   questionnaireTitle = $util.getPageParam('questionnaire').questionnaireName
   questionnaireDescription = $util.getPageParam('questionnaire').questionnaireDescription
   $('#surveyName').text(questionnaireTitle)
   $('#surveyDescription').text(questionnaireDescription)
+  if ($util.getPageParam('problem')) {
+    templateProblem = $util.getPageParam('problem');
+    console.log(templateProblem)
+    loadProblem();
+  }
 }
 
 /**
@@ -34,9 +40,14 @@ const onAddQuestion = (type) => {
     default:
       break;
   }
-  $('#problem').append(ele)
   problem.push({ problemName: '', mustAnswer: true, option: [{}], type: type, questionnaireId: $util.getPageParam('questionnaire').id } )
+  showProblem(ele)
 
+
+}
+
+const showProblem = (ele)=>{
+  $('#problem').append(ele)
   $(".question").hover(() => {
     let problemIndex = $('.question:hover').attr('data-problemIndex')
     let ele = `
@@ -53,6 +64,7 @@ const onAddQuestion = (type) => {
     $('.question > .operation').remove()
     $(".question").css('border', '1px solid #ffffff')
   })
+
 }
 
 const onInput = (problemIndex, optionIndex, key) => {
@@ -635,4 +647,98 @@ const handleImportQuestions = ()=>{
   $util.setPageParam('questionnaire', $util.getPageParam('questionnaire'));
 
   location.href = '/pages/templateQuestion/index.html';
+}
+
+const fillBack = (problemIndex, optionIndex, key) => {
+  if (optionIndex || optionIndex === 0)
+    $(`#question${problemIndex} #optionItem${optionIndex} #${key}`).prop('value', problem[problemIndex].option[optionIndex][key])
+  else
+    $(`#question${problemIndex} #${key}`).prop('value', problem[problemIndex][key])
+}
+
+const loadProblem = ()=>{
+  for (let i = 0; i < templateProblem.length; i++) {
+    let question = templateProblem[i];
+    console.log(question)
+    if (question.type == '1') {
+      let ele = handleAddSingleChoice();
+      showProblem(ele);
+      problem.push(question);
+      fillBack(i, undefined, 'problemName')
+      for(let j = 0; j < question.option.length; j++) {
+        if (j != 0) {
+          $(`#question${i} #option`).append(`
+            <div class="option-item" id="optionItem${j}">
+              <input type="text" class="form-control" id="chooseTerm" placeholder="选项【单选】" oninput="onInput(${i}, ${j}, 'chooseTerm')" />
+              <span class="option-del" onclick="singleChoiceDelOption(${i}, ${j})">删除</span>
+            </div>
+            `)
+        }
+        fillBack(i,j, 'chooseTerm')
+      }
+    } else if (question.type == '2') {
+      let ele = handleAddMultipleChoice()
+      showProblem(ele);
+      problem.push(question)
+      fillBack(i, undefined, 'problemName')
+      for(let j = 0; j < question.option.length; j++) {
+        if (j != 0) {
+          $(`#question${i} #option`).append(`
+            <div class="option-item" id="optionItem${j}">
+              <input type="text" class="form-control" id="chooseTerm" placeholder="选项【多选】" oninput="onInput(${i}, ${j}, 'chooseTerm')" />
+              <span class="option-del" onclick="multipleChoiceDelOption(${i}, ${j})">删除</span>
+            </div>
+          `)
+        }
+        fillBack(i, j, 'chooseTerm')
+      }
+
+    } else if (question.type == '3') {
+      let ele = handleAddFillBlanks()
+      showProblem(ele);
+      problem[i] = question
+      fillBack(i, undefined, 'problemName')
+
+    } else if (question.type == '4') {
+      let ele = handleAddMatrix()
+      showProblem(ele);
+      problem[i] = question
+      fillBack(i, undefined, 'problemName')
+      fillBack(i, undefined, 'leftTitle')
+      for(let j = 0; j < question.option.length; j++) {
+        if (j != 0) {
+          $(`#question${i} #option`).append(`
+            <div class="option-item" id="optionItem${j}">
+              <input type="text" class="form-control" id="chooseTerm" placeholder="选项【多选】" oninput="onInput(${i}, ${j}, 'chooseTerm')" />
+              <span class="option-del" onclick="multipleChoiceDelOption(${i}, ${j})">删除</span>
+            </div>
+          `)
+        }
+        fillBack(i, j, 'chooseTerm')
+      }
+
+    } else if (question.type == '5') {
+      let ele = handleAddGauge()
+      showProblem(ele);
+      problem[i] = question
+      fillBack(i, undefined, 'problemName')
+      for(let j = 0; j < question.option.length; j++) {
+        if (j != 0) {
+          $(`#question${i} #option`).append(`
+            <div class="option-item" id="optionItem${j}">
+              <input type="text" class="form-control" id="chooseTerm" oninput="onInput(${i}, ${j}, 'chooseTerm')" />
+              <input type="text" class="form-control" id="fraction" oninput="onInput(${i}, ${j}, 'fraction')" style="width: 50px;" />
+              <span class="option-del" onclick="gaugeDelOption(${i}, ${j})">删除</span>
+            </div>
+          `)
+        }
+
+        fillBack(i, j, 'chooseTerm')
+        fillBack(i, j, 'fraction')
+      }
+    } else {
+
+
+    }
+  }
 }

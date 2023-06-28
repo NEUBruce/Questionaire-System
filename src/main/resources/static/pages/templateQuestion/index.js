@@ -3,6 +3,7 @@ let questionnaireId;
 
 onload = () => {
     let questionnaire=$util.getPageParam("questionnaire");
+    $util.setPageParam('questionnaire', $util.getPageParam('questionnaire'));
     let id = questionnaire.id;
 
     let params = {};
@@ -211,13 +212,11 @@ const onImportQuestion = () => {
         selectedValues.push(checkboxes[i].value);
     }
 
-    console.log(selectedValues);
-    console.log(questionnaireId);
-
     for(let i=0;i<selectedValues.length;i++) {
         let params={};
         params.id = selectedValues[i];
         $.ajax({
+            async: false,
             url: API_BASE_URL + '/queryTemplateQuestionList',
             type: "POST",
             data: JSON.stringify(params),
@@ -228,12 +227,12 @@ const onImportQuestion = () => {
                 question.questionnaireid=questionnaireId;
                 question.mustAnswer=true;
                 problem.push(question);
+                console.log(problem)
+                $util.setPageParam('problem', problem);
             }
         })
     }
 
-    $util.setPageParam('problem', problem);
-    $util.setPageParam('questionnaire', $util.getPageParam('questionnaire'));
-
     location.href = '/pages/designQuestionnaire/index.html';
+
 }
