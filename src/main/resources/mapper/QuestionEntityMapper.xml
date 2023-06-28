@@ -43,5 +43,23 @@
             1 = 1
         </where>
     </select>
+    <select id="searchTemplateQuestionList" resultMap="questionEntityMap">
+        select * from question_template_info
+        <where>
+            <if test="id != null and id != ''">
+                id = #{id} or
+            </if>
+            <if test="problemName != null and problemName != ''">
+                problem_name = #{problemName} or
+            </if>
+            <if test="leftTitle != null and leftTitle != ''">
+                left_title = #{leftTitle} or
+            </if>
+            <if test="type != null and type != ''">
+                type = #{type} or
+            </if>
+            1 != 1
+        </where>
+    </select>
 
 </mapper>

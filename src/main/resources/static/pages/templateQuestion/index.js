@@ -4,28 +4,71 @@ let questionnaireId;
 onload = () => {
     let questionnaire=$util.getPageParam("questionnaire");
     $util.setPageParam('questionnaire', $util.getPageParam('questionnaire'));
-    let id = questionnaire.id;
+    fetchAllTemplateQuestions();
 
+
+}
+const selectAll = ()=>{
+    $(".checkSelected").prop("checked", true);
+}
+
+const fetchAllTemplateQuestions = ()=>{
     let params = {};
-    if (id != null && id !== '') {
-        questionnaireId = id;
-        console.log(id)
+    $.ajax({
+        url: API_BASE_URL + '/queryTemplateQuestionList',
+        type: "POST",
+        data: JSON.stringify(params),
+        dataType: "json",
+        contentType: "application/json",
+        success(res) {
+            questionList = res.data
+            showQuestionnaire(questionList)
+        }
+    })
+}
+
+const searchQuestion = ()=>{
+    let keyword = document.getElementById('search').value;
+    if (keyword == null || keyword == '') {
+        fetchAllTemplateQuestions();
+    }else {
+        let params = {};
+        if (keyword == '单选题' || keyword == '单选') {
+            params.type = '1';
+        } else if (keyword == '多选' || keyword == '多选题') {
+            params.type = '2';
+        } else if (keyword == '填空') {
+            params.type = '3';
+        } else if (keyword == '矩阵') {
+            params.type = '4';
+        } else if (keyword == '量表') {
+            params.type = '5';
+        } else {
+
+        }
+
+        params.problemName = keyword;
+        params.leftTitle = keyword;
+        params.id = keyword;
+
         $.ajax({
-            url: API_BASE_URL + '/queryTemplateQuestionList',
+            url: API_BASE_URL + '/searchTemplateQuestionList',
             type: "POST",
             data: JSON.stringify(params),
             dataType: "json",
             contentType: "application/json",
             success(res) {
                 questionList = res.data
+                console.log(res.data);
                 showQuestionnaire(questionList)
             }
         })
     }
-
 }
 
+
 const showQuestionnaire = (questionList) => {
+    $('#problem').html('');
     for (let i = 0; i < questionList.length; i++) {
         if (questionList[i].type == '1') {
             singleChoiceView(questionList[i], i + 1);
@@ -52,7 +95,7 @@ const singleChoiceView = (question, index) => {
       </div>
       <div class="checkbox-container">
       <label class="checkbox-inline">
-        <input type="checkbox" name="selectImportQuestion${index}" value="${questionList[index-1].id}">
+        <input type="checkbox" name="selectImportQuestion${index}" class="checkSelected" value="${questionList[index-1].id}">
       </label>
     </div>
       <div class="bottom"></div>
@@ -79,7 +122,7 @@ const multipleChoiceView = (question, index) => {
       </div>
       <div class="checkbox-container">
       <label class="checkbox-inline">
-        <input type="checkbox" name="selectImportQuestion${index}" value="${questionList[index-1].id}">
+        <input type="checkbox" name="selectImportQuestion${index}" value="${questionList[index-1].id}" class="checkSelected">
       </label>
     </div>
       <div class="bottom"></div>
@@ -91,7 +134,7 @@ const multipleChoiceView = (question, index) => {
         $('#question' + index + " .bottom ").append(`
         <div style="display: flex; align-items: center; margin-bottom: 3px;">
           <label class="checkbox-inline">
-            <input type="checkbox" name="chooseTerm${option.order}" value="${i}" disabled>${option.chooseTerm ? option.chooseTerm : ''}
+            <input type="checkbox" name="chooseTerm${option.order}"  value="${i}" disabled>${option.chooseTerm ? option.chooseTerm : ''}
           </label>
         </div>
     `)
@@ -106,7 +149,7 @@ const blankView = (question, index) => {
       </div>
       <div class="checkbox-container">
       <label class="checkbox-inline">
-        <input type="checkbox" name="selectImportQuestion${index}" value="${questionList[index-1].id}">
+        <input type="checkbox" name="selectImportQuestion${index}" class="checkSelected" value="${questionList[index-1].id}">
       </label>
     </div>
       <div class="bottom"></div>
@@ -128,7 +171,7 @@ const matrixView = (question, problemIndex) => {
       </div>
       <div class="checkbox-container">
       <label class="checkbox-inline">
-        <input type="checkbox" name="selectImportQuestion${problemIndex}" value="${questionList[problemIndex-1].id}">
+        <input type="checkbox" name="selectImportQuestion${problemIndex}" class="checkSelected" value="${questionList[problemIndex-1].id}">
       </label>
     </div>
       <div class="bottom">
@@ -176,7 +219,7 @@ const gaugeView = (question, problemIndex) => {
       </div>
       <div class="checkbox-container">
       <label class="checkbox-inline">
-        <input type="checkbox" name="selectImportQuestion${problemIndex}" value="${questionList[problemIndex-1].id}">
+        <input type="checkbox" name="selectImportQuestion${problemIndex}" class="checkSelected" value="${questionList[problemIndex-1].id}">
       </label>
     </div>
       <div class="bottom" style="display: flex; align-items: center; justify-content: space-between;">

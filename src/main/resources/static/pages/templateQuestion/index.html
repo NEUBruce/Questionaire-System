@@ -15,6 +15,16 @@
 <div class="container">
     <h3 class="questionnaire-title">题库</h3>
 
+    <div class="search-input">
+        <label for="search">搜索：</label>
+        <input type="text" id="search" placeholder="请输入题目信息" />
+        <input type="submit" id="submitKeyword" value="搜索" onclick="searchQuestion()">
+    </div>
+
+    <div class="btn-div">
+        <button type="button" class="btn btn-primary" onclick="selectAll()" >全选</button>
+    </div>
+
     <div class="problem" id="problem"></div>
     <div class="btn-div">
         <button type="button" class="btn btn-primary" onclick="onImportQuestion()">导 入</button>
