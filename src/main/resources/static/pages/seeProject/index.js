@@ -51,7 +51,7 @@ const fetchProjectInfo = (id) => {
                <td>
                <button type="button" class="btn btn-link" onclick="onPreview('${item.id}')">预览</button>
                <button type="button" class="btn btn-link" onclick="onRelease('${item.id}')">发布</button>
-               <button type="button" class="btn btn-link" onclick="onDelQuestionnaire('${item.id}','${item.startTime}','${item.stopTime}')">删除</button>
+               <button type="button" class="btn btn-link" onclick="onDelQuestionnaire('${item.id}','${item.startTime}','${item.stopTime}', '${item.status}')">删除</button>
                <button type="button" class="btn btn-link" onclick="">统计</button>
                </td>
              </tr>
@@ -92,7 +92,7 @@ const onPreview = (id)=>{
 
 }
 
-const onDelQuestionnaire = (id,startTime,stopTime) => {
+const onDelQuestionnaire = (id,startTime,stopTime, status) => {
     let state = confirm("确认删除该问卷吗？")
     let projectId = $util.getPageParam('seeProject')
 
@@ -106,7 +106,7 @@ const onDelQuestionnaire = (id,startTime,stopTime) => {
         const startDateTime = new Date(startTime);
         const stopDateTime = new Date(stopTime);
 
-        if (currentTime >= startDateTime && currentTime <= stopDateTime) {
+        if (currentTime >= startDateTime && currentTime <= stopDateTime && status == '1') {
             alert("该问卷正在发布中，删除失败");
             return;
         }
