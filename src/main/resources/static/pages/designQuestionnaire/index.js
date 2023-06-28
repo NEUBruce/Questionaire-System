@@ -52,10 +52,10 @@ const showProblem = (ele)=>{
     let problemIndex = $('.question:hover').attr('data-problemIndex')
     let ele = `
       <div class="operation">
-      <div class="button" onclick="handleMoveUp(${problemIndex})">上移</div>
-      <div class="button" onclick="handleMoveDown(${problemIndex})">下移</div>
-        <div class="button" onclick="handleEdit(${problemIndex})">编辑</div>
-        <div class="button" onclick="handleDelete(${problemIndex})">删除</div>
+      <div class="btn btn-link" onclick="handleMoveUp(${problemIndex})">上移</div>
+      <div class="btn btn-link" onclick="handleMoveDown(${problemIndex})">下移</div>
+        <div class="btn btn-link" onclick="handleEdit(${problemIndex})">编辑</div>
+        <div class="btn btn-link" onclick="handleDelete(${problemIndex})">删除</div>
       </div>
     `
     $('.question:hover').append(ele)
