@@ -108,4 +108,34 @@ public class QuestionController {
         return httpResponse;
 
     }
+
+    /**
+     * 根据关键词查找题库题目
+     * @param questionEntity
+     * @return
+     */
+    @RequestMapping(value = "/searchTemplateQuestionList", method = RequestMethod.POST, headers = "Accept=application/json")
+    public HttpResponseEntity searchTemplateQuestionList(@RequestBody QuestionEntity questionEntity) {
+        HttpResponseEntity httpResponse = new HttpResponseEntity();
+        try {
+            List<QuestionEntity> result = questionService.searchTemplateQuestionList(questionEntity);
+            if (result == null) {
+                httpResponse.setCode("0");
+                httpResponse.setData(0);
+                httpResponse.setMessage("查询失败!");
+            }else {
+                httpResponse.setCode("666");
+                httpResponse.setData(result);
+                httpResponse.setMessage("查询成功!");
+            }
+
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+
+        }
+
+        return httpResponse;
+
+    }
 }

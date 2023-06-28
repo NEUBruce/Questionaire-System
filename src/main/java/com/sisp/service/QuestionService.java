@@ -73,4 +73,14 @@ public class QuestionService {
 
         return questionEntityList;
     }
+
+    public List<QuestionEntity> searchTemplateQuestionList(QuestionEntity questionEntity) {
+        List<QuestionEntity> questionEntityList = questionEntityMapper.searchTemplateQuestionList(questionEntity);
+        for (QuestionEntity question : questionEntityList) {
+            OptionEntity option = new OptionEntity();
+            option.setQuestionId(question.getId());
+            question.setOption(optionEntityMapper.queryTemplateOptionList(option));
+        }
+        return questionEntityList;
+    }
 }

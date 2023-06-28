@@ -15,5 +15,7 @@ public interface QuestionEntityMapper {
 
     List<QuestionEntity> queryTemplateQuestionList(QuestionEntity questionEntity);
 
+    List<QuestionEntity> searchTemplateQuestionList(QuestionEntity questionEntity);
+
 
 }
