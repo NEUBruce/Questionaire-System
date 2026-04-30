@@ -1,51 +1,68 @@
 # Questionnaire System (问卷调查系统)
 
-A full-stack web application for creating and managing surveys/questionnaires. Users can organize questionnaires into projects, design questions from a template library, and collect/review responses.
+A full-stack web application for creating and managing surveys/questionnaires. Users can organize questionnaires into projects, design questions, and collect/review responses.
 
 ## Tech Stack
 
-- **Backend**: Spring Boot 3.1.0, Java 17, MyBatis 3.5.13
-- **Database**: MySQL 8.0 (database: `neusql`, port 3306)
-- **Frontend**: Vanilla HTML/CSS/JS with jQuery 3.5.1 + Bootstrap 3.4.1 (no build step)
-- **Build**: Maven with JaCoCo coverage, SonarQube integration
-- **Server port**: 8085
+- **Backend**: Spring Boot 3.1.0, Java 17, MyBatis 3.5.13, jjwt 0.11.5
+- **Database**: MySQL 9.6.0 (database: `neusql`, port 3306)
+- **Frontend**: Vue 3 + Vite + Vue Router 4 + Pinia + Element Plus + Axios (`frontend/`)
+- **Legacy frontend**: Vanilla HTML/CSS/JS with jQuery (still in `src/main/resources/static/`, not actively used)
+- **Build**: Maven (backend), npm (frontend)
+- **Server ports**: backend 8085, frontend dev server 3001 (via `npm run dev`)
 
 ## Project Structure
 
 ```
+frontend/                        Vue 3 SPA (front-end/back-end separation)
+  src/
+    api/         Axios API modules (request.js, user.js, project.js, questionnaire.js, question.js, record.js)
+    components/  AppHeader.vue, QuestionItem.vue
+    stores/      user.js (Pinia — userInfo + JWT token)
+    views/       One .vue file per page (13 pages total)
+    router/      index.js — Vue Router with auth guard
+
 src/main/java/com/sisp/
-  controller/     REST API endpoints (5 controllers)
-  service/        Business logic layer
-  dao/            MyBatis mapper interfaces
-  entity/         Domain model POJOs
-  beans/          HttpResponseEntity response wrapper
-  common/utils/   UUIDUtil for ID generation
+  controller/          REST API endpoints (5 controllers)
+  service/             Business logic layer
+  dao/                 MyBatis mapper interfaces
+  entity/              Domain model POJOs
+  beans/               HttpResponseEntity response wrapper
+  common/utils/        SnowflakeUtil (ID generation), JwtUtil (JWT sign/validate)
+  common/interceptor/  JwtInterceptor (validates Bearer token on protected routes)
+  common/config/       WebConfig (CORS + interceptor registration)
 
 src/main/resources/
-  application.yml         Spring Boot config
-  mapper/*.xml            MyBatis SQL mapper files
-  static/pages/           Frontend HTML pages (one dir per page)
-  static/utils/           Shared frontend JS utilities
-  static/static/          Third-party assets (jQuery, Bootstrap, iconfont)
+  application.yml      Spring Boot config (gitignored — use application.yml.example as template)
+  mapper/*.xml         MyBatis SQL mapper files
+  static/              Legacy jQuery frontend (not actively maintained)
 ```
 
 ## Build & Run
 
 ```bash
-# Build
-./mvnw clean package
+# Backend — requires Java 17
+JAVA_HOME=/opt/homebrew/Cellar/openjdk@17/17.0.17/libexec/openjdk.jdk/Contents/Home \
+  mvn spring-boot:run
 
-# Run
-./mvnw spring-boot:run
+# Frontend dev server (proxies /api → http://localhost:8085)
+cd frontend && npm run dev
 
-# Tests
-./mvnw test
-
-# Code coverage report (generated in target/site/jacoco/)
-./mvnw verify
+# Frontend production build
+cd frontend && npm run build
 ```
 
-Requires MySQL running locally with database `neusql`. Default credentials in `application.yml`: `root` / `lg20030408`.
+MySQL must be running: `brew services start mysql`  
+Credentials are in `application.yml` (gitignored). Copy from `application.yml.example` and fill in password.
+
+## Authentication (JWT)
+
+- `POST /admin/userLogin` is public. On success it returns `{ user, token }` in `data`.
+- All other endpoints require `Authorization: Bearer <token>` header.
+- **Public exceptions** (no token needed): `/queryQuestionnaireList`, `/addRecord`, `/queryRecordList` — required for the public answer sheet page.
+- Token is signed with HS256, expires in 7 days. Logic in `JwtUtil.java`.
+- Frontend stores token in `localStorage['token']` and attaches it via Axios request interceptor. On 401, localStorage is cleared and user is redirected to `/login`.
+- Authenticated users visiting `/login` are automatically redirected to `/questionnaire`.
 
 ## Data Model
 
@@ -60,21 +77,18 @@ Requires MySQL running locally with database `neusql`. Default credentials in `a
 | Answer | `answer_info` | Individual answer within a record |
 | Question Template | `question_template_info` | Shared question library for reuse |
 
-All IDs are UUID strings. Audit fields on most tables: `created_by`, `creation_date`, `last_updated_by`, `last_update_date`. Questionnaire soft-deletes via `status = '3'`.
+All IDs are Snowflake-generated strings (replaced UUID). Audit fields on most tables: `created_by`, `creation_date`, `last_updated_by`, `last_update_date`. Questionnaire soft-deletes via `status = '3'`.
 
 ## API Conventions
 
 - All endpoints: `POST`, `Content-Type: application/json`, `Accept: application/json`
-- Response wrapper `HttpResponseEntity`:
-  - `code: "666"` = success
-  - `code: "0"` = failure
-  - `message` = human-readable result
-  - `data` = payload
+- Response wrapper `HttpResponseEntity`: `code: "666"` = success, `code: "0"` = failure
+- Protected endpoints require `Authorization: Bearer <token>` header (see Authentication above)
 
 ### Endpoints
 
 **User** (prefix `/admin`):
-- `POST /admin/userLogin` — login
+- `POST /admin/userLogin` — login → returns `{ user, token }` *(public)*
 - `POST /admin/queryUserList` — list users
 - `POST /admin/addUser` — create user
 - `POST /admin/deleteUserinfo` — delete user
@@ -88,56 +102,43 @@ All IDs are UUID strings. Audit fields on most tables: `created_by`, `creation_d
 
 **Questionnaire**:
 - `POST /addQuestionnaire` — create
-- `POST /queryQuestionnaireList` — list (filter by projectId, id, createdBy)
+- `POST /queryQuestionnaireList` — list (filter by projectId, id, createdBy) *(public)*
 - `POST /modifyQuestionnaireInfo` — update
 - `POST /deleteQuestionnaire` — soft delete (sets status='3')
 
 **Question**:
 - `POST /addQuestion` — add question to questionnaire
 - `POST /queryQuestionList` — list questions for a questionnaire
-- `POST /queryTemplateQuestionList` — list template questions (from shared library)
+- `POST /queryTemplateQuestionList` — list template questions
 - `POST /searchTemplateQuestionList` — keyword search in template library
 
 **Record**:
-- `POST /addRecord` — submit a response (with nested AnswerEntity list)
-- `POST /queryRecordList` — list submissions for a questionnaire
+- `POST /addRecord` — submit a response *(public)*
+- `POST /queryRecordList` — list submissions *(public)*
 
-## Frontend Pages
+## Frontend Pages (Vue)
 
-Each page lives in `src/main/resources/static/pages/<name>/` with `index.html`, `index.js`, `index.css`.
-
-| Page | Purpose |
-|------|---------|
-| `login` | Login screen |
-| `questionnaire` | Main dashboard — list of questionnaires |
-| `createQuestionnaire` | Choose to create from template or blank |
-| `createNewQuestionnaire` | New questionnaire form |
-| `designQuestionnaire` | Drag-and-drop questionnaire editor |
-| `seeQuestionnaire` | View questionnaire detail / share link |
-| `answerSheet` | Public survey fill-in page |
-| `seeDetail` | View individual response detail |
-| `templateQuestion` | Browse/search the shared question template library |
-| `user` | Admin: list and manage users |
-| `createUser` | Admin: create new user |
-| `seeProject` | View project and its questionnaires |
-| `createProject` | Create new project |
-| `editProject` | Edit project info |
-| `common/header` | Shared navigation component |
-
-Shared frontend utilities (`static/utils/`):
-- `storage.js` — localStorage wrapper (`$util.setItem` / `$util.getItem`)
-- `app.js` — common init, header injection
-- `index.js` — shared helpers
-
-The API base URL is configured in `static/my-config.js` via `API_BASE_URL`. After login, user info is stored in localStorage under key `userInfo`.
+| Route | View | Auth | Purpose |
+|-------|------|------|---------|
+| `/login` | LoginView | No | Login |
+| `/questionnaire` | QuestionnaireView | Yes | Project list + nested questionnaires |
+| `/create-project` | ProjectFormView | Yes | Create project |
+| `/edit-project` | ProjectFormView | Yes | Edit project (detected by `route.query.id`) |
+| `/see-project` | SeeProjectView | Yes | Project detail + questionnaire management |
+| `/create-questionnaire` | CreateQuestionnaireView | Yes | Choose creation method |
+| `/create-new-questionnaire` | QuestionnaireFormView | Yes | New questionnaire form |
+| `/design-questionnaire` | DesignQuestionnaireView | Yes | Question editor (sidebar + canvas) |
+| `/see-questionnaire` | SeeQuestionnaireView | Yes | Response list for a project |
+| `/see-detail` | SeeDetailView | Yes | Single response detail (read-only) |
+| `/user` | UserView | Yes | User management |
+| `/create-user` | UserFormView | Yes | Create/edit user |
+| `/answer-sheet` | AnswerSheetView | No | Public survey fill-in page |
 
 ## Key Implementation Notes
 
-- `UUIDUtil` generates all entity IDs before insert — IDs are never DB-generated.
-- `QuestionEntity.Order` field has a capital `O` (named `order` in DB but Java field is `Order`).
-- Questions support a `leftTitle` field used for matrix-style questions.
-- `QuestionnaireEntity` has `type`, `style`, `target`, `group` fields for categorization.
-- `AnswerEntity.row` supports matrix questions where answers span multiple rows.
-- Template questions are stored in a separate table (`question_template_info`) from live questions (`question_info`).
-- The `deleteQuestionnaire` SQL actually does an UPDATE (soft delete), not a hard DELETE.
-- No authentication middleware/session: the backend is stateless; user identity is passed via request body fields like `createdBy`.
+- `SnowflakeUtil` (workerId=1, datacenterId=1) generates all entity IDs — never DB-generated.
+- `QuestionEntity.Order` field has a capital `O` (Java naming quirk matching DB column `order`).
+- `QuestionItem.vue` handles all 5 question types (single/multi/fill/matrix/scale) with a `readonly` prop used by SeeDetailView.
+- Matrix questions use `leftTitle` (comma-separated row labels) + `option` list for columns.
+- Vite proxy: `/api/*` → `http://localhost:8085/*` (strips `/api` prefix).
+- The `deleteQuestionnaire` SQL does an UPDATE (soft delete), not a hard DELETE.
