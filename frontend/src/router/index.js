@@ -25,6 +25,9 @@ const router = createRouter({
 
 router.beforeEach((to) => {
   const userStore = useUserStore()
+  if (to.path === '/login' && userStore.userInfo) {
+    return '/questionnaire'
+  }
   if (!to.meta.public && !userStore.userInfo) {
     return '/login'
   }

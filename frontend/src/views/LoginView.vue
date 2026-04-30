@@ -43,7 +43,7 @@ async function onLogin() {
   try {
     const res = await login(form.value)
     if (res.code === '666') {
-      userStore.setUser(res.data)
+      userStore.setUser(res.data.user, res.data.token)
       router.push('/questionnaire')
     } else {
       ElMessage.error(res.message)

@@ -1,6 +1,7 @@
 package com.sisp.controller;
 
 import com.sisp.beans.HttpResponseEntity;
+import com.sisp.common.utils.JwtUtil;
 import com.sisp.entity.UserEntity;
 import com.sisp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 用户controller
@@ -34,10 +37,14 @@ public class UserController {
                 httpResponse.setCode("0");
                 httpResponse.setData(hasUser);
                 httpResponse.setMessage("登录失败!");
-            }else {
-
+            } else {
+                UserEntity user = hasUser.get(0);
+                String token = JwtUtil.generateToken(user.getUsername());
+                Map<String, Object> result = new HashMap<>();
+                result.put("user", user);
+                result.put("token", token);
                 httpResponse.setCode("666");
-                httpResponse.setData(hasUser.get(0));
+                httpResponse.setData(result);
                 httpResponse.setMessage("登录成功!");
             }
 

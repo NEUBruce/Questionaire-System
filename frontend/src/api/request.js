@@ -6,9 +6,24 @@ const request = axios.create({
   headers: { 'Content-Type': 'application/json', Accept: 'application/json' }
 })
 
+request.interceptors.request.use(config => {
+  const token = localStorage.getItem('token')
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+  return config
+})
+
 request.interceptors.response.use(
   res => res.data,
-  err => Promise.reject(err)
+  err => {
+    if (err.response?.status === 401) {
+      localStorage.removeItem('token')
+      localStorage.removeItem('userInfo')
+      window.location.href = '/login'
+    }
+    return Promise.reject(err)
+  }
 )
 
 export default request
