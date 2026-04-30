@@ -1,6 +1,6 @@
 package com.sisp.service;
 
-import com.sisp.common.utils.UUIDUtil;
+import com.sisp.common.utils.SnowflakeUtil;
 import com.sisp.controller.RecordController;
 import com.sisp.dao.AnswerEntityMapper;
 import com.sisp.dao.RecordEntityMapper;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * 答题记录的业务逻辑层
@@ -50,12 +49,12 @@ public class RecordService {
      */
     public int insert(RecordEntity recordEntity) {
 
-        recordEntity.setId(UUIDUtil.getOneUUID());
+        recordEntity.setId(SnowflakeUtil.nextId());
         recordEntity.setAnswerDate(new Date());
         int res = recordEntityMapper.insert(recordEntity);
         for (AnswerEntity answerEntity : recordEntity.getAnswerEntityList()) {
             answerEntity.setRecordId(recordEntity.getId());
-            answerEntity.setId(UUIDUtil.getOneUUID());
+            answerEntity.setId(SnowflakeUtil.nextId());
             int tmp = answerEntityMapper.insert(answerEntity);
             res = tmp > 0 ? res : tmp;
         }

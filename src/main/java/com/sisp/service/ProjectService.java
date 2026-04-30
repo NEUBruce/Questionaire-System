@@ -1,6 +1,6 @@
 package com.sisp.service;
 
-import com.sisp.common.utils.UUIDUtil;
+import com.sisp.common.utils.SnowflakeUtil;
 import com.sisp.dao.ProjectEntityMapper;
 import com.sisp.entity.ProjectEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public class ProjectService {
      * @return
      */
     public int addProjectInfo(ProjectEntity projectEntity) {
-        projectEntity.setId(UUIDUtil.getOneUUID());
+        projectEntity.setId(SnowflakeUtil.nextId());
         projectEntity.setCreationDate(new Date());
         projectEntity.setLastUpdateDate(new Date());
         int result = projectEntityMapper.insert(projectEntity);

@@ -1,7 +1,7 @@
 package com.sisp;
 
 import com.sisp.beans.HttpResponseEntity;
-import com.sisp.common.utils.UUIDUtil;
+import com.sisp.common.utils.SnowflakeUtil;
 import com.sisp.controller.ProjectController;
 import com.sisp.controller.UserController;
 import com.sisp.dao.UserEntityMapper;
@@ -107,7 +107,7 @@ class UserTests {
         UserEntityMapper userEntityMapper = sqlSession.getMapper(UserEntityMapper.class);
         //调用userMapper的方法
         UserEntity userEntity = new UserEntity();
-        userEntity.setId(UUIDUtil.getOneUUID());
+        userEntity.setId(SnowflakeUtil.nextId());
         userEntity.setStatus("1");
         userEntity.setUsername("LS");
         userEntity.setPassword("123");

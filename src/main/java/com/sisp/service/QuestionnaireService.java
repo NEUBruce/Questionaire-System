@@ -1,6 +1,6 @@
 package com.sisp.service;
 
-import com.sisp.common.utils.UUIDUtil;
+import com.sisp.common.utils.SnowflakeUtil;
 import com.sisp.dao.QuestionnaireEntityMapper;
 import com.sisp.entity.QuestionEntity;
 import com.sisp.entity.QuestionnaireEntity;
@@ -29,7 +29,7 @@ public class QuestionnaireService {
     public QuestionnaireEntity addQuestionnaire(QuestionnaireEntity questionnaireEntity) {
         questionnaireEntity.setCreationDate(new Date());
         questionnaireEntity.setLastUpdateDate(new Date());
-        questionnaireEntity.setId(UUIDUtil.getOneUUID());
+        questionnaireEntity.setId(SnowflakeUtil.nextId());
         questionnaireEntity.setStatus("0");
 
         int res = questionnaireEntityMapper.insert(questionnaireEntity);

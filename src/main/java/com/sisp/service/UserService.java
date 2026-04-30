@@ -1,6 +1,6 @@
 package com.sisp.service;
 
-import com.sisp.common.utils.UUIDUtil;
+import com.sisp.common.utils.SnowflakeUtil;
 import com.sisp.dao.UserEntityMapper;
 import com.sisp.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ public class UserService {
      * @return
      */
     public int addUserInfo(UserEntity userEntity) {
-        userEntity.setId(UUIDUtil.getOneUUID());
+        userEntity.setId(SnowflakeUtil.nextId());
         userEntity.setStatus("1");
         userEntity.setCreationDate(new Date());
         userEntity.setLastUpdateDate(new Date());

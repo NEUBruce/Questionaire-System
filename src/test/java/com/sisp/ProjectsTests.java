@@ -1,7 +1,7 @@
 package com.sisp;
 
 import com.sisp.beans.HttpResponseEntity;
-import com.sisp.common.utils.UUIDUtil;
+import com.sisp.common.utils.SnowflakeUtil;
 import com.sisp.controller.ProjectController;
 import com.sisp.controller.UserController;
 import com.sisp.dao.UserEntityMapper;

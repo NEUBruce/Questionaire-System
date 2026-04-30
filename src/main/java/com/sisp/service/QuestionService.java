@@ -1,6 +1,6 @@
 package com.sisp.service;
 
-import com.sisp.common.utils.UUIDUtil;
+import com.sisp.common.utils.SnowflakeUtil;
 import com.sisp.dao.OptionEntityMapper;
 import com.sisp.dao.QuestionEntityMapper;
 import com.sisp.entity.OptionEntity;
@@ -26,7 +26,7 @@ public class QuestionService {
      * @return
      */
     public QuestionEntity addQuestion(QuestionEntity questionEntity) {
-        questionEntity.setId(UUIDUtil.getOneUUID());
+        questionEntity.setId(SnowflakeUtil.nextId());
         int res = questionEntityMapper.insert(questionEntity);
         List<OptionEntity> optionEntities = questionEntity.getOption();
         if (optionEntities == null || questionEntity.getType().equals("3")) {
@@ -35,7 +35,7 @@ public class QuestionService {
         for (int i = 0; i < optionEntities.size(); i++) {
             OptionEntity option = optionEntities.get(i);
             option.setOrder(i);
-            option.setId(UUIDUtil.getOneUUID());
+            option.setId(SnowflakeUtil.nextId());
             option.setQuestionId(questionEntity.getId());
             optionEntityMapper.insert(option);
         }
